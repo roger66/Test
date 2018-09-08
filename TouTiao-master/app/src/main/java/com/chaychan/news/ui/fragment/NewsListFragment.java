@@ -170,7 +170,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
                                 intent.putExtra(VideoDetailActivity.PROGRESS, progress);
                             }
                         }
-                    } else if (news.type.equals("2")) {
+                    } else if (news.type.equals("2") || news.type.equals("3")) {
                         //纯图片
                         intent = new Intent(mActivity, PicPreviewActivity.class);
                         EventBus.getDefault().postSticky(news);

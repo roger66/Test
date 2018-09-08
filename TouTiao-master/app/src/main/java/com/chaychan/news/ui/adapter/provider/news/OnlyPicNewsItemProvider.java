@@ -42,7 +42,6 @@ public class OnlyPicNewsItemProvider extends BaseNewsItemProvider {
         //纯图片文章
         helper.setText(R.id.tv_title,news.context);
         GlideUtils.load(mContext, news.publisherPic, helper.getView(R.id.author_img));
-//        helper.setNestView(R.id.item_imgs);
         RecyclerView imgRv = helper.getView(R.id.item_imgs);
         imgRv.setHasFixedSize(true);
         imgRv.setNestedScrollingEnabled(false);

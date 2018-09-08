@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.News;
+import com.chaychan.news.model.entity.NewsImg;
 import com.chaychan.news.ui.adapter.PicPreviewAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.base.BasePresenter;
@@ -32,6 +33,8 @@ public class PicPreviewActivity extends BaseActivity {
     @Bind(R.id.pic_preview_name)
     TextView mAuthorName;
 
+    private News mNews;
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -44,14 +47,33 @@ public class PicPreviewActivity extends BaseActivity {
 
     @Subscribe (sticky = true)
     public void onEvent(News news){
+        mNews = news;
         mPreviewVp.setAdapter(new PicPreviewAdapter(news.thumbnailImg));
         mPreviewVp.setPageMargin(10);
         int position = getIntent().getIntExtra(NewsDetailBaseActivity.POSITION, 0);
         mPreviewVp.setCurrentItem(position);
         //设置头部信息
-        mPreviewTitle.setText(news.context);
+        mPreviewTitle.setText(((position+1)+"/"+news.imgNum)+" "+news.thumbnailImg.get(position).imgDescription);
         mAuthorName.setText(news.publisher);
         GlideUtils.load(this,news.publisherPic,mAuthorHead);
+        mPreviewVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int
+                    positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                NewsImg newsImg = news.thumbnailImg.get(position);
+                mPreviewTitle.setText(((position+1)+"/"+news.imgNum)+" "+newsImg.imgDescription);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
