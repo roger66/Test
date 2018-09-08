@@ -1,0 +1,91 @@
+apply plugin: 'com.android.library'
+
+
+def comiple_sdk_version = 27
+def build_tool_version = "27.0.3"
+def support_version = "27.1.1"
+def min_sdk_version = 14
+def target_sdk_version = 27
+def version_code = 16
+def version_name = "2.1.2"
+
+def bintrayName = "albertlii"
+def bintrayRepoName = "android-maven"
+def bintrayGroupId = "com.liyi.view"
+def bintrayArtifactId = "image-viewer"
+def bintrayDesc = "image-viewer"
+def bintrayWebSite = "https://github.com/albert-lii/ImageViewer"
+def bintrayLicences = ['Apache-2.0']
+
+android {
+    compileSdkVersion comiple_sdk_version
+    buildToolsVersion build_tool_version
+
+    defaultConfig {
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode version_code
+        versionName version_name
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+
+    lintOptions {
+        abortOnError false
+        // 防止在发布的时候出现因 MissingTranslation 导致 Build Failed!
+        disable 'MissingTranslation'
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    api 'com.android.support:appcompat-v7:' + support_version
+    api 'com.github.chrisbanes:PhotoView:2.1.4'
+    // 超巨图查看控件
+//    api 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+}
+
+
+// 指定编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+// 打包源码
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// 制作文档(Javadoc)
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
