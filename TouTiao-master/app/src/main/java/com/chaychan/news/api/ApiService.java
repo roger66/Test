@@ -3,6 +3,7 @@ package com.chaychan.news.api;
 import com.chaychan.news.model.entity.Channel;
 import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsDetail;
+import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.NewsResponse;
@@ -32,6 +33,21 @@ public interface ApiService {
     String GET_TAG_LIST = BASE_URL + "api.server.get_index_tag.php";
     String GET_VIDEO_DETAIL = BASE_URL + "api.server.video_detail.php";
     String GET_COMMENT_LIST = "article/v2/tab_comments/";
+    String LOGIN = BASE_URL +"api.login.index.php";
+    String REGISTER =BASE_URL + "api.register.index.php";
+
+    /**
+     * 注册
+     */
+    @POST(REGISTER)
+    Observable<ResultResponse<String>> atRegist(@Query("mobile") String mobile, @Query("password") String password);
+
+    /**
+     * 登录
+     */
+    @POST(LOGIN)
+    Observable<ResultResponse<String>> atLogin(@Query("username") String username, @Query("password") String password);
+
 
     /**
      * 获取文章列表
