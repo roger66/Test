@@ -87,7 +87,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     private int page = 1;
 
     private List<News> mNewsList = new ArrayList<>();
-    protected NewsListAdapter mNewsAdapter;
+    protected BaseQuickAdapter mNewsAdapter;
 
     /**
      * 是否是点击底部标签进行刷新的标识
@@ -144,12 +144,16 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     @Override
     public void initData() {
         mChannelCode = getArguments().getString(Constant.CHANNEL_CODE);
-        mChannelId = getArguments().getString(Constant.CHANNEL_CODE);
+        mChannelId = getArguments().getString(Constant.CHANNEL_ID);
+        isVideoPage = getArguments().getBoolean(Constant.IS_VIDEO_LIST);
     }
 
     @Override
     public void initListener() {
-        mNewsAdapter = new NewsListAdapter(mChannelCode, mNewsList);
+        if (isVideoPage)
+            mNewsAdapter = new VideoListAdapter(mNewsList);
+        else
+            mNewsAdapter = new NewsListAdapter(mChannelCode, mNewsList);
         mRvNews.setAdapter(mNewsAdapter);
         mNewsAdapter.setOnItemClickListener((adapter, view, position) -> {
                     News news = mNewsList.get(position);
@@ -159,15 +163,15 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
                         intent = new Intent(mActivity, VideoDetailActivity.class);
                         if (JCVideoPlayerManager.getCurrentJcvd() != null) {
                             //传递进度
-                            int progress = JCMediaManager.instance().mediaPlayer
-                                    .getCurrentPosition();
+                            int progress = JCMediaManager.instance().mediaPlayer.getCurrentPosition();
                             if (progress != 0) {
                                 intent.putExtra(VideoDetailActivity.PROGRESS, progress);
                             }
                         }
                     } else if (news.type.equals("2") || news.type.equals("3")) {
                         //纯图片
-                        intent = new Intent(mActivity, news.type_article==1?LongArticleDetailActivity.class :PicPreviewActivity.class);
+                        intent = new Intent(mActivity, news.type_article == 1 ?
+                                LongArticleDetailActivity.class : PicPreviewActivity.class);
                     } else {
 //                    //非视频新闻
 //                    if (news.article_type == 1) {
@@ -193,39 +197,39 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsAdapter.setEnableLoadMore(true);
         mNewsAdapter.setOnLoadMoreListener(this, mRvNews);
 
-//        if (isVideoList) {
-//            //如果是视频列表，监听滚动
-//            mRvNews.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                    if (JCVideoPlayerManager.getCurrentJcvd() != null) {
-//                        JCVideoPlayerStandard videoPlayer = (JCVideoPlayerStandard)
-// JCVideoPlayerManager.getCurrentJcvd();
-//                        if (videoPlayer.currentState == CURRENT_STATE_PLAYING) {
-//                            //如果正在播放
-//                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager)
-// mRvNews.getLayoutManager();
-//                            int firstVisibleItemPosition = linearLayoutManager
-// .findFirstVisibleItemPosition();
-//                            int lastVisibleItemPosition = linearLayoutManager
-// .findLastVisibleItemPosition();
-//
-//                            if (firstVisibleItemPosition > videoPlayer.getPosition() ||
-// lastVisibleItemPosition < videoPlayer.getPosition()) {
-//                                //如果第一个可见的条目位置大于当前播放videoPlayer的位置
-//                                //或最后一个可见的条目位置小于当前播放videoPlayer的位置，释放资源
-//                                JCVideoPlayer.releaseAllVideos();
-//                            }
-//                        }
-//                    }
-//                }
-//            });
-//        }
+        if (isVideoPage) {
+            //如果是视频列表，监听滚动
+            mRvNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    if (JCVideoPlayerManager.getCurrentJcvd() != null) {
+                        JCVideoPlayerStandard videoPlayer = (JCVideoPlayerStandard)
+                                JCVideoPlayerManager.getCurrentJcvd();
+                        if (videoPlayer.currentState == CURRENT_STATE_PLAYING) {
+                            //如果正在播放
+                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager)
+                                    mRvNews.getLayoutManager();
+                            int firstVisibleItemPosition = linearLayoutManager
+                                    .findFirstVisibleItemPosition();
+                            int lastVisibleItemPosition = linearLayoutManager
+                                    .findLastVisibleItemPosition();
+
+                            if (firstVisibleItemPosition > videoPlayer.getPosition() ||
+                                    lastVisibleItemPosition < videoPlayer.getPosition()) {
+                                //如果第一个可见的条目位置大于当前播放videoPlayer的位置
+                                //或最后一个可见的条目位置小于当前播放videoPlayer的位置，释放资源
+                                JCVideoPlayer.releaseAllVideos();
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void getData() {
         if (isVideoPage)
-            mPresenter.getVideoNewsList(mChannelCode,mChannelId,page);
+            mPresenter.getVideoNewsList(mChannelCode, mChannelId, page);
         else
             mPresenter.getNewsList(mChannelCode, page);
     }

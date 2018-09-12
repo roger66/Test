@@ -39,7 +39,8 @@ public class RightPicNewsItemProvider extends BaseNewsItemProvider {
 //        } else {
 //            helper.setVisible(R.id.ll_duration, false);//隐藏时长
 //        }
-//        GlideUtils.load(mContext, news.middle_image.url, helper.getView(R.id.iv_img));//右侧图片或视频的图片使用middle_image
+        helper.setText(R.id.tv_plays_num,news.plays+"播放").setText(R.id.tv_title,news.title);
+        GlideUtils.load(mContext, news.videoImg, helper.getView(R.id.iv_img));//右侧图片或视频的图片使用middle_image
     }
 
 }

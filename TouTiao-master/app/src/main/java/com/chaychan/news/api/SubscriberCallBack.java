@@ -17,7 +17,6 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
 
     @Override
     public void onNext(ResultResponse response) {
-        System.out.println("-------------------------登录返回数据"+response.msg);
      //   boolean isSuccess = (!TextUtils.isEmpty(response.msg) && response.msg.equals("success"));
         if (response.msg.equals("登录成功")){
             onSuccess((T) response.authkey);

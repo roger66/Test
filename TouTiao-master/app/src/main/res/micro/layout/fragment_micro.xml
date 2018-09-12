@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,142 +36,43 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <com.chaychan.uikit.TipView
+        android:id="@+id/micro_tip_view"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        app:tipBackgroundColor="@color/color_D5E8F6"
+        app:tipText="@string/net_unavailable"
+        app:tipTextColor="@color/color_4592C6"
+        app:tipTextSize="14sp"
+        />
+
+    <com.chaychan.uikit.refreshlayout.BGARefreshLayout
+        android:id="@+id/micro_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         >
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <FrameLayout
+            android:id="@+id/micro_fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
             >
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView
+                android:id="@+id/micro_rv_news"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal"
-                >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/micro_text"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/text"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/color_d8d8d8"
+                app:dividerMarginLeft="10dp"
+                app:dividerMarginRight="10dp"
+                app:dividerColor="@color/color_EEEEEE"
+                app:dividerSize="0.1dp"
                 />
 
+        </FrameLayout>
 
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            >
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal"
-                >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/micro_pic"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/pic"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/color_d8d8d8"
-                />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@mipmap/micro_video"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:gravity="center_horizontal"
-                android:text="@string/video"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/color_d8d8d8"
-        />
+    </com.chaychan.uikit.refreshlayout.BGARefreshLayout>
 
 </LinearLayout>

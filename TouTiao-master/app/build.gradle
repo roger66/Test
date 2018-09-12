@@ -72,5 +72,4 @@ dependencies {
     compile project(':statusbar-lib')
     compile 'com.github.chaychan:SlideCloseLib:1.0.0'
     compile 'com.github.chaychan:MultipleItemRvAdapter:1.0.4'
-    compile 'com.bm.photoview:library:1.4.1'
 }

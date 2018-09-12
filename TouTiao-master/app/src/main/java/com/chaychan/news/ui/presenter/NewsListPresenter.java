@@ -57,7 +57,6 @@ public class NewsListPresenter extends BasePresenter<lNewsListView> {
     }
 
     public void getVideoNewsList(String type,String classId,int page){
-
         addSubscription(mApiService.getVideoNewsList(type,classId,page), new SubscriberCallBack<List<News>>() {
 
             @Override

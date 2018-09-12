@@ -47,32 +47,34 @@ public class ThreePicNewsItemProvider extends BaseNewsItemProvider {
         helper.setText(R.id.tv_title,news.context);
         GlideUtils.load(mContext, news.publisherPic, helper.getView(R.id.author_img));
         RecyclerView imgRv = helper.getView(R.id.item_imgs);
-        helper.setNestView(R.id.item_imgs);
-        imgRv.setHasFixedSize(true);
         imgRv.setNestedScrollingEnabled(false);
         imgRv.setLayoutManager(new GridLayoutManager(mContext,3));
-        imgRv.addItemDecoration(new GridItemDecoration(mContext.getResources().getDimensionPixelOffset(R.dimen.dp_5)));
-        imgRv.setAdapter(new BaseQuickAdapter<NewsImg,BaseViewHolder>(R.layout.item_pic,news.thumbnailImg) {
+        if (imgRv.getTag()==null) {
+            imgRv.setTag(true);
+            imgRv.addItemDecoration(new GridItemDecoration(mContext.getResources().getDimensionPixelOffset(R.dimen.dp_5)));
+        }
+        BaseQuickAdapter<NewsImg, BaseViewHolder> quickAdapter = new BaseQuickAdapter<NewsImg, BaseViewHolder>(R.layout.item_pic, news.thumbnailImg) {
             @Override
             protected void convert(BaseViewHolder baseViewHolder, NewsImg s) {
-                GlideUtils.load(mContext,s.thumb_img,baseViewHolder.getView(R.id.item_pic));
+                GlideUtils.load(mContext, s.thumb_img, baseViewHolder.getView(R.id.item_pic));
             }
 
             @Override
             public int getItemCount() {
-                return news.imgNum>3?3:news.imgNum;
+                return news.imgNum > 3 ? 3 : news.imgNum;
+            }
+        };
+        quickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Intent intent = new Intent(mContext, news.type_article==1?LongArticleDetailActivity.class :PicPreviewActivity.class);
+                EventBus.getDefault().postSticky(news);
+                intent.putExtra(NewsDetailBaseActivity.POSITION, i);
+                intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
+                mContext.startActivity(intent);
             }
         });
-            imgRv.addOnItemTouchListener(new OnItemClickListener() {
-                @Override
-                public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                    Intent intent = new Intent(mContext, news.type_article==1?LongArticleDetailActivity.class :PicPreviewActivity.class);
-                    EventBus.getDefault().postSticky(news);
-                    intent.putExtra(NewsDetailBaseActivity.POSITION, i);
-                    intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
-                    mContext.startActivity(intent);
-                }
-            });
+        imgRv.setAdapter(quickAdapter);
     }
 
 }

@@ -51,7 +51,6 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
     @Bind(R.id.tv_comment_count)
     TextView mTvCommentCount;
 
-    protected StateView mStateView;
     protected NewsDetailHeaderView mHeaderView;
     protected String mItemId;
 
@@ -81,8 +80,6 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
 //        mPresenter.getNewsDetail(mDetalUrl);
     }
 
-
-
     @Override
     public void onGetCommentSuccess(List<CommentData> response) {
 
@@ -103,7 +100,7 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
 
     }
 
-    @OnClick({R.id.fl_comment_icon})
+    @OnClick({R.id.fl_comment_icon,R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fl_comment_icon:
@@ -121,6 +118,9 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
 //                        mRvComment.scrollToPosition(0);
 //                    }
 //                }
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }

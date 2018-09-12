@@ -8,7 +8,6 @@ import com.chaychan.news.R;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.LoginPresenter;
 import com.chaychan.news.view.ILoginView;
-import com.chaychan.news.view.IRegisterView;
 
 import butterknife.Bind;
 import butterknife.OnClick;

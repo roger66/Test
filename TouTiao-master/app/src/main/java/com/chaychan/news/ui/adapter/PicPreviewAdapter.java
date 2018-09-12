@@ -4,10 +4,10 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bm.library.PhotoView;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.NewsImg;
 import com.chaychan.news.utils.GlideUtils;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.List;
 
@@ -32,7 +32,6 @@ public class PicPreviewAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         PhotoView photo = (PhotoView) View.inflate(container.getContext(), R.layout.item_pic_preview,null);
-        photo.enable();
         GlideUtils.load(container.getContext(),newsImg.get(position).bigImgUrl,photo);
         container.addView(photo);
         return photo;

@@ -17,6 +17,7 @@
              android:text="置顶"
              android:textSize="9sp"
              android:textColor="@color/color_F96B6B"
+             android:visibility="gone"
              />
 
         <TextView
@@ -39,6 +40,18 @@
             android:text="1020评论"
             android:textColor="@color/color_999999"
             android:textSize="11sp"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tv_plays_num"
+            style="@style/news_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="1020播放"
+            android:textColor="@color/color_999999"
+            android:textSize="11sp"
             />
 
         <TextView
@@ -48,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="5分钟前"
+            android:visibility="gone"
             android:textColor="@color/color_999999"
             android:textSize="11sp"
             />

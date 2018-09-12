@@ -18,6 +18,7 @@ import com.chaychan.news.view.INewsDetailView;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import flyn.Eyes;
 
 /**
@@ -40,7 +41,6 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
     @Bind(R.id.long_article_content)
     WebView mContent;
 
-
     @Override
     public void initView() {
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_BDBDBD));//设置状态栏的颜色为灰色
@@ -48,10 +48,10 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
 
     @Override
     public void initData() {
+        super.initData();
         mStateView.showLoading();
         mPresenter.getLongArticleDetail(mItemId);
     }
-
 
     @Override
     protected int getViewContentViewId() {
@@ -77,6 +77,7 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
     public void onError() {
         mStateView.showRetry();
     }
+
 
     private String getHtmlData(String bodyHTML) {
         String head = "<head>" +

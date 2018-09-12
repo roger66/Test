@@ -44,6 +44,10 @@ public interface ApiService {
     //视频页
     String GET_VIDEO_CLASS = BASE_URL+"api.server.video_class.php";
 
+    //微头条
+    String GET_MICRO_LIST = BASE_URL+"api.server.headline_list.php";
+
+    //登录注册
     String LOGIN = BASE_URL +"api.login.index.php";
     String REGISTER =BASE_URL + "api.register.index.php";
 
@@ -107,6 +111,12 @@ public interface ApiService {
      */
     @POST(GET_VIDEO_CLASS)
     Observable<ResultResponse<List<Channel>>> getVideoClass();
+
+    /**
+     * 获取微头条列表
+     */
+    @POST(GET_MICRO_LIST)
+    Observable<ResultResponse<List<News>>> getMicroList(@Query("page") int page);
 
 }
 
