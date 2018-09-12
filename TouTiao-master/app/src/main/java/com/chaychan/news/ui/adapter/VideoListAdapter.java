@@ -1,26 +1,13 @@
 package com.chaychan.news.ui.adapter;
 
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.News;
-import com.chaychan.news.utils.GlideUtils;
-import com.chaychan.news.utils.TimeUtils;
-import com.chaychan.news.utils.UIUtils;
-import com.chaychan.news.utils.VideoPathDecoder;
-import com.socks.library.KLog;
 
 import java.util.List;
-
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
-import fm.jiecao.jcvideoplayer_lib.OnVideoClickListener;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 /**
  * @author ChayChan

@@ -60,7 +60,7 @@
             android:screenOrientation="portrait"
             />
         <activity android:name=".ui.activity.PicPreviewActivity" />
-        <activity android:name=".ui.activity.ImageTextDetailActivity" />
+        <activity android:name=".ui.activity.LongArticleDetailActivity" />
 
     </application>
 

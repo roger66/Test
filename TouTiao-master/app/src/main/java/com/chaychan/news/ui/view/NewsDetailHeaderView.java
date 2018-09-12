@@ -72,18 +72,7 @@ public class NewsDetailHeaderView extends FrameLayout {
 
         mTvTitle.setText(detail.videoTitle);
 
-        if (detail.media_user == null) {
-            //如果没有用户信息
-            mLlInfo.setVisibility(GONE);
-        } else {
-            if (!TextUtils.isEmpty(detail.media_user.avatar_url)){
-                GlideUtils.loadRound(mContext, detail.media_user.avatar_url, mIvAvatar);
-            }
-            mTvAuthor.setText(detail.media_user.screen_name);
-            mTvTime.setText(com.chaychan.news.utils.DateUtils.getShortTime(detail.publish_time * 1000L));
-        }
-
-        if (TextUtils.isEmpty(detail.content))
+        if (TextUtils.isEmpty(detail.text))
             mWvContent.setVisibility(GONE);
 
         mWvContent.getSettings().setJavaScriptEnabled(true);//设置JS可用
@@ -99,7 +88,7 @@ public class NewsDetailHeaderView extends FrameLayout {
                 " </style>";
         String htmlPart2 = "</body></html>";
 
-        String html = htmlPart1 + detail.content + htmlPart2;
+        String html = htmlPart1 + detail.text + htmlPart2;
 
 
         mWvContent.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null);

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.chaychan.lib.SlidingLayout;
+import com.chaychan.news.R;
 import com.chaychan.news.listener.PermissionListener;
 import com.chaychan.news.ui.activity.MainActivity;
 import com.github.nukc.stateview.StateView;
@@ -40,7 +41,7 @@ public abstract class BaseActivity<T extends BasePresenter>  extends AppCompatAc
     private static Activity mCurrentActivity;// 对所有activity进行管理
     public static List<Activity> mActivities = new LinkedList<Activity>();
     protected  Bundle savedInstanceState;
-    protected StateView mStateView;
+    protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     public PermissionListener mPermissionListener;
 
     @Override
@@ -66,6 +67,11 @@ public abstract class BaseActivity<T extends BasePresenter>  extends AppCompatAc
         setContentView(provideContentViewId());
         ButterKnife.bind(this);
 
+        //用于显示加载中、网络异常，空布局、内容布局
+        mStateView = StateView.inject(this);
+        mStateView.setLoadingResource(R.layout.page_loading);
+        mStateView.setRetryResource(R.layout.page_net_error);
+
         initView();
         initData();
         initListener();
@@ -79,7 +85,6 @@ public abstract class BaseActivity<T extends BasePresenter>  extends AppCompatAc
                 parentView.setFitsSystemWindows(true);
         }
     }
-
 
     public boolean enableSlideClose() {
         return true;

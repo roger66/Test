@@ -23,17 +23,6 @@
             app:tabTextColor="#ff222222"
             />
 
-        <ImageView
-            android:id="@+id/iv_operation"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@mipmap/shadow_add_titlebar_new"
-            android:paddingLeft="5dp"
-            android:scaleType="center"
-            android:src="@mipmap/add_channel"
-            />
 
     </RelativeLayout>
 

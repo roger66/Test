@@ -1,6 +1,7 @@
 package com.chaychan.news.api;
 
 import com.chaychan.news.model.entity.Channel;
+import com.chaychan.news.model.entity.CommentData;
 import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsDetail;
 import com.chaychan.news.model.entity.VideoModel;
@@ -28,16 +29,30 @@ public interface ApiService {
 
     String BASE_URL = "https://backstage.fuli19.com/api/";
 
-    String GET_ARTICLE_LIST = BASE_URL + "api.server.get_index_content.php";
+    //首页
     String GET_TAG_LIST = BASE_URL + "api.server.get_index_tag.php";
+    String GET_ARTICLE_LIST = BASE_URL + "api.server.get_index_content.php";
+
+    //详情
     String GET_VIDEO_DETAIL = BASE_URL + "api.server.video_detail.php";
-    String GET_COMMENT_LIST = "article/v2/tab_comments/";
+    String GET_VIDEO_DETAIL_RECOMMEND = BASE_URL + "api.server.video_detail_recommend.php";
+    String GET_LONG_ARTICLE_DETAIL = BASE_URL + "api.server.long_article_detail.php";
+    String GET_COMMENT_LIST = BASE_URL+"/api.server.get_comment_list.php";
+
+    //视频页
+    String GET_VIDEO_CLASS = BASE_URL+"api.server.video_class.php";
 
     /**
      * 获取文章列表
      */
     @POST(GET_ARTICLE_LIST)
     Observable<ResultResponse<List<News>>> getNewsList(@Query("type") String type, @Query("page") int page);
+
+    /**
+     * 获取视频文章列表
+     */
+    @POST(GET_ARTICLE_LIST)
+    Observable<ResultResponse<List<News>>> getVideoNewsList(@Query("type") String type,@Query("classid") String classId, @Query("page") int page);
 
     /**
      * 获取分类列表
@@ -52,37 +67,28 @@ public interface ApiService {
     Observable<ResultResponse<NewsDetail>> getVideoDetail(@Query("id") String id);
 
     /**
-     * 获取新闻详情
+     * 获取视频推荐详情
      */
-    @GET
-    Observable<ResultResponse<NewsDetail>> getNewsDetail(@Url String url);
+    @POST(GET_VIDEO_DETAIL_RECOMMEND)
+    Observable<ResultResponse<List<News>>> getVideoDetailRecommend(@Query("id") String id);
+
+    /**
+     * 获取长文章详情
+     */
+    @POST(GET_LONG_ARTICLE_DETAIL)
+    Observable<ResultResponse<NewsDetail>> getLongArticleDetail(@Query("id") String id);
 
     /**
      * 获取评论列表数据
-     *
      */
-    @GET(GET_COMMENT_LIST)
-    Observable<CommentResponse> getComment(@Query("group_id") String groupId, @Query("item_id")
-            String itemId, @Query("offset") String offset, @Query("count") String count);
+    @POST(GET_COMMENT_LIST)
+    Observable<ResultResponse<List<CommentData>>> getComment(@Query("nid") String id, @Query("page") int page);
 
     /**
-     * 获取视频数据json
-     *
+     * 获取视频分类
      */
-    @GET
-    Observable<ResultResponse<VideoModel>> getVideoData(@Url String url);
+    @POST(GET_VIDEO_CLASS)
+    Observable<ResultResponse<List<Channel>>> getVideoClass();
 
-    @Headers({
-            "Content-Type:application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie:PHPSESSIID=334267171504; _ga=GA1.2.646236375.1499951727; " +
-                    "_gid=GA1.2.951962968.1507171739; " +
-                    "Hm_lvt_e0a6a4397bcb500e807c5228d70253c8=1507174305;" +
-                    "Hm_lpvt_e0a6a4397bcb500e807c5228d70253c8=1507174305; _gat=1",
-            "Origin:http://toutiao.iiilab.com"
-
-    })
-    @POST("http://service.iiilab.com/video/toutiao")
-    Observable<VideoPathResponse> getVideoPath(@Query("link") String link, @Query("r") String r,
-                                               @Query("s") String s);
 }
 

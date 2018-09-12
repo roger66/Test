@@ -12,6 +12,7 @@ public class Channel implements MultiItemEntity, Serializable {
 
     public String type;
     public String id;
+    public String name;
     public int itemType;
 
     public Channel(String title, String channelCode) {

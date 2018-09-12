@@ -1,7 +1,11 @@
 package com.chaychan.news.view;
 
+import com.chaychan.news.model.entity.CommentData;
+import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.entity.NewsDetail;
+
+import java.util.List;
 
 /**
  * @author ChayChan
@@ -13,7 +17,11 @@ public interface INewsDetailView {
 
     void onGetNewsDetailSuccess(NewsDetail newsDetail);
 
-    void onGetCommentSuccess(CommentResponse response);
+    void onGetCommentSuccess(List<CommentData> response);
+
+    void onGetVideoRecommendSuccess(List<News> recommendList);
+
+    void onDataEmpty();
 
     void onError();
 }

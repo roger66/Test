@@ -20,6 +20,7 @@ public class ChannelPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<NewsListFragment> mFragments;
     private List<Channel> mChannels;
+    private boolean isVideoList;
 
     public ChannelPagerAdapter(List<NewsListFragment> fragmentList, List<Channel> channelList, FragmentManager fm) {
         super(fm);
@@ -39,7 +40,8 @@ public class ChannelPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mChannels.get(position).type;
+        Channel channel = mChannels.get(position);
+        return isVideoList?channel.name:channel.type;
     }
 
     @Override
@@ -49,5 +51,9 @@ public class ChannelPagerAdapter extends FragmentStatePagerAdapter {
         return POSITION_NONE;
         //        }
         //        return super.getItemPosition(object);
+    }
+
+    public void setVideoList(boolean videoList) {
+        isVideoList = videoList;
     }
 }

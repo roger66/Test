@@ -42,10 +42,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
             ButterKnife.bind(this, rootView);
 
             mStateView = StateView.inject(getStateViewRoot());
-            if (mStateView != null){
                 mStateView.setLoadingResource(R.layout.page_loading);
                 mStateView.setRetryResource(R.layout.page_net_error);
-            }
 
             initView(rootView);
             initData();

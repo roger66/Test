@@ -22,6 +22,7 @@ import com.chaychan.news.model.entity.NewsRecord;
 import com.chaychan.news.model.event.DetailCloseEvent;
 import com.chaychan.news.model.event.TabRefreshCompletedEvent;
 import com.chaychan.news.model.event.TabRefreshEvent;
+import com.chaychan.news.ui.activity.LongArticleDetailActivity;
 import com.chaychan.news.ui.activity.NewsDetailActivity;
 import com.chaychan.news.ui.activity.NewsDetailBaseActivity;
 import com.chaychan.news.ui.activity.PicPreviewActivity;
@@ -69,8 +70,6 @@ import static fm.jiecao.jcvideoplayer_lib.JCVideoPlayer.CURRENT_STATE_PLAYING;
 public class NewsListFragment extends BaseFragment<NewsListPresenter> implements lNewsListView,
         BGARefreshLayout.BGARefreshLayoutDelegate, BaseQuickAdapter.RequestLoadMoreListener {
 
-    private static final String TAG = NewsListFragment.class.getSimpleName();
-
     @Bind(R.id.tip_view)
     TipView mTipView;
 
@@ -84,13 +83,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     PowerfulRecyclerView mRvNews;
 
     private String mChannelCode;
+    private String mChannelId;
     private int page = 1;
 
-
-    /**
-     * 是否是推荐频道
-     */
-    private boolean isRecommendChannel;
     private List<News> mNewsList = new ArrayList<>();
     protected NewsListAdapter mNewsAdapter;
 
@@ -106,6 +101,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     //用于标记是否是首页的底部刷新，如果是加载成功后发送完成的事件
     private boolean isHomeTabRefresh;
+
+    private boolean isVideoPage; //是否是视频页
 
     @Override
     protected NewsListPresenter createPresenter() {
@@ -147,9 +144,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     @Override
     public void initData() {
         mChannelCode = getArguments().getString(Constant.CHANNEL_CODE);
-
-        String[] channelCodes = UIUtils.getStringArr(R.array.channel_code);
-        isRecommendChannel = mChannelCode.equals(channelCodes[0]);//是否是推荐频道
+        mChannelId = getArguments().getString(Constant.CHANNEL_CODE);
     }
 
     @Override
@@ -172,8 +167,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
                         }
                     } else if (news.type.equals("2") || news.type.equals("3")) {
                         //纯图片
-                        intent = new Intent(mActivity, PicPreviewActivity.class);
-                        EventBus.getDefault().postSticky(news);
+                        intent = new Intent(mActivity, news.type_article==1?LongArticleDetailActivity.class :PicPreviewActivity.class);
                     } else {
 //                    //非视频新闻
 //                    if (news.article_type == 1) {
@@ -190,10 +184,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
                     intent.putExtra(NewsDetailBaseActivity.CHANNEL_CODE, mChannelCode);
                     intent.putExtra(NewsDetailBaseActivity.POSITION, position);
-
                     intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
-//
                     startActivity(intent);
+                    EventBus.getDefault().postSticky(news);
                 }
         );
 
@@ -230,6 +223,13 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 //        }
     }
 
+    private void getData() {
+        if (isVideoPage)
+            mPresenter.getVideoNewsList(mChannelCode,mChannelId,page);
+        else
+            mPresenter.getNewsList(mChannelCode, page);
+    }
+
     @Override
     protected void loadData() {
         mStateView.showLoading();
@@ -239,7 +239,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 //        if (mNewsRecord == null) {
         //找不到记录，拉取网络数据
 //            mNewsRecord = new NewsRecord();//创建一个没有数据的对象
-        mPresenter.getNewsList(mChannelCode, page);
+        getData();
 //            return;
 //        }
 
@@ -295,24 +295,6 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 //        NewsRecordHelper.save(mChannelCode, mGson.toJson(newList));
     }
 
-    /**
-     * 处理置顶新闻和广告重复
-     */
-    private void dealRepeat(List<News> newList) {
-        if (isRecommendChannel && !ListUtils.isEmpty(mNewsList)) {
-            //如果是推荐频道并且数据列表已经有数据,处理置顶新闻或广告重复的问题
-            mNewsList.remove(0);//由于第一条新闻是重复的，移除原有的第一条
-            //新闻列表通常第4个是广告,除了第一次有广告，再次获取的都移除广告
-            if (newList.size() >= 4) {
-                News fourthNews = newList.get(3);
-                //如果列表第4个和原有列表第4个新闻都是广告，并且id一致，移除
-//                if (fourthNews.tag.equals(Constant.ARTICLE_GENRE_AD)) {
-//                    newList.remove(fourthNews);
-//                }
-            }
-        }
-    }
-
 
     @Override
     public void onDataEmpty(String msg) {
@@ -356,7 +338,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         }
         page = 1;
         mNewsList.clear();
-        mPresenter.getNewsList(mChannelCode, page);
+        getData();
     }
 
     @Override
@@ -367,7 +349,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     @Override
     public void onLoadMoreRequested() {
-        mPresenter.getNewsList(mChannelCode, page);
+        getData();
         // BaseRecyclerViewAdapterHelper的加载更多
 //        if (mNewsRecord.getPage() == 0 || mNewsRecord.getPage() == 1) {
 //            //如果记录的页数为0(即是创建的空记录)，或者页数为1(即已经是第一条记录了)

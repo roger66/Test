@@ -12,7 +12,9 @@ import com.chaychan.news.model.entity.Channel;
 import com.chaychan.news.ui.adapter.ChannelPagerAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.base.BasePresenter;
+import com.chaychan.news.ui.presenter.VideoPresenter;
 import com.chaychan.news.utils.UIUtils;
+import com.chaychan.news.view.IVideoView;
 import com.socks.library.KLog;
 
 import java.util.ArrayList;
@@ -28,23 +30,20 @@ import me.weyye.library.colortrackview.ColorTrackTabLayout;
  * @date 2017/6/12  21:47
  */
 
-public class VideoFragment extends BaseFragment {
+public class VideoFragment extends BaseFragment<VideoPresenter> implements IVideoView {
 
     @Bind(R.id.tab_channel)
     ColorTrackTabLayout mTabChannel;
-
-    @Bind(R.id.iv_operation)
-    ImageView mIvOperation;
 
     @Bind(R.id.vp_content)
     ViewPager mVpContent;
 
     private List<Channel> mChannelList = new ArrayList<>();
-    private List<NewsListFragment> mFrgamentList = new ArrayList<>();
+    private List<NewsListFragment> mFragmentList = new ArrayList<>();
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected VideoPresenter createPresenter() {
+        return new VideoPresenter(this);
     }
 
     @Override
@@ -52,53 +51,32 @@ public class VideoFragment extends BaseFragment {
         return R.layout.fragment_video;
     }
 
-    @Override
-    public void initView(View rootView) {
-        mIvOperation.setImageResource(R.mipmap.search_channel);
-    }
-
-    @Override
-    public void initData() {
-        initChannelData();
-        initChannelFragments();
-    }
-
-    private void initChannelData() {
-        String[] channels = getResources().getStringArray(R.array.channel_video);
-        String[] channelCodes = getResources().getStringArray(R.array.channel_code_video);
-        for (int i = 0; i < channelCodes.length; i++) {
-            String title = channels[i];
-            String code = channelCodes[i];
-            mChannelList.add(new Channel(title, code));
-        }
-    }
 
     private void initChannelFragments() {
         for (Channel channel : mChannelList) {
             NewsListFragment newsFragment = new NewsListFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(Constant.CHANNEL_CODE, channel.id);
+            bundle.putString(Constant.CHANNEL_CODE, channel.type);
+            bundle.putString(Constant.CHANNEL_ID, channel.id);
             bundle.putBoolean(Constant.IS_VIDEO_LIST, true);//是否是视频列表页面,]true
             newsFragment.setArguments(bundle);
-            mFrgamentList.add(newsFragment);//添加到集合中
+            mFragmentList.add(newsFragment);
         }
     }
 
     @Override
     public void initListener() {
-        ChannelPagerAdapter channelPagerAdapter = new ChannelPagerAdapter(mFrgamentList, mChannelList,getChildFragmentManager());
+        ChannelPagerAdapter channelPagerAdapter = new ChannelPagerAdapter(mFragmentList, mChannelList,getChildFragmentManager());
+        channelPagerAdapter.setVideoList(true);
         mVpContent.setAdapter(channelPagerAdapter);
-        mVpContent.setOffscreenPageLimit(mFrgamentList.size());
+        mVpContent.setOffscreenPageLimit(mFragmentList.size());
 
         mTabChannel.setTabPaddingLeftAndRight(UIUtils.dip2Px(10), UIUtils.dip2Px(10));
         mTabChannel.setupWithViewPager(mVpContent);
-        mTabChannel.post(new Runnable() {
-            @Override
-            public void run() {
-                //设置最小宽度，使其可以在滑动一部分距离
-                ViewGroup slidingTabStrip = (ViewGroup) mTabChannel.getChildAt(0);
-                slidingTabStrip.setMinimumWidth(slidingTabStrip.getMeasuredWidth() + mIvOperation.getMeasuredWidth());
-            }
+        mTabChannel.post(() -> {
+            //设置最小宽度，使其可以在滑动一部分距离
+            ViewGroup slidingTabStrip = (ViewGroup) mTabChannel.getChildAt(0);
+            slidingTabStrip.setMinimumWidth(slidingTabStrip.getMeasuredWidth());
         });
         //隐藏指示器
         mTabChannel.setSelectedTabIndicatorHeight(0);
@@ -129,7 +107,18 @@ public class VideoFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        KLog.i("loadData");
+        mPresenter.getVideoClass();
     }
 
+    @Override
+    public void onGetClassSuccess(List<Channel> channels) {
+        mChannelList.addAll(channels);
+        initChannelFragments();
+        initListener();
+    }
+
+    @Override
+    public void onError() {
+
+    }
 }

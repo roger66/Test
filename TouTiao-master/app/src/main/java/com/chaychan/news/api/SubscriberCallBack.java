@@ -21,7 +21,6 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
         if (isSuccess) {
             onSuccess((T) response.data);
         } else {
-            UIUtils.showToast(response.msg);
             onFailure(response);
         }
     }

@@ -78,6 +78,7 @@
             android:layout_height="wrap_content"
             android:text="askdhkahskdjhkashdkjasdhkaskjd"
             android:textColor="@android:color/white"
+            android:lineSpacingExtra="2dp"
             />
 
         <LinearLayout

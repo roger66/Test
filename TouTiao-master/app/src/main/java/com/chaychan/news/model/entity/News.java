@@ -15,8 +15,11 @@ public class News {
     public String id;
     public String context;
     public int imgNum;
+    public int type_article;
     public String title;
     public String videoImg;
+    public String thumbnailTag;
+    public String plays;
     public String videoSrc;
     public String publisher;
     public String publisherPic;

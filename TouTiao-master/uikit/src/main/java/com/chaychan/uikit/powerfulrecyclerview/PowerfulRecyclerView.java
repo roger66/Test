@@ -102,6 +102,8 @@ public class PowerfulRecyclerView extends RecyclerView {
      * 设置分割线
      */
     private void setDivider() {
+        if (mDividerSize==0)
+            return;
         if (mDividerDrawable == null){
             //绘制颜色分割线
             mDividerDecoration = new DividerDecoration(mContext, mOrientation,mDividerColor, mDividerSize,mMarginLeft,mMarginRight);

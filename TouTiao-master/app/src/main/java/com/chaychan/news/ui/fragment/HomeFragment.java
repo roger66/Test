@@ -113,7 +113,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements OnChann
             NewsListFragment newsFragment = new NewsListFragment();
             Bundle bundle = new Bundle();
             bundle.putString(Constant.CHANNEL_CODE, channel.id);
-            bundle.putBoolean(Constant.IS_VIDEO_LIST, channel.id.equals(mChannelCodes[1]));//是否是视频列表页面,根据判断频道号是否是视频
+            bundle.putBoolean(Constant.IS_VIDEO_LIST, false);//是否是视频列表页
             newsFragment.setArguments(bundle);
             mChannelFragments.add(newsFragment);//添加到集合中
         }

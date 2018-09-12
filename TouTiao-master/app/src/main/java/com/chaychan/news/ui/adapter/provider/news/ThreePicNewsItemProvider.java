@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsImg;
+import com.chaychan.news.ui.activity.LongArticleDetailActivity;
 import com.chaychan.news.ui.activity.NewsDetailBaseActivity;
 import com.chaychan.news.ui.activity.PicPreviewActivity;
 import com.chaychan.news.ui.adapter.NewsListAdapter;
@@ -46,6 +47,7 @@ public class ThreePicNewsItemProvider extends BaseNewsItemProvider {
         helper.setText(R.id.tv_title,news.context);
         GlideUtils.load(mContext, news.publisherPic, helper.getView(R.id.author_img));
         RecyclerView imgRv = helper.getView(R.id.item_imgs);
+        helper.setNestView(R.id.item_imgs);
         imgRv.setHasFixedSize(true);
         imgRv.setNestedScrollingEnabled(false);
         imgRv.setLayoutManager(new GridLayoutManager(mContext,3));
@@ -61,15 +63,16 @@ public class ThreePicNewsItemProvider extends BaseNewsItemProvider {
                 return news.imgNum>3?3:news.imgNum;
             }
         });
-        imgRv.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Intent intent = new Intent(mContext, PicPreviewActivity.class);
-                EventBus.getDefault().postSticky(news);
-                intent.putExtra(NewsDetailBaseActivity.POSITION, i);
-                mContext.startActivity(intent);
-            }
-        });
+            imgRv.addOnItemTouchListener(new OnItemClickListener() {
+                @Override
+                public void onSimpleItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                    Intent intent = new Intent(mContext, news.type_article==1?LongArticleDetailActivity.class :PicPreviewActivity.class);
+                    EventBus.getDefault().postSticky(news);
+                    intent.putExtra(NewsDetailBaseActivity.POSITION, i);
+                    intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
+                    mContext.startActivity(intent);
+                }
+            });
     }
 
 }

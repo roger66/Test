@@ -55,4 +55,28 @@ public class NewsListPresenter extends BasePresenter<lNewsListView> {
             }
         });
     }
+
+    public void getVideoNewsList(String type,String classId,int page){
+
+        addSubscription(mApiService.getVideoNewsList(type,classId,page), new SubscriberCallBack<List<News>>() {
+
+            @Override
+            protected void onSuccess(List<News> response) {
+                mView.onGetNewsListSuccess(response);
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError();
+            }
+
+            @Override
+            protected void onFailure(ResultResponse response) {
+                super.onFailure(response);
+                if (response.r==3)
+                    mView.onDataEmpty(response.msg);
+            }
+        });
+    }
+
 }
