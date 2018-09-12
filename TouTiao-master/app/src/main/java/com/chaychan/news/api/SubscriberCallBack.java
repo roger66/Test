@@ -17,7 +17,18 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
 
     @Override
     public void onNext(ResultResponse response) {
-        boolean isSuccess = (!TextUtils.isEmpty(response.msg) && response.msg.equals("success"));
+        System.out.println("-------------------------登录返回数据"+response.msg);
+     //   boolean isSuccess = (!TextUtils.isEmpty(response.msg) && response.msg.equals("success"));
+        if (response.msg.equals("登录成功")){
+            onSuccess((T) response.authkey);
+            return;
+        }
+        if (response.msg.equals("注册成功")){
+            onSuccess((T) response.authkey);
+            return;
+        }
+
+        boolean isSuccess = response.r==1;
         if (isSuccess) {
             onSuccess((T) response.data);
         } else {

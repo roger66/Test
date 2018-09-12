@@ -54,8 +54,8 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
     @Bind(R.id.tv_save)
     TextView mTvSave;
 
-    private List<String> mImageUrls = new ArrayList<String>();
-    private List<BigImageFragment> mFragments = new ArrayList<BigImageFragment>();
+    private List<String> mImageUrls = new ArrayList<>();
+    private List<BigImageFragment> mFragments = new ArrayList<>();
     private int mCurrentPosition;
     private Map<Integer,Boolean> mDownloadingFlagMap = new HashMap<>();//用于保存对应位置图片是否在下载的标识
 
@@ -109,7 +109,7 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
     @Override
     public void onPageSelected(int position) {
         mCurrentPosition = position;
-        ;//页面变化时，设置当前的指示
+        //页面变化时，设置当前的指示
         setIndicator(mCurrentPosition);
     }
 

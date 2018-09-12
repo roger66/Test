@@ -4,6 +4,7 @@ import com.chaychan.news.model.entity.Channel;
 import com.chaychan.news.model.entity.CommentData;
 import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsDetail;
+import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.response.CommentResponse;
 import com.chaychan.news.model.response.NewsResponse;
@@ -35,12 +36,29 @@ public interface ApiService {
 
     //详情
     String GET_VIDEO_DETAIL = BASE_URL + "api.server.video_detail.php";
+
     String GET_VIDEO_DETAIL_RECOMMEND = BASE_URL + "api.server.video_detail_recommend.php";
     String GET_LONG_ARTICLE_DETAIL = BASE_URL + "api.server.long_article_detail.php";
     String GET_COMMENT_LIST = BASE_URL+"/api.server.get_comment_list.php";
 
     //视频页
     String GET_VIDEO_CLASS = BASE_URL+"api.server.video_class.php";
+
+    String LOGIN = BASE_URL +"api.login.index.php";
+    String REGISTER =BASE_URL + "api.register.index.php";
+
+    /**
+     * 注册
+     */
+    @POST(REGISTER)
+    Observable<ResultResponse<String>> register(@Query("mobile") String mobile, @Query("password") String password);
+
+    /**
+     * 登录
+     */
+    @POST(LOGIN)
+    Observable<ResultResponse<String>> login(@Query("username") String username, @Query("password") String password);
+
 
     /**
      * 获取文章列表

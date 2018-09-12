@@ -10,5 +10,6 @@ public class ResultResponse<T> {
     public int r;
     public String msg;
     public T data;
+    public String authkey;
 
 }
