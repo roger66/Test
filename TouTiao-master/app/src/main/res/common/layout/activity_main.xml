@@ -18,7 +18,7 @@
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/color_F3F5F4"
+        android:background="@android:color/white"
         >
 
         <com.chaychan.library.BottomBarItem

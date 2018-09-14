@@ -39,15 +39,14 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="15dp"
-            android:text="嘻嘻"
             android:layout_toRightOf="@id/pic_preview_head"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             />
         
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="25dp"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
             android:gravity="center"
             android:text="关注"
             android:textColor="@drawable/selector_attention_text"
@@ -56,6 +55,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
+            android:textSize="14dp"
             />
 
     </RelativeLayout>
@@ -91,8 +91,9 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:layout_height="32dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:background="@drawable/shape_comment_bg"
                 >
 
@@ -111,6 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/comment_face"
+                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     />
 

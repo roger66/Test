@@ -15,19 +15,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:visibility="gone"
+            android:src="@mipmap/back_normal" />
+
     </FrameLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,14 +82,12 @@
                 android:id="@+id/video_detail_recommend_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:dividerSize="0dp"
-                />
+                app:dividerSize="0dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="#F4F5F5"
-                />
+                android:background="#F4F5F5" />
 
             <FrameLayout
                 android:id="@+id/fl_content"
@@ -95,8 +99,7 @@
                     android:id="@+id/rv_comment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:dividerColor="@color/white"
-                    />
+                    app:dividerColor="@color/white" />
 
             </FrameLayout>
 

@@ -62,14 +62,16 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile project(':uikit')
     compile 'com.github.zhaokaiqiang.klog:library:1.6.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'org.litepal.android:core:1.5.0'
-    compile project(':jcvideoplayer-lib')
-    compile project(':statusbar-lib')
     compile 'com.github.chaychan:SlideCloseLib:1.0.0'
     compile 'com.github.chaychan:MultipleItemRvAdapter:1.0.4'
+    compile 'com.github.yangjie10930:EpMedia:v0.9.5'
+    compile 'com.github.AriesHoo:UIPopupMenu:1.0.0'
+    compile project(':uikit')
+    compile project(':jcvideoplayer-lib')
+    compile project(':statusbar-lib')
 }
