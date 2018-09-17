@@ -17,6 +17,7 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
 
     @Override
     public void onNext(ResultResponse response) {
+        System.out.println("----------------- "+response);
      //   boolean isSuccess = (!TextUtils.isEmpty(response.msg) && response.msg.equals("success"));
         if (response.msg.equals("登录成功")){
             onSuccess((T) response.authkey);
@@ -42,6 +43,7 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
 
     @Override
     public void onError(Throwable e) {
+        System.out.println("--------------- error "+e.getLocalizedMessage());
         KLog.e(e.getLocalizedMessage());
         onError();
     }

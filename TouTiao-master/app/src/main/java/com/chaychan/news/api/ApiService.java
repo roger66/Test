@@ -13,9 +13,12 @@ import com.chaychan.news.model.response.VideoPathResponse;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
@@ -39,17 +42,23 @@ public interface ApiService {
 
     String GET_VIDEO_DETAIL_RECOMMEND = BASE_URL + "api.server.video_detail_recommend.php";
     String GET_LONG_ARTICLE_DETAIL = BASE_URL + "api.server.long_article_detail.php";
-    String GET_COMMENT_LIST = BASE_URL+"/api.server.get_comment_list.php";
+    String GET_COMMENT_LIST = BASE_URL + "/api.server.get_comment_list.php";
 
     //视频页
-    String GET_VIDEO_CLASS = BASE_URL+"api.server.video_class.php";
+    String GET_VIDEO_CLASS = BASE_URL + "api.server.video_class.php";
 
     //微头条
-    String GET_MICRO_LIST = BASE_URL+"api.server.headline_list.php";
+    String GET_MICRO_LIST = BASE_URL + "api.server.headline_list.php";
+
+    //腾讯云密钥
+    String GET_TENCENT_SECERT = BASE_URL+"api.transfer.php";
+
+    //上传视频
+    String UPLOAD_VIDEO = BASE_URL + "api.upload.vupload.php";
 
     //登录注册
-    String LOGIN = BASE_URL +"api.login.index.php";
-    String REGISTER =BASE_URL + "api.register.index.php";
+    String LOGIN = BASE_URL + "api.login.index.php";
+    String REGISTER = BASE_URL + "api.register.index.php";
 
     /**
      * 注册
@@ -68,13 +77,15 @@ public interface ApiService {
      * 获取文章列表
      */
     @POST(GET_ARTICLE_LIST)
-    Observable<ResultResponse<List<News>>> getNewsList(@Query("type") String type, @Query("page") int page);
+    Observable<ResultResponse<List<News>>> getNewsList(@Query("type") String type, @Query("page")
+            int page);
 
     /**
      * 获取视频文章列表
      */
     @POST(GET_ARTICLE_LIST)
-    Observable<ResultResponse<List<News>>> getVideoNewsList(@Query("type") String type,@Query("classid") String classId, @Query("page") int page);
+    Observable<ResultResponse<List<News>>> getVideoNewsList(@Query("type") String type, @Query
+            ("classid") String classId, @Query("page") int page);
 
     /**
      * 获取分类列表
@@ -104,7 +115,8 @@ public interface ApiService {
      * 获取评论列表数据
      */
     @POST(GET_COMMENT_LIST)
-    Observable<ResultResponse<List<CommentData>>> getComment(@Query("nid") String id, @Query("page") int page);
+    Observable<ResultResponse<List<CommentData>>> getComment(@Query("nid") String id, @Query
+            ("page") int page);
 
     /**
      * 获取视频分类
@@ -117,6 +129,19 @@ public interface ApiService {
      */
     @POST(GET_MICRO_LIST)
     Observable<ResultResponse<List<News>>> getMicroList(@Query("page") int page);
+
+    /**
+     * Retrofit上传文件
+     *   @Multipart
+     *     @POST(UPLOAD_VIDEO)
+     *     Observable<ResultResponse < String>> uploadVideo(@Part MultipartBody.Part file);
+     */
+
+    /**
+     * 获取腾讯云密钥
+     */
+    @POST(GET_TENCENT_SECERT)
+    Observable<ResultResponse<String>> getQCloudSecert();
 
 }
 

@@ -15,6 +15,16 @@ import com.chaychan.news.R;
 
 public class GlideUtils {
 
+    public static void load(Context context, String url, ImageView iv,int width,int height) {
+        RequestOptions options = new RequestOptions();
+        options.override(width,height);
+        options.placeholder(R.mipmap.ic_default);
+        Glide.with(context)
+                .load(url)
+                .apply(options)
+                .into(iv);
+    }
+
     public static void load(Context context, String url, ImageView iv) {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.mipmap.ic_default);
