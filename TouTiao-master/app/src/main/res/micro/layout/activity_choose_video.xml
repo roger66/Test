@@ -19,11 +19,11 @@
 
         <TextView
             android:id="@+id/choose_video_next"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/selector_attention_btn"
             android:gravity="center"
             android:text="下一步"
@@ -35,9 +35,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5">
+        android:layout_weight="1">
 
-        <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+        <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerSimple
             android:id="@+id/choose_video_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

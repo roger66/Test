@@ -1,11 +1,8 @@
 package com.chaychan.news.ui.fragment;
 
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -13,7 +10,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chaychan.adapter.BaseItemProvider;
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.news.R;
 import com.chaychan.news.constants.Constant;
@@ -23,20 +19,15 @@ import com.chaychan.news.model.event.DetailCloseEvent;
 import com.chaychan.news.model.event.TabRefreshCompletedEvent;
 import com.chaychan.news.model.event.TabRefreshEvent;
 import com.chaychan.news.ui.activity.LongArticleDetailActivity;
-import com.chaychan.news.ui.activity.NewsDetailActivity;
 import com.chaychan.news.ui.activity.NewsDetailBaseActivity;
 import com.chaychan.news.ui.activity.PicPreviewActivity;
 import com.chaychan.news.ui.activity.VideoDetailActivity;
-import com.chaychan.news.ui.activity.WebViewActivity;
 import com.chaychan.news.ui.adapter.NewsListAdapter;
-import com.chaychan.news.ui.adapter.PicPreviewAdapter;
 import com.chaychan.news.ui.adapter.VideoListAdapter;
-import com.chaychan.news.ui.adapter.provider.news.OnlyPicNewsItemProvider;
 import com.chaychan.news.ui.base.BaseFragment;
 import com.chaychan.news.ui.presenter.NewsListPresenter;
 import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.utils.NetWorkUtils;
-import com.chaychan.news.utils.NewsRecordHelper;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.lNewsListView;
 import com.chaychan.uikit.TipView;
@@ -55,11 +46,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
-
-import static fm.jiecao.jcvideoplayer_lib.JCVideoPlayer.CURRENT_STATE_PLAYING;
 
 /**
  * @author ChayChan
@@ -158,36 +146,28 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsAdapter.setOnItemClickListener((adapter, view, position) -> {
                     News news = mNewsList.get(position);
                     Intent intent = null;
-                    if (news.type.equals("1")) {
-                        //视频
-                        intent = new Intent(mActivity, VideoDetailActivity.class);
-                        if (JCVideoPlayerManager.getCurrentJcvd() != null) {
-                            //传递进度
-                            int progress = JCMediaManager.instance().mediaPlayer.getCurrentPosition();
-                            if (progress != 0) {
-                                intent.putExtra(VideoDetailActivity.PROGRESS, progress);
-                            }
+            switch (news.type) {
+                case "1":
+                    //视频
+                    intent = new Intent(mActivity, VideoDetailActivity.class);
+                    if (JCVideoPlayerManager.getCurrentJcvd() != null) {
+                        //传递进度
+                        int progress = JCMediaManager.instance().mediaPlayer.getCurrentPosition();
+                        if (progress != 0) {
+                            intent.putExtra(VideoDetailActivity.PROGRESS, progress);
                         }
-                    } else if (news.type.equals("2") || news.type.equals("3")) {
-                        //纯图片
-                        intent = new Intent(mActivity, news.type_article == 1 ?
-                                LongArticleDetailActivity.class : PicPreviewActivity.class);
-                    } else {
-//                    //非视频新闻
-//                    if (news.article_type == 1) {
-//                        //如果article_type为1，则是使用WebViewActivity打开
-//                        intent = new Intent(mActivity, WebViewActivity.class);
-//                        intent.putExtra(WebViewActivity.URL, news.article_url);
-//                        startActivity(intent);
-//                        return;
-//                    }
-//                    //其他新闻
-//                    intent = new Intent(mActivity, NewsDetailActivity.class);
-                        return;
                     }
-
+                    break;
+                case "2":
+                case "3":
+                    //纯图片
+                    intent = new Intent(mActivity, news.type_article == 1 ? LongArticleDetailActivity.class : PicPreviewActivity.class);
+//                    intent.putExtra(NewsDetailBaseActivity.POSITION, position);
+                    break;
+                default:
+                    return;
+            }
                     intent.putExtra(NewsDetailBaseActivity.CHANNEL_CODE, mChannelCode);
-                    intent.putExtra(NewsDetailBaseActivity.POSITION, position);
                     intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
                     startActivity(intent);
                     EventBus.getDefault().postSticky(news);
@@ -197,34 +177,21 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsAdapter.setEnableLoadMore(true);
         mNewsAdapter.setOnLoadMoreListener(this, mRvNews);
 
-        if (isVideoPage) {
-            //如果是视频列表，监听滚动
-            mRvNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    if (JCVideoPlayerManager.getCurrentJcvd() != null) {
-                        JCVideoPlayerStandard videoPlayer = (JCVideoPlayerStandard)
-                                JCVideoPlayerManager.getCurrentJcvd();
-                        if (videoPlayer.currentState == CURRENT_STATE_PLAYING) {
-                            //如果正在播放
-                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager)
-                                    mRvNews.getLayoutManager();
-                            int firstVisibleItemPosition = linearLayoutManager
-                                    .findFirstVisibleItemPosition();
-                            int lastVisibleItemPosition = linearLayoutManager
-                                    .findLastVisibleItemPosition();
+        //如果是视频列表，监听滚动
+        mRvNews.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            @Override
+            public void onChildViewAttachedToWindow(View view) {
 
-                            if (firstVisibleItemPosition > videoPlayer.getPosition() ||
-                                    lastVisibleItemPosition < videoPlayer.getPosition()) {
-                                //如果第一个可见的条目位置大于当前播放videoPlayer的位置
-                                //或最后一个可见的条目位置小于当前播放videoPlayer的位置，释放资源
-                                JCVideoPlayer.releaseAllVideos();
-                            }
-                        }
-                    }
-                }
-            });
-        }
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(View view) {
+                JCVideoPlayerStandard jzvd = view.findViewById(R.id.item_player);
+                    JCVideoPlayerStandard currentJzvd = (JCVideoPlayerStandard) JCVideoPlayerManager.getCurrentJcvd();
+                if (jzvd != null && currentJzvd!=null && jzvd.url.equals(currentJzvd.url))
+                    JCVideoPlayerStandard.releaseAllVideos();
+            }
+        });
     }
 
     private void getData() {

@@ -45,15 +45,15 @@
             />
         
         <TextView
-            android:layout_width="70dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
             android:gravity="center"
             android:text="关注"
             android:textColor="@drawable/selector_attention_text"
             android:id="@+id/pic_preview_attention"
             android:background="@drawable/selector_attention_btn"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
             android:textSize="14dp"
             />
@@ -76,7 +76,6 @@
             android:id="@+id/pic_preview_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="askdhkahskdjhkashdkjasdhkaskjd"
             android:textColor="@android:color/white"
             android:lineSpacingExtra="2dp"
             />

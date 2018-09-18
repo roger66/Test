@@ -38,7 +38,7 @@
                 app:dividerMarginLeft="10dp"
                 app:dividerMarginRight="10dp"
                 app:dividerColor="@color/color_EEEEEE"
-                app:dividerSize="0.1dp"
+                app:dividerSize="0.5dp"
                 />
 
         </FrameLayout>

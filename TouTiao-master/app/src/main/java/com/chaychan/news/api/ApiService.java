@@ -4,6 +4,7 @@ import com.chaychan.news.model.entity.Channel;
 import com.chaychan.news.model.entity.CommentData;
 import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsDetail;
+import com.chaychan.news.model.entity.QCloudSecret;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.response.CommentResponse;
@@ -51,7 +52,7 @@ public interface ApiService {
     String GET_MICRO_LIST = BASE_URL + "api.server.headline_list.php";
 
     //腾讯云密钥
-    String GET_TENCENT_SECERT = BASE_URL+"api.transfer.php";
+    String GET_TENCENT_SECRET = BASE_URL+"api.server.get_cos_config.php";
 
     //上传视频
     String UPLOAD_VIDEO = BASE_URL + "api.upload.vupload.php";
@@ -140,8 +141,8 @@ public interface ApiService {
     /**
      * 获取腾讯云密钥
      */
-    @POST(GET_TENCENT_SECERT)
-    Observable<ResultResponse<String>> getQCloudSecert();
+    @POST(GET_TENCENT_SECRET)
+    Observable<ResultResponse<QCloudSecret>> getQCloudSecret();
 
 }
 

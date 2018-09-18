@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -800,4 +801,13 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     public void setPosition(int position) {
         this.mPosition = position;
     }
+
+    public void pause(){
+        if (currentState == JCVideoPlayer.CURRENT_STATE_PLAYING) {
+            onEvent(JCUserAction.ON_CLICK_PAUSE);
+            JCMediaManager.instance().mediaPlayer.pause();
+            onStatePause();
+        }
+    }
+
 }

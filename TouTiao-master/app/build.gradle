@@ -71,7 +71,6 @@ dependencies {
     compile 'com.github.chaychan:MultipleItemRvAdapter:1.0.4'
     compile 'com.github.yangjie10930:EpMedia:v0.9.5'
     compile 'com.github.AriesHoo:UIPopupMenu:1.0.0'
-    compile 'cn.jzvd:jiaozivideoplayer:6.3.1'
     compile 'com.tencent.qcloud:cosxml:5.4.+'
     compile project(':uikit')
     compile project(':jcvideoplayer-lib')

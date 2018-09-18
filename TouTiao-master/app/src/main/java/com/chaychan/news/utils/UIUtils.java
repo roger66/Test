@@ -3,11 +3,14 @@ package com.chaychan.news.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.chaychan.news.app.MyApp;
 
+import static android.content.Context.WINDOW_SERVICE;
 
 
 public class UIUtils {
@@ -47,7 +50,6 @@ public class UIUtils {
     /**
      * 得到上下文
      *
-     * @return
      */
     public static Context getContext() {
         return MyApp.getContext();
@@ -56,7 +58,6 @@ public class UIUtils {
     /**
      * 得到resources对象
      *
-     * @return
      */
     public static Resources getResource() {
         return getContext().getResources();
@@ -65,8 +66,6 @@ public class UIUtils {
     /**
      * 得到string.xml中的字符串
      *
-     * @param resId
-     * @return
      */
     public static String getString(int resId) {
         return getResource().getString(resId);
@@ -75,7 +74,6 @@ public class UIUtils {
     /**
      * 得到string.xml中的字符串，带点位符
      *
-     * @return
      */
     public static String getString(int id, Object... formatArgs) {
         return getResource().getString(id, formatArgs);
@@ -84,8 +82,6 @@ public class UIUtils {
     /**
      * 得到string.xml中和字符串数组
      *
-     * @param resId
-     * @return
      */
     public static String[] getStringArr(int resId) {
         return getResource().getStringArray(resId);
@@ -94,8 +90,6 @@ public class UIUtils {
     /**
      * 得到colors.xml中的颜色
      *
-     * @param colorId
-     * @return
      */
     public static int getColor(int colorId) {
         return getResource().getColor(colorId);
@@ -104,7 +98,6 @@ public class UIUtils {
     /**
      * 得到应用程序的包名
      *
-     * @return
      */
     public static String getPackageName() {
         return getContext().getPackageName();
@@ -113,7 +106,6 @@ public class UIUtils {
     /**
      * 得到主线程Handler
      *
-     * @return
      */
     public static Handler getMainThreadHandler() {
         return MyApp.getMainHandler();
@@ -122,7 +114,6 @@ public class UIUtils {
     /**
      * 得到主线程id
      *
-     * @return
      */
     public static long getMainThreadId() {
         return MyApp.getMainThreadId();
@@ -131,7 +122,6 @@ public class UIUtils {
     /**
      * 安全的执行一个任务
      *
-     * @param task
      */
     public static void postTaskSafely(Runnable task) {
         int curThreadId = android.os.Process.myTid();
@@ -147,8 +137,6 @@ public class UIUtils {
     /**
      * 延迟执行任务
      *
-     * @param task
-     * @param delayMillis
      */
     public static void postTaskDelay(Runnable task, int delayMillis) {
         getMainThreadHandler().postDelayed(task, delayMillis);
@@ -159,6 +147,16 @@ public class UIUtils {
      */
     public static void removeTask(Runnable task) {
         getMainThreadHandler().removeCallbacks(task);
+    }
+
+    /**
+     * 获取屏幕宽度
+     */
+    public static int getScreenWidth(Context context) {
+        DisplayMetrics metric = new DisplayMetrics();
+        WindowManager wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metric);
+        return metric.widthPixels;
     }
 
     /**
