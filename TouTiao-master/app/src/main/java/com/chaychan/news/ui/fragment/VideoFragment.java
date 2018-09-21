@@ -2,25 +2,21 @@ package com.chaychan.news.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.chaychan.news.R;
 import com.chaychan.news.constants.Constant;
 import com.chaychan.news.model.entity.Channel;
 import com.chaychan.news.ui.adapter.ChannelPagerAdapter;
 import com.chaychan.news.ui.base.BaseFragment;
-import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.ui.presenter.VideoPresenter;
 import com.chaychan.news.utils.UIUtils;
 import com.chaychan.news.view.IVideoView;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import me.weyye.library.colortrackview.ColorTrackTabLayout;
 
@@ -32,10 +28,10 @@ import me.weyye.library.colortrackview.ColorTrackTabLayout;
 
 public class VideoFragment extends BaseFragment<VideoPresenter> implements IVideoView {
 
-    @Bind(R.id.tab_channel)
+    @BindView(R.id.tab_channel)
     ColorTrackTabLayout mTabChannel;
 
-    @Bind(R.id.vp_content)
+    @BindView(R.id.vp_content)
     ViewPager mVpContent;
 
     private List<Channel> mChannelList = new ArrayList<>();

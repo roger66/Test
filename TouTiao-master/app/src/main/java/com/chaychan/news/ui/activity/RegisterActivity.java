@@ -9,19 +9,19 @@ import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.LoginPresenter;
 import com.chaychan.news.view.ILoginView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class RegisterActivity extends BaseActivity<LoginPresenter>implements ILoginView {
 
 
-    @Bind(R.id.register_et_username)
+    @BindView(R.id.register_et_username)
     EditText mUserEt;
 
-    @Bind(R.id.register_et_psw)
+    @BindView(R.id.register_et_psw)
     EditText mPswEt;
 
-    @Bind(R.id.register_et_pswAg)
+    @BindView(R.id.register_et_pswAg)
     EditText mPswConfirmEt;
 
 

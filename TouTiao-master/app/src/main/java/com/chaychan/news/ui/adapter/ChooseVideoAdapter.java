@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.news.R;
 import com.chaychan.news.media.AlbumFile;
 import com.chaychan.news.utils.GlideUtils;
+import com.chaychan.news.utils.TimeUtils;
 
 public class ChooseVideoAdapter extends BaseQuickAdapter<AlbumFile,BaseViewHolder> {
 
@@ -21,5 +22,6 @@ public class ChooseVideoAdapter extends BaseQuickAdapter<AlbumFile,BaseViewHolde
         View selectedBg = holder.getView(R.id.item_choose_video_select);
         selectedBg.setVisibility(albumFile.isChecked()?View.VISIBLE:View.GONE);
         GlideUtils.load(mContext,albumFile.getPath(),img);
+        holder.setText(R.id.item_choose_video_duration,TimeUtils.secToTime((int) albumFile.getDuration()/1000));
     }
 }

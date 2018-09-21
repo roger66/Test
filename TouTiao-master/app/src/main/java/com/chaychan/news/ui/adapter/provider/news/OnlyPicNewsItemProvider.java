@@ -46,7 +46,7 @@ public class OnlyPicNewsItemProvider extends BaseNewsItemProvider {
         imgRv.setLayoutManager(new GridLayoutManager(mContext,3));
         if (imgRv.getTag()==null) {
             imgRv.setTag(true);
-            imgRv.addItemDecoration(new GridItemDecoration(mContext.getResources().getDimensionPixelOffset(R.dimen.dp_5)));
+            imgRv.addItemDecoration(new GridItemDecoration(mContext.getResources().getDimensionPixelOffset(R.dimen.dp_5),3));
         }
         BaseQuickAdapter<NewsImg, BaseViewHolder> quickAdapter = new BaseQuickAdapter<NewsImg, BaseViewHolder>(R.layout.item_pic, news.thumbnailImg) {
             @Override

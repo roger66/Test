@@ -10,9 +10,11 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 
 import com.socks.library.KLog;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +31,7 @@ public class FileUtils {
     public static final String CACHE_DIR = "cache";
     public static final String ICON_DIR = "icon";
 
-    public static final String APP_STORAGE_ROOT = "TouTiao";
+    public static final String APP_STORAGE_ROOT = "Fuli";
 
     /**
      * 判断SD卡是否挂载
@@ -314,8 +316,6 @@ public class FileUtils {
     /**
      * 将byte字节转换为十六进制字符串
      *
-     * @param src
-     * @return
      */
     private static String bytesToHexString(byte[] src) {
         StringBuilder builder = new StringBuilder();
@@ -334,4 +334,16 @@ public class FileUtils {
         KLog.i("file header:" + header);
         return header;
     }
+
+    /**
+     * 图片 BASE64
+     *
+     */
+    public  static String encodeImage(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //参数如果为100那么就不压缩
+        byte[] bytes = baos.toByteArray();
+        return Base64.encodeToString(bytes,Base64.DEFAULT);
+    }
+
 }

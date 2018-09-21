@@ -16,21 +16,21 @@ import com.chaychan.news.utils.GlideUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class PicPreviewActivity extends BaseActivity {
 
-    @Bind(R.id.pic_preview_vp)
+    @BindView(R.id.pic_preview_vp)
     ViewPager mPreviewVp;
 
-    @Bind(R.id.pic_preview_title)
+    @BindView(R.id.pic_preview_title)
     TextView mPreviewTitle;
 
-    @Bind(R.id.pic_preview_head)
+    @BindView(R.id.pic_preview_head)
     ImageView mAuthorHead;
 
-    @Bind(R.id.pic_preview_name)
+    @BindView(R.id.pic_preview_name)
     TextView mAuthorName;
 
     private News mNews;

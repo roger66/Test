@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import flyn.Eyes;
 
@@ -45,13 +45,13 @@ public class ImageViewPagerActivity extends BaseActivity implements ViewPager.On
     public static final String IMG_URLS = "mImageUrls";
     public static final String POSITION = "position";
 
-    @Bind(R.id.vp_pics)
+    @BindView(R.id.vp_pics)
     ViewPager mVpPics;
 
-    @Bind(R.id.tv_indicator)
+    @BindView(R.id.tv_indicator)
     TextView mTvIndicator;
 
-    @Bind(R.id.tv_save)
+    @BindView(R.id.tv_save)
     TextView mTvSave;
 
     private List<String> mImageUrls = new ArrayList<>();

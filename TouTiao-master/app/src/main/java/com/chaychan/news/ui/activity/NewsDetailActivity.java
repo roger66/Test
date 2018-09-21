@@ -1,23 +1,14 @@
 package com.chaychan.news.ui.activity;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chaychan.news.R;
-import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsDetail;
-import com.chaychan.news.ui.view.NewsDetailHeaderView;
-import com.chaychan.news.utils.GlideUtils;
 import com.chaychan.news.utils.UIUtils;
-import com.socks.library.KLog;
 
-import java.util.List;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import flyn.Eyes;
 
@@ -29,16 +20,16 @@ import flyn.Eyes;
 
 public class NewsDetailActivity extends NewsDetailBaseActivity {
 
-    @Bind(R.id.iv_back)
+    @BindView(R.id.iv_back)
     ImageView mIvBack;
 
-    @Bind(R.id.ll_user)
+    @BindView(R.id.ll_user)
     LinearLayout mLlUser;
 
-    @Bind(R.id.iv_avatar)
+    @BindView(R.id.iv_avatar)
     ImageView mIvAvatar;
 
-    @Bind(R.id.tv_author)
+    @BindView(R.id.tv_author)
     TextView mTvAuthor;
 
 

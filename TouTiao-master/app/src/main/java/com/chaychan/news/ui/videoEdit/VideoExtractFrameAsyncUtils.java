@@ -32,7 +32,9 @@ public class VideoExtractFrameAsyncUtils {
     public void getVideoThumbnailsInfoForEdit(String videoPath, String OutPutFileDirPath, long startPosition, long endPosition, int thumbnailsCount) {
         MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
         metadataRetriever.setDataSource(videoPath);
-        long interval = (endPosition - startPosition) / (thumbnailsCount - 1);
+        long interval = endPosition - startPosition;
+        if (thumbnailsCount>1)
+           interval =  interval/ (thumbnailsCount - 1);
         for (int i = 0; i < thumbnailsCount; i++) {
             if (stop) {
                 Log.d("ExtractFrame", "-------ok-stop-stop-->>>>>>>>>");

@@ -23,7 +23,7 @@ import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.util.DisplayUtil;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * @author ChayChan
@@ -35,10 +35,10 @@ public class BigImageFragment extends BaseFragment {
 
     public static final String IMG_URL = "imgUrl";
 
-    @Bind(R.id.pv_pic)
+    @BindView(R.id.pv_pic)
     PhotoView mIvPic;
 
-    @Bind(R.id.progressView)
+    @BindView(R.id.progressView)
     CircleProgressView mCircleProgressView;
 
     @Override

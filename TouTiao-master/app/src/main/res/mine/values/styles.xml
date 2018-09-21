@@ -35,4 +35,9 @@
         <item name="android:layout_marginRight">10dp</item>
     </style>
 
+
+    <style name="CustomCheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="colorControlNormal">#2790D8</item>
+    </style>
+
 </resources>

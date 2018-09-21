@@ -80,7 +80,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
-        android:background="@drawable/login_enter_bg"
+        android:background="@drawable/selector_login_enter_bg"
         android:gravity="center"
         android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"

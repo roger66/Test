@@ -1,7 +1,5 @@
 package com.chaychan.news.ui.presenter;
 
-import android.content.Context;
-
 import com.chaychan.news.media.AlbumFile;
 import com.chaychan.news.media.AlbumFolder;
 import com.chaychan.news.media.MediaReadTask;
@@ -21,6 +19,15 @@ public class ChooseFilePresenter extends BasePresenter<IChooseView> {
 
     public void getAllVideo(){
         new MediaReadTask(UIUtils.getContext(), MediaReader.FUNCTION_CHOICE_VIDEO, albumFolders -> {
+            List<AlbumFile> files = new ArrayList<>();
+            for (AlbumFolder folder : albumFolders)
+                files.addAll(folder.getAlbumFiles());
+            mView.onGetAlbumFileSuccess(files);
+        }).execute();
+    }
+
+    public void getAllImage(){
+        new MediaReadTask(UIUtils.getContext(), MediaReader.FUNCTION_CHOICE_IMAGE, albumFolders -> {
             List<AlbumFile> files = new ArrayList<>();
             for (AlbumFolder folder : albumFolders)
                 files.addAll(folder.getAlbumFiles());

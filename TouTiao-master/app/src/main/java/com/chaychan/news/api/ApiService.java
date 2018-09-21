@@ -5,6 +5,7 @@ import com.chaychan.news.model.entity.CommentData;
 import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsDetail;
 import com.chaychan.news.model.entity.QCloudSecret;
+import com.chaychan.news.model.entity.User;
 import com.chaychan.news.model.entity.UserInfo;
 import com.chaychan.news.model.entity.VideoModel;
 import com.chaychan.news.model.response.CommentResponse;
@@ -15,6 +16,8 @@ import com.chaychan.news.model.response.VideoPathResponse;
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
@@ -57,9 +60,17 @@ public interface ApiService {
     //上传视频
     String UPLOAD_VIDEO = BASE_URL + "api.upload.vupload.php";
 
+    //发布小视频
+    String PUBLISH_SMALL_VIDEO = BASE_URL+"api.server.release_small_video.php";
+    //发布头条
+    String PUBLISH_HEAD_LINE = BASE_URL+"api.server.release_headline.php";
+
     //登录注册
     String LOGIN = BASE_URL + "api.login.index.php";
     String REGISTER = BASE_URL + "api.register.index.php";
+
+    //获取用户信息
+    String GET_USER_INFO = BASE_URL +"api.user.index.php";
 
     /**
      * 注册
@@ -143,6 +154,32 @@ public interface ApiService {
      */
     @POST(GET_TENCENT_SECRET)
     Observable<ResultResponse<QCloudSecret>> getQCloudSecret();
+
+    /**
+     * 发布头条  type 1 视频 2 图片 3 文章
+     */
+    @POST(PUBLISH_HEAD_LINE)
+    @FormUrlEncoded
+    Observable<ResultResponse<String>> publishHeadLine(@Field("authkey") String authKey, @Field("imgs") String imgs,
+                                                       @Field("title") String title, @Field("ETag") String eTag,
+                                                       @Field("source") String source,
+                                                       @Field("content") String content, @Field("type") int type,
+                                                       @Field("thumb") String thumb, @Field("filePaht") String filePath);
+
+
+    /**
+     * 发布小视频
+     */
+    @POST(PUBLISH_SMALL_VIDEO)
+    Observable<ResultResponse<String>> publishSmallVideo(@Query("authkey") String authKey,@Query("title") String title,
+                                                         @Query("filePaht") String filePath,@Query("ETag") String eTag,
+                                                        @Query("thumb") String thumb);
+
+    /**
+     * 获取用户信息
+     */
+    @POST(GET_USER_INFO)
+    Observable<ResultResponse<User>> getUserInfo(@Query("authkey") String authKey);
 
 }
 

@@ -5,20 +5,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chaychan.news.R;
-import com.chaychan.news.model.entity.CommentData;
-import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.entity.NewsDetail;
-import com.chaychan.news.model.response.CommentResponse;
-import com.chaychan.news.ui.base.BaseActivity;
-import com.chaychan.news.ui.presenter.NewsDetailPresenter;
 import com.chaychan.news.utils.GlideUtils;
 import com.chaychan.news.utils.UIUtils;
-import com.chaychan.news.view.INewsDetailView;
 
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.OnClick;
+import butterknife.BindView;
 import flyn.Eyes;
 
 /**
@@ -29,16 +20,16 @@ import flyn.Eyes;
 
 public class LongArticleDetailActivity extends NewsDetailBaseActivity{
 
-    @Bind(R.id.long_article_title)
+    @BindView(R.id.long_article_title)
     TextView mTitle;
 
-    @Bind(R.id.long_article_head)
+    @BindView(R.id.long_article_head)
     ImageView mIvAvatar;
 
-    @Bind(R.id.long_article_name)
+    @BindView(R.id.long_article_name)
     TextView mTvAuthor;
 
-    @Bind(R.id.long_article_content)
+    @BindView(R.id.long_article_content)
     WebView mContent;
 
     @Override

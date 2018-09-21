@@ -5,9 +5,15 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chaychan.news.R;
 import com.chaychan.news.app.MyApp;
 
 import static android.content.Context.WINDOW_SERVICE;
@@ -15,34 +21,40 @@ import static android.content.Context.WINDOW_SERVICE;
 
 public class UIUtils {
 
-    public static Toast mToast;
+    private static Toast mToast;
+    private static TextView mToastText;
 
     public static void showToast(String msg) {
         showToast(msg, Toast.LENGTH_SHORT);
     }
 
     public static void showToast(String msg, int duration) {
-        if (mToast == null) {
-            mToast = Toast.makeText(getContext(), "", duration);
-        }
-        mToast.setText(msg);
+        if (mToast == null)
+            createToast();
+        mToastText.setText(msg);
+        mToast.setDuration(duration);
         mToast.show();
+    }
+
+    private static void createToast(){
+        Context context = getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_toast, null);
+        mToastText =  view.findViewById(R.id.custom_toast_text);
+        mToast = new Toast(context);
+        mToast.setGravity(Gravity.CENTER, 0, 0);
+        mToast.setDuration(Toast.LENGTH_SHORT);
+        mToast.setView(view);
     }
 
     /**
      * 用于在线程中执行弹土司操作
      */
     public static void showToastSafely(final String msg) {
-        UIUtils.getMainThreadHandler().post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (mToast == null) {
-                    mToast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
-                }
-                mToast.setText(msg);
-                mToast.show();
-            }
+        UIUtils.getMainThreadHandler().post(() -> {
+            if (mToast == null)
+               createToast();
+            mToastText.setText(msg);
+            mToast.show();
         });
     }
 
@@ -157,6 +169,18 @@ public class UIUtils {
         WindowManager wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(metric);
         return metric.widthPixels;
+    }
+
+    /**
+     * 获取状态栏高度
+     */
+    public static int getStatusHeight(){
+        Context context = getContext();
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0)
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        return result;
     }
 
     /**

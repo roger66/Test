@@ -44,7 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
@@ -58,16 +58,16 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 public class NewsListFragment extends BaseFragment<NewsListPresenter> implements lNewsListView,
         BGARefreshLayout.BGARefreshLayoutDelegate, BaseQuickAdapter.RequestLoadMoreListener {
 
-    @Bind(R.id.tip_view)
+    @BindView(R.id.tip_view)
     TipView mTipView;
 
-    @Bind(R.id.refresh_layout)
+    @BindView(R.id.refresh_layout)
     BGARefreshLayout mRefreshLayout;
 
-    @Bind(R.id.fl_content)
+    @BindView(R.id.fl_content)
     FrameLayout mFlContent;
 
-    @Bind(R.id.rv_news)
+    @BindView(R.id.rv_news)
     PowerfulRecyclerView mRvNews;
 
     private String mChannelCode;

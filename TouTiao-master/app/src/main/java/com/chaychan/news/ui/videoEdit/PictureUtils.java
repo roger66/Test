@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
+import com.chaychan.news.constants.Constant;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,7 +22,7 @@ import java.io.IOException;
 
 public class PictureUtils {
     public static final String POSTFIX = ".jpeg";
-    private static final String EDIT_PATH = "/EditVideo/";
+    private static final String EDIT_PATH = "/editVideo/";
 
     public static String saveImageToSD(Bitmap bmp, String dirPath) {
         if (bmp == null) {
@@ -79,7 +81,7 @@ public class PictureUtils {
 
     public static String getSaveEditThumbnailDir(Context context) {
         String state = Environment.getExternalStorageState();
-        File rootDir = state.equals(Environment.MEDIA_MOUNTED) ? Environment.getExternalStorageDirectory() : context.getCacheDir();
+        File rootDir = state.equals(Environment.MEDIA_MOUNTED) ? new File(Constant.BASE_DIR) : context.getCacheDir();
         File folderDir = new File(rootDir.getAbsolutePath() + EDIT_PATH);
         if (!folderDir.exists() && folderDir.mkdirs()) {
 

@@ -11,6 +11,7 @@ import com.aries.ui.widget.menu.UIPopupMenu;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.News;
+import com.chaychan.news.ui.activity.ChoosePhotoActivity;
 import com.chaychan.news.ui.activity.ChooseVideoActivity;
 import com.chaychan.news.ui.activity.LongArticleDetailActivity;
 import com.chaychan.news.ui.activity.NewsDetailBaseActivity;
@@ -33,7 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
@@ -47,19 +48,19 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicroView,
         BGARefreshLayout.BGARefreshLayoutDelegate, BaseQuickAdapter.RequestLoadMoreListener {
 
-    @Bind(R.id.micro_tip_view)
+    @BindView(R.id.micro_tip_view)
     TipView mTipView;
 
-    @Bind(R.id.micro_refresh_layout)
+    @BindView(R.id.micro_refresh_layout)
     BGARefreshLayout mRefreshLayout;
 
-    @Bind(R.id.micro_fl_content)
+    @BindView(R.id.micro_fl_content)
     FrameLayout mFlContent;
 
-    @Bind(R.id.micro_rv_news)
+    @BindView(R.id.micro_rv_news)
     PowerfulRecyclerView mRvNews;
 
-    @Bind(R.id.micro_publish)
+    @BindView(R.id.micro_publish)
     ImageView mPublishBtn;
 
     private int page = 1;
@@ -232,7 +233,7 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
                     Intent intent = new Intent();
                     switch (position) {
                         case 0:
-
+                            intent.setClass(getContext(), ChoosePhotoActivity.class);
                             break;
                         case 1:
                             intent.setClass(getContext(), ChooseVideoActivity.class);

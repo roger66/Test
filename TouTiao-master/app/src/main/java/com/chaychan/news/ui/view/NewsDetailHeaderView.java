@@ -13,9 +13,8 @@ import android.widget.TextView;
 import com.chaychan.news.R;
 import com.chaychan.news.model.entity.NewsDetail;
 import com.chaychan.news.relation.ShowPicRelation;
-import com.chaychan.news.utils.GlideUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -28,22 +27,22 @@ public class NewsDetailHeaderView extends FrameLayout {
 
     private static final String NICK = "chaychan";
 
-    @Bind(R.id.tvTitle)
+    @BindView(R.id.tvTitle)
     TextView mTvTitle;
 
-    @Bind(R.id.ll_info)
+    @BindView(R.id.ll_info)
     public LinearLayout mLlInfo;
 
-    @Bind(R.id.iv_avatar)
+    @BindView(R.id.iv_avatar)
     ImageView mIvAvatar;
 
-    @Bind(R.id.tv_author)
+    @BindView(R.id.tv_author)
     TextView mTvAuthor;
 
-    @Bind(R.id.tv_time)
+    @BindView(R.id.tv_time)
     TextView mTvTime;
 
-    @Bind(R.id.wv_content)
+    @BindView(R.id.wv_content)
     WebView mWvContent;
 
     private Context mContext;

@@ -16,7 +16,7 @@ import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.base.BasePresenter;
 import com.chaychan.news.utils.UIUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import flyn.Eyes;
 
@@ -29,16 +29,16 @@ import flyn.Eyes;
 public class WebViewActivity extends BaseActivity {
     public static final String URL = "url";
 
-    @Bind(R.id.iv_back)
+    @BindView(R.id.iv_back)
     ImageView mIvBack;
 
-    @Bind(R.id.tv_author)
+    @BindView(R.id.tv_author)
     TextView mTvTitle;
 
-    @Bind(R.id.pb_loading)
+    @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
 
-    @Bind(R.id.wv_content)
+    @BindView(R.id.wv_content)
     WebView mWvContent;
 
     @Override

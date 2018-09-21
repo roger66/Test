@@ -4,8 +4,10 @@ public interface IUploadView {
 
     void onUploadProgress(int progress);
 
-    void onSuccess();
+    void onVideoUploadSuccess();
 
-    void onError();
+    void onPublishSuccess();
+
+    void onError(String msg);
 
 }

@@ -25,7 +25,7 @@ import com.socks.library.KLog;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import me.weyye.library.colortrackview.ColorTrackTabLayout;
@@ -38,13 +38,13 @@ import me.weyye.library.colortrackview.ColorTrackTabLayout;
 
 public class HomeFragment extends BaseFragment<HomePresenter> implements OnChannelListener, IHomeView {
 
-    @Bind(R.id.tab_channel)
+    @BindView(R.id.tab_channel)
     ColorTrackTabLayout mTabChannel;
 
-    @Bind(R.id.iv_operation)
+    @BindView(R.id.iv_operation)
     ImageView ivAddChannel;
 
-    @Bind(R.id.vp_content)
+    @BindView(R.id.vp_content)
     ViewPager mVpContent;
 
     private List<Channel> mSelectedChannels = new ArrayList<>();

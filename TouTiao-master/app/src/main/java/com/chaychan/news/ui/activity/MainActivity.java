@@ -5,10 +5,6 @@ import android.view.animation.Animation;
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
 import com.chaychan.news.R;
-import com.chaychan.news.media.AlbumFile;
-import com.chaychan.news.media.AlbumFolder;
-import com.chaychan.news.media.MediaReadTask;
-import com.chaychan.news.media.MediaReader;
 import com.chaychan.news.model.event.TabRefreshCompletedEvent;
 import com.chaychan.news.model.event.TabRefreshEvent;
 import com.chaychan.news.ui.adapter.MainTabAdapter;
@@ -19,6 +15,7 @@ import com.chaychan.news.ui.fragment.HomeFragment;
 import com.chaychan.news.ui.fragment.MicroFragment;
 import com.chaychan.news.ui.fragment.MineFragment;
 import com.chaychan.news.ui.fragment.VideoFragment;
+import com.chaychan.news.utils.UIUtils;
 import com.chaychan.uikit.NoScrollViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,16 +25,16 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import flyn.Eyes;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends BaseActivity {
 
-    @Bind(R.id.vp_content)
+    @BindView(R.id.vp_content)
     NoScrollViewPager mVpContent;
 
-    @Bind(R.id.bottom_bar)
+    @BindView(R.id.bottom_bar)
     BottomBarLayout mBottomBarLayout;
 
     private List<BaseFragment> mFragments;
@@ -47,6 +44,7 @@ public class MainActivity extends BaseActivity {
             R.color.color_D33D3C,
             R.color.color_BDBDBD,
             R.color.color_BDBDBD,
+            R.color.color_373737,
     };
 
     @Override
@@ -109,12 +107,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setStatusBarColor(int position) {
-        if (position == 3){
-            //如果是我的页面，状态栏设置为透明状态栏
-            Eyes.translucentStatusBar(MainActivity.this,true);
-        }else{
-            Eyes.setStatusBarColor(MainActivity.this, com.chaychan.news.utils.UIUtils.getColor(mStatusColors[position]));
-        }
+//        if (position == 3){
+//            //如果是我的页面，状态栏设置为透明状态栏
+//            Eyes.translucentStatusBar(MainActivity.this,true);
+//        }else{
+            Eyes.setStatusBarColor(MainActivity.this, UIUtils.getColor(mStatusColors[position]));
+//        }
     }
 
     private void postTabRefreshEvent(BottomBarItem bottomBarItem, int position, String channelCode) {
@@ -145,8 +143,6 @@ public class MainActivity extends BaseActivity {
         bottomItem.setIconSelectedResourceId(R.mipmap.tab_home_selected);//更换成首页原来图标
         bottomItem.setStatus(true);//刷新图标
     }
-
-    ;
 
     @Override
     protected void onStart() {

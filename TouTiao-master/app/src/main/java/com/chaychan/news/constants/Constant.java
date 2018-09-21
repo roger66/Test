@@ -1,5 +1,7 @@
 package com.chaychan.news.constants;
 
+import android.os.Environment;
+
 /**
  * @author ChayChan
  * @description: 记录常量的类
@@ -29,5 +31,12 @@ public class Constant {
 
     public static final String DATA_SELECTED = "dataSelected";
     public static final String DATA_UNSELECTED = "dataUnselected";
+
+    /**今日福利目录**/
+    public static final String BASE_DIR = Environment.getExternalStorageDirectory()+"/Fuli/";
+    public static final String CUT = BASE_DIR+"cut";
+
+    /**获取SharedPreference保存的值*/
+    public static final String AUTH_KEY = "authKey";
 
 }

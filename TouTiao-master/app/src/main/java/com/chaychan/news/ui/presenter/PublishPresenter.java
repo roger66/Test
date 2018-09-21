@@ -1,6 +1,7 @@
 package com.chaychan.news.ui.presenter;
 
 import com.chaychan.news.api.SubscriberCallBack;
+import com.chaychan.news.app.MyApp;
 import com.chaychan.news.model.ProgressRequestBody;
 import com.chaychan.news.model.entity.QCloudSecret;
 import com.chaychan.news.ui.base.BasePresenter;
@@ -26,9 +27,12 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.internal.util.ObserverSubscriber;
 
-public class UploadPresenter extends BasePresenter<IUploadView> {
+public class PublishPresenter extends BasePresenter<IUploadView> {
 
-    public UploadPresenter(IUploadView view) {
+    private String uploadedPath;
+    private String eTag;
+
+    public PublishPresenter(IUploadView view) {
         super(view);
     }
 
@@ -53,7 +57,7 @@ public class UploadPresenter extends BasePresenter<IUploadView> {
         });
     }**/
 
-   public void uploadFile(File file){
+   public void uploadVideo(File file){
        addSubscription(mApiService.getQCloudSecret(), new SubscriberCallBack<QCloudSecret>() {
            @Override
            protected void onSuccess(QCloudSecret response) {
@@ -62,7 +66,7 @@ public class UploadPresenter extends BasePresenter<IUploadView> {
 
            @Override
            protected void onError() {
-
+                mView.onError("上传失败");
            }
        });
    }
@@ -89,25 +93,27 @@ public class UploadPresenter extends BasePresenter<IUploadView> {
            uploadData.sliceSize = 1024 * 1024; //每个分片的大小
            uploadData.uploadId = null; //若是续传，则uploadId不为空
            UploadService uploadService = new UploadService(cosXmlService, uploadData);
-           uploadService.setProgressListener((progress, max) -> {
-//               System.out.println("------------------ 进度 " + (int) (progress * 100 / max));
-               subscriber.onNext((int) (progress * 100 / max));
-           });
+           uploadService.setProgressListener((progress, max) ->mView.onUploadProgress((int) (progress * 100 / max)));
 
            //开始上传
            try {
-               System.out.println("----------------- 上传 开始");
                CosXmlResult cosXmlResult = uploadService.upload();
-               System.out.println("----------------- 上传 " + cosXmlResult.printResult());
-               subscriber.onCompleted();
+               if (cosXmlResult.httpCode==200) {
+                   uploadedPath = cosXmlResult.accessUrl;
+                   eTag = ((UploadService.UploadServiceResult) cosXmlResult).eTag;
+                   eTag = eTag.replace("\"","");
+                   System.out.println("-------------- path "+uploadedPath);
+                   System.out.println("-------------- ETag "+eTag);
+                   mView.onVideoUploadSuccess();
+               }
+               else mView.onError(cosXmlResult.httpMessage);
            } catch (Exception e) {
-               System.out.println("----------------- 异常 " + e.getMessage());
                e.printStackTrace();
+               mView.onError(e.getMessage());
            }
        }), new Subscriber<Integer>() {
            @Override
            public void onCompleted() {
-               System.out.println("------------------ onComplete ");
            }
 
            @Override
@@ -117,11 +123,28 @@ public class UploadPresenter extends BasePresenter<IUploadView> {
 
            @Override
            public void onNext(Integer progress) {
-               System.out.println("------------------ onNext "+progress);
-               mView.onUploadProgress(progress);
            }
        });
 
+    }
+
+    private void publishHeadLine(String imgs,String title,String content,int type,String thumb,String videoPath){
+        addSubscription(mApiService.publishHeadLine(MyApp.getKey(),imgs,title,eTag,"1",content,type,thumb,videoPath), new SubscriberCallBack<String>() {
+            @Override
+            protected void onSuccess(String response) {
+
+                mView.onPublishSuccess();
+            }
+
+            @Override
+            protected void onError() {
+                mView.onError("发布失败");
+            }
+        });
+    }
+
+    public void publishVideo(String title,String thumb){
+       publishHeadLine("",title,"",1,thumb,uploadedPath);
     }
 
 }

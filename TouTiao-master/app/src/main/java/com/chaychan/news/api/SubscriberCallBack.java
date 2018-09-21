@@ -1,9 +1,8 @@
 package com.chaychan.news.api;
 
-import android.text.TextUtils;
-
+import com.chaychan.news.constants.Constant;
 import com.chaychan.news.model.response.ResultResponse;
-import com.chaychan.news.utils.UIUtils;
+import com.chaychan.news.utils.PreUtils;
 import com.socks.library.KLog;
 
 import rx.Subscriber;
@@ -18,19 +17,18 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
     @Override
     public void onNext(ResultResponse response) {
      //   boolean isSuccess = (!TextUtils.isEmpty(response.msg) && response.msg.equals("success"));
-        if (response.msg.equals("登录成功")){
-            onSuccess((T) response.authkey);
-            return;
-        }
-        if (response.msg.equals("注册成功")){
-            onSuccess((T) response.authkey);
-            return;
-        }
-
         boolean isSuccess = response.r==1;
         if (isSuccess) {
+            String msg = response.msg;
+            if (msg.equals("登录成功") || msg.equals("注册成功")){
+                onSuccess((T) response.authkey);
+                return;
+            }
             onSuccess((T) response.data);
         } else {
+            //其他地方登录 authKey失效
+            if (response.r==2)
+                PreUtils.putString(Constant.AUTH_KEY,"");
             onFailure(response);
         }
     }

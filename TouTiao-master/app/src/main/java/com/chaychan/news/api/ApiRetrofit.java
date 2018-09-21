@@ -12,9 +12,11 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -67,17 +69,17 @@ public class ApiRetrofit {
     private Interceptor mLogInterceptor = chain -> {
         Request request = chain.request();
         long startTime = System.currentTimeMillis();
-        okhttp3.Response response = chain.proceed(chain.request());
+        Response response = chain.proceed(chain.request());
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        okhttp3.MediaType mediaType = response.body().contentType();
+        MediaType mediaType = response.body().contentType();
         String content = response.body().string();
-        KLog.e("----------Request Start----------------");
+        KLog.e("----------Request Start---------------- "+request.method());
         KLog.e("| " + request.toString());
         KLog.json("| Response:" + content);
         KLog.e("----------Request End:" + duration + "毫秒----------");
         return response.newBuilder()
-                .body(okhttp3.ResponseBody.create(mediaType, content))
+                .body(ResponseBody.create(mediaType, content))
                 .build();
     };
 

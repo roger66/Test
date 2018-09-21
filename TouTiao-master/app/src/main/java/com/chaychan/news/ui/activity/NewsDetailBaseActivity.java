@@ -1,34 +1,23 @@
 package com.chaychan.news.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.news.R;
-import com.chaychan.news.constants.Constant;
 import com.chaychan.news.model.entity.CommentData;
 import com.chaychan.news.model.entity.News;
 import com.chaychan.news.model.event.DetailCloseEvent;
-import com.chaychan.news.model.response.CommentResponse;
-import com.chaychan.news.ui.adapter.CommentAdapter;
 import com.chaychan.news.ui.base.BaseActivity;
 import com.chaychan.news.ui.presenter.NewsDetailPresenter;
 import com.chaychan.news.ui.view.NewsDetailHeaderView;
-import com.chaychan.news.utils.ListUtils;
 import com.chaychan.news.view.INewsDetailView;
-import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
-import com.github.nukc.stateview.StateView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
@@ -48,7 +37,7 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
     public static final String GROUP_ID = "groupId";
     public static final String ITEM_ID = "itemId";
 
-    @Bind(R.id.tv_comment_count)
+    @BindView(R.id.tv_comment_count)
     TextView mTvCommentCount;
 
     protected NewsDetailHeaderView mHeaderView;

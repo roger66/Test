@@ -11,11 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 
 import com.chaychan.lib.SlidingLayout;
 import com.chaychan.news.R;
 import com.chaychan.news.listener.PermissionListener;
 import com.chaychan.news.ui.activity.MainActivity;
+import com.chaychan.news.utils.UIUtils;
 import com.github.nukc.stateview.StateView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,6 +55,9 @@ public abstract class BaseActivity<T extends BasePresenter>  extends AppCompatAc
             rootView.bindActivity(this);
         }
 
+        //透明状态栏
+        if (translucentStatusBar())
+            Eyes.translucentStatusBar(this,false);
 
         this.savedInstanceState = savedInstanceState;
 
@@ -76,14 +81,6 @@ public abstract class BaseActivity<T extends BasePresenter>  extends AppCompatAc
         initData();
         initListener();
 
-        //透明状态栏
-        if (translucentStatusBar()){
-            Eyes.translucentStatusBar(this,false);
-            ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
-            View parentView = contentFrameLayout.getChildAt(0);
-            if (parentView != null)
-                parentView.setFitsSystemWindows(true);
-        }
     }
 
     public boolean enableSlideClose() {

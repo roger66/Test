@@ -4,7 +4,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import flyn.Eyes;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
@@ -38,17 +37,17 @@ import static android.view.View.VISIBLE;
 
 public class VideoDetailActivity extends NewsDetailBaseActivity {
 
-    @Bind(R.id.video_player)
+    @BindView(R.id.video_player)
     JCVideoPlayerStandard mVideoPlayer;
-    @Bind(R.id.video_detail_title)
+    @BindView(R.id.video_detail_title)
     TextView mTitleTv;
-    @Bind(R.id.video_detail_plays)
+    @BindView(R.id.video_detail_plays)
     TextView mPlaysTv;
-    @Bind(R.id.video_detail_author_img)
+    @BindView(R.id.video_detail_author_img)
     ImageView mAuthorImg;
-    @Bind(R.id.video_detail_author_name)
+    @BindView(R.id.video_detail_author_name)
     TextView mAuthorNameTv;
-    @Bind(R.id.video_detail_recommend_rv)
+    @BindView(R.id.video_detail_recommend_rv)
     RecyclerView mRecommendRv;
 
     private VideoRecommendAdapter mRecommendAdapter;
