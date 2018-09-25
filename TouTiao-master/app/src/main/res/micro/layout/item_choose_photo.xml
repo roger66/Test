@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="110dp">
 
     <FrameLayout
-        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/item_choose_photo_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#10000000"
+            />
+
+        <ImageView
+            android:id="@+id/item_choose_photo_delete"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="right"
+            android:layout_margin="5dp"
+            android:src="@drawable/pic_preview_close"
+            />
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
         android:id="@+id/item_choose_photo_add"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F4F5F7">
+        android:background="#F4F5F7"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -17,5 +47,6 @@
             android:src="@drawable/add_photo" />
 
     </FrameLayout>
+
 
 </RelativeLayout>

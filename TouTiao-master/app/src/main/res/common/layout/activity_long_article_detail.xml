@@ -51,7 +51,7 @@
 
             </LinearLayout>
 
-            <com.chaychan.news.ui.view.CustomWebView
+            <com.chaychan.fuli19.ui.view.CustomWebView
                 android:layout_marginTop="10dp"
                 android:id="@+id/long_article_content"
                 android:layout_width="match_parent"

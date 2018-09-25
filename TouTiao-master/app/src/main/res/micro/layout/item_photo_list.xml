@@ -8,12 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
+
     <ImageView
+        android:id="@+id/item_photo_list_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/selector_photo_choose"
         android:layout_alignParentRight="true"
         android:layout_margin="5dp"
-        />
+        android:src="@drawable/selector_photo_choose" />
 
 </RelativeLayout>

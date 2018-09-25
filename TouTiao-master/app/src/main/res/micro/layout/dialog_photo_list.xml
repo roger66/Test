@@ -10,6 +10,7 @@
         android:layout_height="50dp">
 
         <ImageView
+            android:id="@+id/dialog_photo_list_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -21,12 +22,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="16dp"
             android:text="图片相册"
             android:textColor="@color/color_222222"
-            />
+            android:textSize="16dp" />
 
         <TextView
+            android:id="@+id/dialog_photo_list_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -46,6 +47,6 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dialog_photo_list_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
