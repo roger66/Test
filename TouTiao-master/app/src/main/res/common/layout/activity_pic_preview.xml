@@ -12,6 +12,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/pic_preview_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp">

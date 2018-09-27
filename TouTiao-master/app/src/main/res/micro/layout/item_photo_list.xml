@@ -17,4 +17,11 @@
         android:layout_margin="5dp"
         android:src="@drawable/selector_photo_choose" />
 
+    <View
+        android:id="@+id/item_photo_list_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#60000000"
+        />
+
 </RelativeLayout>

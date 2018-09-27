@@ -1,6 +1,7 @@
 package com.fuli19.ui.presenter;
 
 import com.fuli19.api.SubscriberCallBack;
+import com.fuli19.app.MyApp;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.response.ResultResponse;
 import com.fuli19.ui.base.BasePresenter;
@@ -15,7 +16,7 @@ public class MicroPresenter extends BasePresenter<IMicroView> {
     }
 
     public void getHeadLineList(int page){
-        addSubscription(mApiService.getMicroList(page), new SubscriberCallBack<List<News>>() {
+        addSubscription(mApiService.getMicroList(page,MyApp.getKey()), new SubscriberCallBack<List<News>>() {
             @Override
             protected void onSuccess(List<News> response) {
                 mView.onGetMicroListSuccess(response);

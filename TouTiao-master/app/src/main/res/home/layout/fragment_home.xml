@@ -32,7 +32,7 @@
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/color_f85959"
             app:tabTextAppearance="@style/TextAppearanceHome"
-            app:tabTextColor="#ff222222"
+            app:tabTextColor="@color/color_1D1D1D"
             />
 
         <ImageView

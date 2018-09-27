@@ -6,6 +6,8 @@ public interface ILoginView {
 
     void onRegisterSuccess(String authKey);
 
+    void onCanRegister();
+
     void onError();
 
 }

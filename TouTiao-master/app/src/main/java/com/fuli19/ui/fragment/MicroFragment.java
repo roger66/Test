@@ -27,6 +27,7 @@ import com.fuli19.ui.presenter.MicroPresenter;
 import com.fuli19.utils.ListUtils;
 import com.fuli19.utils.NetWorkUtils;
 import com.fuli19.utils.UIUtils;
+import com.fuli19.utils.WelfareHelper;
 import com.fuli19.view.IMicroView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -230,6 +231,8 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
                 .setMargin(0, 15, 30, 0)
                 .setMenuItems(menus)
                 .setOnMenuItemClickListener(position -> {
+                    if (!WelfareHelper.isLogin())
+                        return;
                     Intent intent = new Intent();
                     switch (position) {
                         case 0:

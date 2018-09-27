@@ -146,27 +146,29 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsAdapter.setOnItemClickListener((adapter, view, position) -> {
                     News news = mNewsList.get(position);
                     Intent intent = null;
-            switch (news.type) {
-                case "1":
-                    //视频
-                    intent = new Intent(mActivity, VideoDetailActivity.class);
-                    if (JCVideoPlayerManager.getCurrentJcvd() != null) {
-                        //传递进度
-                        int progress = JCMediaManager.instance().mediaPlayer.getCurrentPosition();
-                        if (progress != 0) {
-                            intent.putExtra(VideoDetailActivity.PROGRESS, progress);
-                        }
-                    }
-                    break;
-                case "2":
-                case "3":
-                    //纯图片
-                    intent = new Intent(mActivity, news.type_article == 1 ? LongArticleDetailActivity.class : PicPreviewActivity.class);
+                    switch (news.type) {
+                        case "1":
+                            //视频
+                            intent = new Intent(mActivity, VideoDetailActivity.class);
+                            if (JCVideoPlayerManager.getCurrentJcvd() != null) {
+                                //传递进度
+                                int progress = JCMediaManager.instance().mediaPlayer
+                                        .getCurrentPosition();
+                                if (progress != 0) {
+                                    intent.putExtra(VideoDetailActivity.PROGRESS, progress);
+                                }
+                            }
+                            break;
+                        case "2":
+                        case "3":
+                            //纯图片
+                            intent = new Intent(mActivity, news.type_article == 1 ?
+                                    LongArticleDetailActivity.class : PicPreviewActivity.class);
 //                    intent.putExtra(NewsDetailBaseActivity.POSITION, position);
-                    break;
-                default:
-                    return;
-            }
+                            break;
+                        default:
+                            return;
+                    }
                     intent.putExtra(NewsDetailBaseActivity.CHANNEL_CODE, mChannelCode);
                     intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
                     startActivity(intent);
@@ -178,7 +180,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsAdapter.setOnLoadMoreListener(this, mRvNews);
 
         //如果是视频列表，监听滚动
-        mRvNews.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+        mRvNews.addOnChildAttachStateChangeListener(new RecyclerView
+                .OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(View view) {
 
@@ -187,8 +190,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
             @Override
             public void onChildViewDetachedFromWindow(View view) {
                 JCVideoPlayerStandard jzvd = view.findViewById(R.id.item_player);
-                    JCVideoPlayerStandard currentJzvd = (JCVideoPlayerStandard) JCVideoPlayerManager.getCurrentJcvd();
-                if (jzvd != null && currentJzvd!=null && jzvd.url.equals(currentJzvd.url))
+                JCVideoPlayerStandard currentJzvd = (JCVideoPlayerStandard) JCVideoPlayerManager
+                        .getCurrentJcvd();
+                if (jzvd != null && currentJzvd != null && jzvd.url.equals(currentJzvd.url))
                     JCVideoPlayerStandard.releaseAllVideos();
             }
         });

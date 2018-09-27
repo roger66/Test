@@ -37,7 +37,13 @@ public class SplashActivity extends BaseActivity {
         Eyes.translucentStatusBar(this, false);
         UIUtils.postTaskDelay(() -> {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
             finish();
         }, 2000);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

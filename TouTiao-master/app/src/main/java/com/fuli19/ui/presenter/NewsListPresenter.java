@@ -1,6 +1,7 @@
 package com.fuli19.ui.presenter;
 
 import com.fuli19.api.SubscriberCallBack;
+import com.fuli19.app.MyApp;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.response.ResultResponse;
 import com.fuli19.ui.base.BasePresenter;
@@ -31,7 +32,7 @@ public class NewsListPresenter extends BasePresenter<lNewsListView> {
             lastTime = System.currentTimeMillis() / 1000;
         }
 
-        addSubscription(mApiService.getNewsList(channelCode,page), new SubscriberCallBack<List<News>>() {
+        addSubscription(mApiService.getNewsList(channelCode,page,MyApp.getKey()), new SubscriberCallBack<List<News>>() {
 
             @Override
             protected void onSuccess(List<News> response) {
@@ -53,7 +54,7 @@ public class NewsListPresenter extends BasePresenter<lNewsListView> {
     }
 
     public void getVideoNewsList(String type,String classId,int page){
-        addSubscription(mApiService.getVideoNewsList(type,classId,page), new SubscriberCallBack<List<News>>() {
+        addSubscription(mApiService.getVideoNewsList(type,classId,page,MyApp.getKey()), new SubscriberCallBack<List<News>>() {
 
             @Override
             protected void onSuccess(List<News> response) {

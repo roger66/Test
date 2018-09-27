@@ -5,14 +5,19 @@ import com.fuli19.model.entity.CommentData;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.entity.NewsDetail;
 import com.fuli19.model.entity.QCloudSecret;
+import com.fuli19.model.entity.UpImage;
 import com.fuli19.model.entity.User;
 import com.fuli19.model.response.ResultResponse;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -65,30 +70,30 @@ public interface ApiService {
      * 注册
      */
     @POST(REGISTER)
-    Observable<ResultResponse<String>> register(@Query("mobile") String mobile, @Query
-            ("password") String password);
+    @FormUrlEncoded
+    Observable<ResultResponse<String>> register(@Field("mobile") String mobile,@Field("password") String password);
 
     /**
      * 登录
      */
     @POST(LOGIN)
-    Observable<ResultResponse<String>> login(@Query("username") String username, @Query
-            ("password") String password);
+    @FormUrlEncoded
+    Observable<ResultResponse<String>> login(@Field("username") String username,@Field("password") String password);
 
 
     /**
      * 获取文章列表
      */
     @POST(GET_ARTICLE_LIST)
-    Observable<ResultResponse<List<News>>> getNewsList(@Query("type") String type, @Query("page")
-            int page);
+    @FormUrlEncoded
+    Observable<ResultResponse<List<News>>> getNewsList(@Field("type") String type,@Field("page") int page, @Field("authkey") String authKey);
 
     /**
      * 获取视频文章列表
      */
     @POST(GET_ARTICLE_LIST)
-    Observable<ResultResponse<List<News>>> getVideoNewsList(@Query("type") String type, @Query
-            ("classid") String classId, @Query("page") int page);
+    @FormUrlEncoded
+    Observable<ResultResponse<List<News>>> getVideoNewsList(@Field("type") String type,@Field("classid") String classid,@Field("page") int page, @Field("authkey") String authKey);
 
     /**
      * 获取分类列表
@@ -100,26 +105,29 @@ public interface ApiService {
      * 获取视频详情
      */
     @POST(GET_VIDEO_DETAIL)
-    Observable<ResultResponse<NewsDetail>> getVideoDetail(@Query("id") String id);
+    @FormUrlEncoded
+    Observable<ResultResponse<NewsDetail>> getVideoDetail(@Field("id") String id,@Field("authkey") String authKey);
 
     /**
      * 获取视频推荐详情
      */
     @POST(GET_VIDEO_DETAIL_RECOMMEND)
-    Observable<ResultResponse<List<News>>> getVideoDetailRecommend(@Query("id") String id);
+    @FormUrlEncoded
+    Observable<ResultResponse<List<News>>> getVideoDetailRecommend(@Field("id") String id,@Field("authkey") String authKey);
 
     /**
      * 获取长文章详情
      */
     @POST(GET_LONG_ARTICLE_DETAIL)
-    Observable<ResultResponse<NewsDetail>> getLongArticleDetail(@Query("id") String id);
+    @FormUrlEncoded
+    Observable<ResultResponse<NewsDetail>> getLongArticleDetail(@Field("id") String id,@Field("authkey") String authKey);
 
     /**
      * 获取评论列表数据
      */
     @POST(GET_COMMENT_LIST)
-    Observable<ResultResponse<List<CommentData>>> getComment(@Query("nid") String id, @Query
-            ("page") int page);
+    @FormUrlEncoded
+    Observable<ResultResponse<List<CommentData>>> getComment(@Field("nid") String id,@Field("page") int page,@Field("authkey") String authKey);
 
     /**
      * 获取视频分类
@@ -131,14 +139,9 @@ public interface ApiService {
      * 获取微头条列表
      */
     @POST(GET_MICRO_LIST)
-    Observable<ResultResponse<List<News>>> getMicroList(@Query("page") int page);
+    @FormUrlEncoded
+    Observable<ResultResponse<List<News>>> getMicroList(@Field("page") int page ,@Field("authkey") String authkey);
 
-    /**
-     * Retrofit上传文件
-     *   @Multipart
-     *     @POST(UPLOAD_VIDEO)
-     *     Observable<ResultResponse   <   String>> uploadVideo(@Part MultipartBody.Part file);
-     */
 
     /**
      * 获取腾讯云密钥
@@ -146,13 +149,12 @@ public interface ApiService {
     @POST(GET_TENCENT_SECRET)
     Observable<ResultResponse<QCloudSecret>> getQCloudSecret();
 
-    /**
-     * 上传图片
+     /**
+      *上传图片
      */
     @POST(UPLOAD_PIC)
-    @FormUrlEncoded
-    Observable<ResultResponse<String>> uploadImage(@Field("module") String module, @Field("file")
-            String upFile, @Field("authkey") String authKey, @Field("image") String image);
+    @Multipart
+    Observable<ResultResponse<UpImage>> uploadImage(@Part List<MultipartBody.Part> part);
 
     /**
      * 发布头条  type 1 视频 2 图片 3 文章
@@ -173,17 +175,19 @@ public interface ApiService {
      * 发布小视频
      */
     @POST(PUBLISH_SMALL_VIDEO)
-    Observable<ResultResponse<String>> publishSmallVideo(@Query("authkey") String authKey, @Query
+    @FormUrlEncoded
+    Observable<ResultResponse<String>> publishSmallVideo(@Field("authkey") String authKey, @Field
             ("title") String title,
-                                                         @Query("filePaht") String filePath,
-                                                         @Query("ETag") String eTag,
-                                                         @Query("thumb") String thumb);
+                                                         @Field("filePaht") String filePath,
+                                                         @Field("ETag") String eTag,
+                                                         @Field("thumb") String thumb);
 
     /**
      * 获取用户信息
      */
     @POST(GET_USER_INFO)
-    Observable<ResultResponse<User>> getUserInfo(@Query("authkey") String authKey);
+    @FormUrlEncoded
+    Observable<ResultResponse<User>> getUserInfo(@Field("authkey") String authKey);
 
 }
 

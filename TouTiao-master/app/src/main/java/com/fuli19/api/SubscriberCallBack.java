@@ -5,6 +5,8 @@ import com.fuli19.model.response.ResultResponse;
 import com.fuli19.utils.PreUtils;
 import com.socks.library.KLog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import rx.Subscriber;
 
 /**
@@ -16,7 +18,6 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
 
     @Override
     public void onNext(ResultResponse response) {
-     //   boolean isSuccess = (!TextUtils.isEmpty(response.msg) && response.msg.equals("success"));
         boolean isSuccess = response.r==1;
         if (isSuccess) {
             String msg = response.msg;
@@ -27,8 +28,10 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
             onSuccess((T) response.data);
         } else {
             //其他地方登录 authKey失效
-            if (response.r==2)
-                PreUtils.putString(Constant.AUTH_KEY,"");
+            if (response.r==2) {
+                PreUtils.putString(Constant.AUTH_KEY, "");
+                EventBus.getDefault().post(Constant.QUIT);
+            }
             onFailure(response);
         }
     }

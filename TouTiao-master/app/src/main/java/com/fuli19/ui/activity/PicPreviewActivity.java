@@ -3,6 +3,7 @@ package com.fuli19.ui.activity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fuli19.R;
@@ -12,6 +13,7 @@ import com.fuli19.ui.adapter.PicPreviewAdapter;
 import com.fuli19.ui.base.BaseActivity;
 import com.fuli19.ui.base.BasePresenter;
 import com.fuli19.utils.GlideUtils;
+import com.fuli19.utils.UIUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,6 +22,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class PicPreviewActivity extends BaseActivity {
+
+    @BindView(R.id.pic_preview_top_layout)
+    RelativeLayout mTitleLayout;
 
     @BindView(R.id.pic_preview_vp)
     ViewPager mPreviewVp;
@@ -84,6 +89,14 @@ public class PicPreviewActivity extends BaseActivity {
     @Override
     public void initData() {
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void initView() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTitleLayout
+                .getLayoutParams();
+        params.topMargin = UIUtils.getStatusHeight();
+        mTitleLayout.setLayoutParams(params);
     }
 
     @OnClick({R.id.pic_preview_close})

@@ -39,4 +39,8 @@ public class Constant {
     /**获取SharedPreference保存的值*/
     public static final String AUTH_KEY = "authKey";
 
+    /**EventBus*/
+    public static final int LOGIN_SUCCESS = 200;
+    public static final int QUIT = 100;
+
 }

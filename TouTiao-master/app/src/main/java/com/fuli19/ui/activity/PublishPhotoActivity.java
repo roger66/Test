@@ -2,9 +2,13 @@ package com.fuli19.ui.activity;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.fuli19.R;
 import com.fuli19.media.AlbumFile;
 import com.fuli19.ui.adapter.ChoosePhotoAdapter;
@@ -12,7 +16,10 @@ import com.fuli19.ui.base.BaseActivity;
 import com.fuli19.ui.dialog.PhotoListDialog;
 import com.fuli19.ui.presenter.PublishPresenter;
 import com.fuli19.ui.view.GridItemDecoration;
+import com.fuli19.utils.UIUtils;
 import com.fuli19.view.IUploadView;
+import com.maning.mndialoglibrary.MProgressBarDialog;
+import com.maning.mndialoglibrary.MProgressDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +34,17 @@ public class PublishPhotoActivity extends BaseActivity<PublishPresenter> impleme
     @BindView(R.id.publish_photo_rv)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.publish_photo_edit)
+    EditText mEditText;
+
     @BindView(R.id.publish_photo_publish)
     TextView mPublishBtn;
 
+    private String title;
     private List<AlbumFile> mData = new ArrayList<>();
     private ChoosePhotoAdapter mChooseAdapter;
     private PhotoListDialog mPhotoDialog;
+    private MProgressBarDialog mProgressBarDialog;
 
     @Override
     protected PublishPresenter createPresenter() {
@@ -55,18 +67,32 @@ public class PublishPhotoActivity extends BaseActivity<PublishPresenter> impleme
         mRecyclerView.setAdapter(mChooseAdapter);
         mPhotoDialog = new PhotoListDialog();
         mPhotoDialog.setOnPhotoSelectedListener(onPhotoSelectedListener);
+        mProgressBarDialog = new MProgressBarDialog.Builder(this).setStyle(MProgressBarDialog
+                .MProgressBarDialogStyle_Horizontal).build();
     }
 
 
     @Override
     public void initListener() {
-        mChooseAdapter.setOnItemClickListener((adapter, view, i) -> {
-            int type = adapter.getItemViewType(i);
-            if (type == ChoosePhotoAdapter.TYPE_CHOOSE) {
-                if (mPhotoDialog != null)
-                    mPhotoDialog.show(getSupportFragmentManager());
-            } else {
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int i) {
+                int type = adapter.getItemViewType(i);
+                if (type == ChoosePhotoAdapter.TYPE_CHOOSE) {
+                    if (mPhotoDialog != null) {
+                        mPhotoDialog.setCount(mData.size());
+                        mPhotoDialog.show(getSupportFragmentManager());
+                    }
+                } else {
 
+                }
+            }
+
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                mChooseAdapter.remove(position);
+                if (mData.size() == 0)
+                    mPublishBtn.setEnabled(false);
             }
         });
     }
@@ -78,9 +104,9 @@ public class PublishPhotoActivity extends BaseActivity<PublishPresenter> impleme
         mChooseAdapter.notifyDataSetChanged();
     };
 
-    @OnClick({R.id.publish_photo_cancel,R.id.publish_photo_publish})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.publish_photo_cancel, R.id.publish_photo_publish})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.publish_photo_cancel:
                 finish();
                 break;
@@ -90,15 +116,21 @@ public class PublishPhotoActivity extends BaseActivity<PublishPresenter> impleme
         }
     }
 
-    private void upload(){
+    private void upload() {
+        title = mEditText.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            UIUtils.showToast("请输入您的想法");
+            return;
+        }
+        mProgressBarDialog.showProgress(0, "正在上传 " + 0 + "%");
         LinkedBlockingQueue<AlbumFile> fileQueue = new LinkedBlockingQueue<>();
         fileQueue.addAll(mData);
-        mPresenter.uploadImage(fileQueue);
+        mPresenter.uploadImage(fileQueue, fileQueue.size());
     }
 
     @Override
     public void onUploadProgress(int progress) {
-
+        mProgressBarDialog.showProgress(progress, "正在上传 " + progress + "%");
     }
 
     @Override
@@ -108,16 +140,23 @@ public class PublishPhotoActivity extends BaseActivity<PublishPresenter> impleme
 
     @Override
     public void onImageUploadSuccess() {
+        mProgressBarDialog.dismiss();
+        MProgressDialog.showProgress(this, "正在发布...");
+        mPresenter.publishImage(title);
 
     }
 
     @Override
     public void onPublishSuccess() {
-
+        MProgressDialog.dismissProgress();
+        UIUtils.showToast("发布成功 请等待审核");
+        finish();
     }
 
     @Override
     public void onError(String msg) {
-
+        UIUtils.showToast(msg);
+        MProgressDialog.dismissProgress();
+        mProgressBarDialog.dismiss();
     }
 }

@@ -49,10 +49,10 @@ public class LoadingFlashView extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mLoad1 = ((ImageView) findViewById(R.id.load1));
-        mLoad2 = ((ImageView) findViewById(R.id.load2));
-        mLoad3 = ((ImageView) findViewById(R.id.load3));
-        mLoad4 = ((ImageView) findViewById(R.id.load4));
+        mLoad1 = findViewById(R.id.load1);
+        mLoad2 =  findViewById(R.id.load2);
+        mLoad3 = findViewById(R.id.load3);
+        mLoad4 = findViewById(R.id.load4);
         showLoading();
     }
 

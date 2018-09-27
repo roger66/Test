@@ -13,8 +13,12 @@ import com.fuli19.constants.Constant;
 import com.fuli19.ui.base.BaseActivity;
 import com.fuli19.ui.presenter.LoginPresenter;
 import com.fuli19.utils.PreUtils;
+import com.fuli19.utils.UIUtils;
 import com.fuli19.view.ILoginView;
 import com.maning.mndialoglibrary.MProgressDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,6 +48,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     @Override
     public void initView() {
         Eyes.setStatusBarColor(this,R.color.black);
+    }
+
+    @Override
+    public void initData() {
+        registerEventBus(this);
     }
 
     @Override
@@ -94,7 +103,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     public void onLoginSuccess(String authKey) {
         MProgressDialog.dismissProgress();
         PreUtils.putString(Constant.AUTH_KEY,authKey);
-        finish();
+        EventBus.getDefault().post(Constant.LOGIN_SUCCESS);
     }
 
     @Override
@@ -103,6 +112,24 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
     @Override
+    public void onCanRegister() {
+
+    }
+
+    @Override
     public void onError() {
+        UIUtils.showToast("登录失败");
+    }
+
+    @Subscribe
+    public void onEvent(Integer code){
+        if (code==Constant.LOGIN_SUCCESS)
+            finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterEventBus(this);
     }
 }

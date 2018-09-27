@@ -7,13 +7,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuli19.R;
+import com.fuli19.constants.Constant;
 import com.fuli19.model.entity.User;
 import com.fuli19.ui.activity.LoginActivity;
+import com.fuli19.ui.activity.RegisterActivity;
+import com.fuli19.ui.activity.SettingActivity;
 import com.fuli19.ui.base.BaseFragment;
 import com.fuli19.ui.presenter.MinePresenter;
 import com.fuli19.utils.GlideUtils;
 import com.fuli19.utils.WelfareHelper;
 import com.fuli19.view.IMineView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,16 +63,26 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
 
     @Override
     protected int provideContentViewId() {
-        return  R.layout.fragment_mine;
+        return R.layout.fragment_mine;
+    }
+
+    @Override
+    public void initData() {
+        registerEventBus(this);
     }
 
     @Override
     public void initView(View rootView) {
-        if (WelfareHelper.isLoginBool()){
+        showLogin();
+    }
+
+    private void showLogin() {
+        if (WelfareHelper.isLoginBool()) {
             mNoLoginBg.setVisibility(View.GONE);
             mUserTopBg.setVisibility(View.VISIBLE);
             mUserDynamicBg.setVisibility(View.VISIBLE);
-        }else {
+            mPresenter.getUserInfo();
+        } else {
             mNoLoginBg.setVisibility(View.VISIBLE);
             mUserTopBg.setVisibility(View.INVISIBLE);
             mUserDynamicBg.setVisibility(View.INVISIBLE);
@@ -75,8 +91,6 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
 
     @Override
     protected void loadData() {
-        if (WelfareHelper.isLoginBool())
-            mPresenter.getUserInfo();
     }
 
 
@@ -90,23 +104,39 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
 
     }
 
-    private void setUserInfo(User user){
-        GlideUtils.load(getContext(),user.portrait,mUserHeadImg);
+    private void setUserInfo(User user) {
+        GlideUtils.load(getContext(), user.portrait, mUserHeadImg);
         mUserNameTv.setText(user.nickname);
         mAttentionCountTv.setText(user.follow_num);
         mFansCountTv.setText(user.fans_num);
         mDynamicCountTv.setText(user.dynamic_num);
     }
 
-    @OnClick({R.id.mine_login,R.id.mine_register})
-    public void onClick(View view){
-        switch (view.getId()){
+    @Subscribe
+    public void onEvent(Integer code) {
+        if (code == Constant.QUIT || code == Constant.LOGIN_SUCCESS)
+            showLogin();
+    }
+
+    @OnClick({R.id.mine_login, R.id.mine_register,R.id.mine_setting_bg})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.mine_login:
-                startActivity(new Intent(getContext(),LoginActivity.class));
+                startActivity(new Intent(getContext(), LoginActivity.class));
                 break;
             case R.id.mine_register:
-                startActivity(new Intent(getContext(),LoginActivity.class));
+                startActivity(new Intent(getContext(), RegisterActivity.class));
+                break;
+            case R.id.mine_setting_bg:
+                if (WelfareHelper.isLogin())
+                startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unregisterEventBus(this);
     }
 }

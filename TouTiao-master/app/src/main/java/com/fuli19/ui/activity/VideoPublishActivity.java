@@ -168,6 +168,7 @@ public class VideoPublishActivity extends BaseActivity<PublishPresenter> impleme
     @Override
     public void onPublishSuccess() {
         MProgressDialog.dismissProgress();
+        UIUtils.showToast("发布成功 请等待审核");
         startActivity(new Intent(this,MainActivity.class));
     }
 

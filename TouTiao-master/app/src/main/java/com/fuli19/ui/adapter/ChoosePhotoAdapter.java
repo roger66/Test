@@ -28,7 +28,8 @@ public class ChoosePhotoAdapter extends BaseQuickAdapter<AlbumFile,BaseViewHolde
         ImageView img = holder.getView(R.id.item_choose_photo_iv);
         addBg.setVisibility(type==TYPE_CHOOSE?View.VISIBLE:View.GONE);
         if (type==TYPE_PICTURE)
-        GlideUtils.load(mContext,file.getPath(),img);
+            GlideUtils.load(mContext,file.getPath(),img);
+        holder.addOnClickListener(R.id.item_choose_photo_delete);
     }
 
     @Override

@@ -30,6 +30,7 @@ public class PhotoListDialog extends BaseBottomDialog {
     @BindView(R.id.dialog_photo_list_finish)
     TextView mFinishBtn;
 
+    private int count;
     private PhotoListAdapter mPhotoAdapter;
     private OnPhotoSelectedListener onPhotoSelectedListener;
     private List<AlbumFile> mSelectedData = new ArrayList<>();
@@ -41,28 +42,45 @@ public class PhotoListDialog extends BaseBottomDialog {
 
     @Override
     public void bindView(View v) {
-        ButterKnife.bind(this,v);
+        ButterKnife.bind(this, v);
         mSelectedData.clear();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),4));
-        mRecyclerView.addItemDecoration(new GridItemDecoration(getContext().getResources().getDimensionPixelSize(R.dimen.dp_2),4));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        mRecyclerView.addItemDecoration(new GridItemDecoration(getContext().getResources()
+                .getDimensionPixelSize(R.dimen.dp_2), 4));
         mPhotoAdapter = new PhotoListAdapter();
         mRecyclerView.setAdapter(mPhotoAdapter);
         mPhotoAdapter.setOnItemClickListener((adapter, view, i) -> {
-            AlbumFile file = (AlbumFile) adapter.getData().get(i);
+            List<AlbumFile> data = (List<AlbumFile>) adapter.getData();
+            AlbumFile file = data.get(i);
+            if (file.isDisable())
+                return;
             file.setChecked(!file.isChecked());
             mPhotoAdapter.notifyItemChanged(i);
-            if (file.isChecked()){
+            if (file.isChecked()) {
                 mSelectedData.add(file);
-            }else {
+            } else {
                 if (mSelectedData.contains(file))
                     mSelectedData.remove(file);
             }
             mFinishBtn.setEnabled(!mSelectedData.isEmpty());
+            if (file.isChecked()) {
+                if (mSelectedData.size() >= 10 - count) {
+                    for (AlbumFile albumFile : data) {
+                        if (!albumFile.isChecked())
+                            albumFile.setDisable(true);
+                    }
+                    mPhotoAdapter.notifyDataSetChanged();
+                }
+            } else {
+                for (AlbumFile albumFile : data)
+                    albumFile.setDisable(false);
+                mPhotoAdapter.notifyDataSetChanged();
+            }
         });
         getAllImage();
     }
 
-    public void getAllImage(){
+    public void getAllImage() {
         new MediaReadTask(UIUtils.getContext(), MediaReader.FUNCTION_CHOICE_IMAGE, albumFolders -> {
             List<AlbumFile> files = new ArrayList<>();
             for (AlbumFolder folder : albumFolders)
@@ -71,19 +89,22 @@ public class PhotoListDialog extends BaseBottomDialog {
         }).execute();
     }
 
-    @OnClick({R.id.dialog_photo_list_finish,R.id.dialog_photo_list_close})
-    public void onClick(View view){
-        if (view.getId() == R.id.dialog_photo_list_finish){
-            if (onPhotoSelectedListener!=null)
+    @OnClick({R.id.dialog_photo_list_finish, R.id.dialog_photo_list_close})
+    public void onClick(View view) {
+        if (view.getId() == R.id.dialog_photo_list_finish) {
+            if (onPhotoSelectedListener != null)
                 onPhotoSelectedListener.onPhotoSelected(mSelectedData);
         }
         dismiss();
     }
 
-
     @Override
     public int getHeight() {
         return getContext().getResources().getDisplayMetrics().heightPixels;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public void setOnPhotoSelectedListener(OnPhotoSelectedListener onPhotoSelectedListener) {

@@ -1,6 +1,7 @@
 package com.fuli19.ui.presenter;
 
 import com.fuli19.api.SubscriberCallBack;
+import com.fuli19.app.MyApp;
 import com.fuli19.model.entity.CommentData;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.entity.NewsDetail;
@@ -23,7 +24,7 @@ public class NewsDetailPresenter extends BasePresenter<INewsDetailView> {
     }
 
     public void getComment(String itemId, int pageNow) {
-        addSubscription(mApiService.getComment( itemId,pageNow), new SubscriberCallBack<List<CommentData>>() {
+        addSubscription(mApiService.getComment(itemId,pageNow,MyApp.getKey()), new SubscriberCallBack<List<CommentData>>() {
 
             @Override
             protected void onSuccess(List<CommentData> response) {
@@ -45,7 +46,7 @@ public class NewsDetailPresenter extends BasePresenter<INewsDetailView> {
 
     //获取视频详情
     public void getVideoDetail(String id) {
-        addSubscription(mApiService.getVideoDetail(id), new SubscriberCallBack<NewsDetail>() {
+        addSubscription(mApiService.getVideoDetail(id,MyApp.getKey()), new SubscriberCallBack<NewsDetail>() {
 
             @Override
             protected void onSuccess(NewsDetail response) {
@@ -61,7 +62,7 @@ public class NewsDetailPresenter extends BasePresenter<INewsDetailView> {
 
     //获取视频详情推荐
     public void getVideoDetailRecommend(String id) {
-        addSubscription(mApiService.getVideoDetailRecommend(id), new SubscriberCallBack<List<News>>() {
+        addSubscription(mApiService.getVideoDetailRecommend(id,MyApp.getKey()), new SubscriberCallBack<List<News>>() {
 
             @Override
             protected void onSuccess(List<News> response) {
@@ -78,7 +79,7 @@ public class NewsDetailPresenter extends BasePresenter<INewsDetailView> {
 
     //获取长文章详情
     public void getLongArticleDetail(String id) {
-        addSubscription(mApiService.getLongArticleDetail(id), new SubscriberCallBack<NewsDetail>() {
+        addSubscription(mApiService.getLongArticleDetail(id,MyApp.getKey()), new SubscriberCallBack<NewsDetail>() {
             @Override
             protected void onSuccess(NewsDetail response) {
                 mView.onGetNewsDetailSuccess(response);
