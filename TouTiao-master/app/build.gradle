@@ -36,6 +36,7 @@ android {
                             'src/main/res/home',
                             'src/main/res/video',
                             'src/main/res/micro',
+                            'src/main/res/small',
                             'src/main/res/mine'
                     ]//res 目录的拆分
         }

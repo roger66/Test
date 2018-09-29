@@ -5,6 +5,7 @@
     <string name="tab_home">首页</string>
     <string name="tab_video">视频</string>
     <string name="tab_micro">微头条</string>
+    <string name="tab_small">小视频</string>
     <string name="tab_me">我的</string>
 
     <string name="comment">评论</string>

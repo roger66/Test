@@ -15,6 +15,7 @@ import com.fuli19.ui.base.BasePresenter;
 import com.fuli19.ui.fragment.HomeFragment;
 import com.fuli19.ui.fragment.MicroFragment;
 import com.fuli19.ui.fragment.MineFragment;
+import com.fuli19.ui.fragment.SmallFragment;
 import com.fuli19.ui.fragment.VideoFragment;
 import com.fuli19.utils.UIUtils;
 
@@ -42,8 +43,9 @@ public class MainActivity extends BaseActivity {
 
     private int[] mStatusColors = new int[]{
             R.color.color_D33D3C,
-            R.color.color_BDBDBD,
-            R.color.color_BDBDBD,
+           android.R.color.white,
+            android.R.color.white,
+            android.R.color.white,
             R.color.color_373737,
     };
 
@@ -67,6 +69,7 @@ public class MainActivity extends BaseActivity {
         mFragments = new ArrayList<>(4);
         mFragments.add(new HomeFragment());
         mFragments.add(new VideoFragment());
+        mFragments.add(new SmallFragment());
         mFragments.add(new MicroFragment());
         mFragments.add(new MineFragment());
     }

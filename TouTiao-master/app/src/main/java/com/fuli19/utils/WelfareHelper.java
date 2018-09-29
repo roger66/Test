@@ -9,8 +9,7 @@ import com.fuli19.ui.activity.LoginActivity;
 
 public class WelfareHelper {
 
-    public static boolean isLogin() {
-        Context context = UIUtils.getContext();
+    public static boolean isLogin(Context context) {
         if (TextUtils.isEmpty(MyApp.getKey())) {
             context.startActivity(new Intent(context, LoginActivity.class));
             return false;

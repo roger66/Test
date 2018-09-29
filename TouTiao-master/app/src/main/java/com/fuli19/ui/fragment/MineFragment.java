@@ -7,9 +7,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuli19.R;
+import com.fuli19.app.MyApp;
 import com.fuli19.constants.Constant;
 import com.fuli19.model.entity.User;
 import com.fuli19.ui.activity.LoginActivity;
+import com.fuli19.ui.activity.PersonalActivity;
 import com.fuli19.ui.activity.RegisterActivity;
 import com.fuli19.ui.activity.SettingActivity;
 import com.fuli19.ui.base.BaseFragment;
@@ -56,6 +58,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
     @BindView(R.id.mine_user_fans_count)
     TextView mFansCountTv;
 
+    private User mUser;
+
     @Override
     protected MinePresenter createPresenter() {
         return new MinePresenter(this);
@@ -91,6 +95,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
 
     @Override
     protected void loadData() {
+        System.out.println("------------- "+MyApp.getKey());
     }
 
 
@@ -105,6 +110,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
     }
 
     private void setUserInfo(User user) {
+        mUser = user;
         GlideUtils.load(getContext(), user.portrait, mUserHeadImg);
         mUserNameTv.setText(user.nickname);
         mAttentionCountTv.setText(user.follow_num);
@@ -118,7 +124,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
             showLogin();
     }
 
-    @OnClick({R.id.mine_login, R.id.mine_register,R.id.mine_setting_bg})
+    @OnClick({R.id.mine_login, R.id.mine_register,R.id.mine_setting_bg,R.id.mine_user_dynamic_bg})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mine_login:
@@ -128,8 +134,16 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
                 startActivity(new Intent(getContext(), RegisterActivity.class));
                 break;
             case R.id.mine_setting_bg:
-                if (WelfareHelper.isLogin())
+                if (WelfareHelper.isLogin(getContext()))
                 startActivity(new Intent(getContext(), SettingActivity.class));
+                break;
+            case R.id.mine_user_dynamic_bg:
+                if (WelfareHelper.isLogin(getContext())) {
+                    if (mUser!=null) {
+                        startActivity(new Intent(getContext(), PersonalActivity.class));
+                        EventBus.getDefault().postSticky(mUser);
+                    }
+                }
                 break;
         }
     }

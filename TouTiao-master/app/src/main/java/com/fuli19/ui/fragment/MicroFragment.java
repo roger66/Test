@@ -97,8 +97,7 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
         refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.color_F3F5F4);//背景色
         refreshViewHolder.setPullDownRefreshText(UIUtils.getString(R.string
                 .refresh_pull_down_text));//下拉的提示文字
-        refreshViewHolder.setReleaseRefreshText(UIUtils.getString(R.string.refresh_release_text))
-        ;//松开的提示文字
+        refreshViewHolder.setReleaseRefreshText(UIUtils.getString(R.string.refresh_release_text));//松开的提示文字
         refreshViewHolder.setRefreshingText(UIUtils.getString(R.string.refresh_ing_text));//刷新中的提示文字
 
 
@@ -231,7 +230,7 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
                 .setMargin(0, 15, 30, 0)
                 .setMenuItems(menus)
                 .setOnMenuItemClickListener(position -> {
-                    if (!WelfareHelper.isLogin())
+                    if (!WelfareHelper.isLogin(getContext()))
                         return;
                     Intent intent = new Intent();
                     switch (position) {

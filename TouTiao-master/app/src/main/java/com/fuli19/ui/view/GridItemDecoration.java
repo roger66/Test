@@ -20,8 +20,7 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration{
         outRect.left = space;
         outRect.bottom = space;
         //由于每行都只有count个，所以第一个都是count的倍数，把左边距设为0
-        if (parent.getChildLayoutPosition(view) %count==0) {
+        if (parent.getChildLayoutPosition(view) %count==0)
             outRect.left = 0;
-        }
     }
 }

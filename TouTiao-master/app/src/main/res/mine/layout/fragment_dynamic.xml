@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView
+        android:id="@+id/dynamic_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dividerColor="@color/color_EEEEEE"
+        app:dividerMarginLeft="10dp"
+        app:dividerMarginRight="10dp"
+        app:dividerSize="0.5dp" />
+
+</LinearLayout>

@@ -69,6 +69,7 @@
                 android:visibility="invisible">
 
                 <LinearLayout
+                    android:id="@+id/mine_user_dynamic_bg"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"

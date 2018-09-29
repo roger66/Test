@@ -2,6 +2,7 @@ package com.fuli19.api;
 
 import com.fuli19.model.entity.Channel;
 import com.fuli19.model.entity.CommentData;
+import com.fuli19.model.entity.Dynamic;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.entity.NewsDetail;
 import com.fuli19.model.entity.QCloudSecret;
@@ -56,6 +57,8 @@ public interface ApiService {
 
     //发布小视频
     String PUBLISH_SMALL_VIDEO = BASE_URL + "api.server.release_small_video.php";
+    //获取小视频列表
+    String GET_SMALL_LIST = BASE_URL + "api.server.small_video_list.php";
     //发布头条
     String PUBLISH_HEAD_LINE = BASE_URL + "api.server.release_headline.php";
 
@@ -65,6 +68,8 @@ public interface ApiService {
 
     //获取用户信息
     String GET_USER_INFO = BASE_URL + "api.user.index.php";
+    //获取用户动态
+    String GET_USER_DYNAMIC = BASE_URL+"api.server.dynamic.php";
 
     /**
      * 注册
@@ -183,11 +188,25 @@ public interface ApiService {
                                                          @Field("thumb") String thumb);
 
     /**
+     * 获取小视频列表
+     */
+    @POST(GET_SMALL_LIST)
+    @FormUrlEncoded
+    Observable<ResultResponse<List<News>>> getSmallList(@Field("authkey") String authKey,@Field("classid") String classid,@Field("page") int page);
+
+    /**
      * 获取用户信息
      */
     @POST(GET_USER_INFO)
     @FormUrlEncoded
     Observable<ResultResponse<User>> getUserInfo(@Field("authkey") String authKey);
+
+    /**
+     * 获取用户动态
+     */
+    @POST(GET_USER_DYNAMIC)
+    @FormUrlEncoded
+    Observable<ResultResponse<Dynamic>> getUserDynamic(@Field("authkey") String authKey, @Field("type") int type, @Field("page") int page);
 
 }
 
