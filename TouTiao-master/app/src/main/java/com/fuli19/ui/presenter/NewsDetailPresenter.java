@@ -23,6 +23,7 @@ public class NewsDetailPresenter extends BasePresenter<INewsDetailView> {
         super(view);
     }
 
+    //获取评论列表
     public void getComment(String itemId, int pageNow) {
         addSubscription(mApiService.getComment(itemId,pageNow,MyApp.getKey()), new SubscriberCallBack<List<CommentData>>() {
 

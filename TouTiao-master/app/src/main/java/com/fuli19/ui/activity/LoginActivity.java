@@ -118,7 +118,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     public void onError() {
+        MProgressDialog.dismissProgress();
         UIUtils.showToast("登录失败");
+    }
+
+    @Override
+    public void onFailed(String msg) {
+        MProgressDialog.dismissProgress();
+        UIUtils.showToast(msg);
     }
 
     @Subscribe

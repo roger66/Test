@@ -1,5 +1,6 @@
 package com.fuli19.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import com.fuli19.R;
 import com.fuli19.constants.Constant;
 import com.fuli19.listener.OnChannelListener;
 import com.fuli19.model.entity.Channel;
+import com.fuli19.ui.activity.SearchActivity;
 import com.fuli19.ui.adapter.ChannelPagerAdapter;
 import com.fuli19.ui.base.BaseFragment;
 import com.fuli19.ui.presenter.HomePresenter;
@@ -163,11 +165,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements OnChann
         return mSelectedChannels.get(currentItem).id;
     }
 
-    @OnClick({R.id.tv_search, R.id.iv_operation})
+    @OnClick({R.id.home_search, R.id.iv_operation})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_search:
-
+            case R.id.home_search:
+                startActivity(new Intent(getContext(),SearchActivity.class));
                 break;
             case R.id.iv_operation:
                 ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(mSelectedChannels, mUnSelectedChannels);

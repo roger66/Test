@@ -19,6 +19,7 @@ import com.fuli19.view.IPersonalView;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import flyn.Eyes;
 
@@ -72,6 +73,11 @@ public class PersonalActivity extends BaseActivity{
         mUserName.setText(user.nickname);
         mAttentionCount.setText(user.follow_num);
         mFansCount.setText(user.fans_num);
+    }
+
+    @OnClick(R.id.personal_back)
+    public void onClick(){
+        finish();
     }
 
     @Override

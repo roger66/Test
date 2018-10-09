@@ -4,6 +4,8 @@ public interface ILoginView {
 
     void onLoginSuccess(String authKey);
 
+    void onFailed(String msg);
+
     void onRegisterSuccess(String authKey);
 
     void onCanRegister();

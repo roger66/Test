@@ -6,6 +6,7 @@ import com.fuli19.model.entity.Dynamic;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.entity.NewsDetail;
 import com.fuli19.model.entity.QCloudSecret;
+import com.fuli19.model.entity.SearchMatchedData;
 import com.fuli19.model.entity.UpImage;
 import com.fuli19.model.entity.User;
 import com.fuli19.model.response.ResultResponse;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
@@ -36,12 +38,18 @@ public interface ApiService {
     String GET_TAG_LIST = BASE_URL + "api.server.get_index_tag.php";
     String GET_ARTICLE_LIST = BASE_URL + "api.server.get_index_content.php";
 
+    //搜索
+    String SEARCH_MATCHING = BASE_URL+"api.server.search_matching.php";
+
     //详情
     String GET_VIDEO_DETAIL = BASE_URL + "api.server.video_detail.php";
 
     String GET_VIDEO_DETAIL_RECOMMEND = BASE_URL + "api.server.video_detail_recommend.php";
     String GET_LONG_ARTICLE_DETAIL = BASE_URL + "api.server.long_article_detail.php";
-    String GET_COMMENT_LIST = BASE_URL + "/api.server.get_comment_list.php";
+    String GET_COMMENT_LIST = BASE_URL + "api.server.get_comment_list.php";
+
+    //评论
+    String SEND_COMMENT = BASE_URL + "api.server.comment.php";
 
     //视频页
     String GET_VIDEO_CLASS = BASE_URL + "api.server.video_class.php";
@@ -69,21 +77,23 @@ public interface ApiService {
     //获取用户信息
     String GET_USER_INFO = BASE_URL + "api.user.index.php";
     //获取用户动态
-    String GET_USER_DYNAMIC = BASE_URL+"api.server.dynamic.php";
+    String GET_USER_DYNAMIC = BASE_URL + "api.server.dynamic.php";
 
     /**
      * 注册
      */
     @POST(REGISTER)
     @FormUrlEncoded
-    Observable<ResultResponse<String>> register(@Field("mobile") String mobile,@Field("password") String password);
+    Observable<ResultResponse<String>> register(@Field("mobile") String mobile, @Field
+            ("password") String password);
 
     /**
      * 登录
      */
     @POST(LOGIN)
     @FormUrlEncoded
-    Observable<ResultResponse<String>> login(@Field("username") String username,@Field("password") String password);
+    Observable<ResultResponse<String>> login(@Field("username") String username, @Field
+            ("password") String password);
 
 
     /**
@@ -91,14 +101,16 @@ public interface ApiService {
      */
     @POST(GET_ARTICLE_LIST)
     @FormUrlEncoded
-    Observable<ResultResponse<List<News>>> getNewsList(@Field("type") String type,@Field("page") int page, @Field("authkey") String authKey);
+    Observable<ResultResponse<List<News>>> getNewsList(@Field("type") String type, @Field("page")
+            int page, @Field("authkey") String authKey);
 
     /**
      * 获取视频文章列表
      */
     @POST(GET_ARTICLE_LIST)
     @FormUrlEncoded
-    Observable<ResultResponse<List<News>>> getVideoNewsList(@Field("type") String type,@Field("classid") String classid,@Field("page") int page, @Field("authkey") String authKey);
+    Observable<ResultResponse<List<News>>> getVideoNewsList(@Field("type") String type, @Field
+            ("classid") String classid, @Field("page") int page, @Field("authkey") String authKey);
 
     /**
      * 获取分类列表
@@ -111,28 +123,48 @@ public interface ApiService {
      */
     @POST(GET_VIDEO_DETAIL)
     @FormUrlEncoded
-    Observable<ResultResponse<NewsDetail>> getVideoDetail(@Field("id") String id,@Field("authkey") String authKey);
+    Observable<ResultResponse<NewsDetail>> getVideoDetail(@Field("id") String id, @Field
+            ("authkey") String authKey);
 
     /**
      * 获取视频推荐详情
      */
     @POST(GET_VIDEO_DETAIL_RECOMMEND)
     @FormUrlEncoded
-    Observable<ResultResponse<List<News>>> getVideoDetailRecommend(@Field("id") String id,@Field("authkey") String authKey);
+    Observable<ResultResponse<List<News>>> getVideoDetailRecommend(@Field("id") String id, @Field
+            ("authkey") String authKey);
 
     /**
      * 获取长文章详情
      */
     @POST(GET_LONG_ARTICLE_DETAIL)
     @FormUrlEncoded
-    Observable<ResultResponse<NewsDetail>> getLongArticleDetail(@Field("id") String id,@Field("authkey") String authKey);
+    Observable<ResultResponse<NewsDetail>> getLongArticleDetail(@Field("id") String id, @Field
+            ("authkey") String authKey);
+
+    /**
+     * 搜索关键字匹配
+     */
+    @POST(SEARCH_MATCHING)
+    @FormUrlEncoded
+    Observable<ResultResponse<List<List<SearchMatchedData>>>> searchMatched( @Field("key") String key);
+
+
+    /**
+     * 发送评论
+     */
+    @POST(SEND_COMMENT)
+    @FormUrlEncoded
+    Call<ResultResponse> sendComment(@Field("id") String id, @Field("authkey") String
+            authKey, @Field("content") String content, @Field("comment_id") String commentId);
 
     /**
      * 获取评论列表数据
      */
     @POST(GET_COMMENT_LIST)
     @FormUrlEncoded
-    Observable<ResultResponse<List<CommentData>>> getComment(@Field("nid") String id,@Field("page") int page,@Field("authkey") String authKey);
+    Observable<ResultResponse<List<CommentData>>> getComment(@Field("nid") String id, @Field
+            ("page") int page, @Field("authkey") String authKey);
 
     /**
      * 获取视频分类
@@ -145,7 +177,8 @@ public interface ApiService {
      */
     @POST(GET_MICRO_LIST)
     @FormUrlEncoded
-    Observable<ResultResponse<List<News>>> getMicroList(@Field("page") int page ,@Field("authkey") String authkey);
+    Observable<ResultResponse<List<News>>> getMicroList(@Field("page") int page, @Field
+            ("authkey") String authkey);
 
 
     /**
@@ -154,8 +187,8 @@ public interface ApiService {
     @POST(GET_TENCENT_SECRET)
     Observable<ResultResponse<QCloudSecret>> getQCloudSecret();
 
-     /**
-      *上传图片
+    /**
+     * 上传图片
      */
     @POST(UPLOAD_PIC)
     @Multipart
@@ -166,7 +199,8 @@ public interface ApiService {
      */
     @POST(PUBLISH_HEAD_LINE)
     @FormUrlEncoded
-    Observable<ResultResponse<String>> publishHeadLine(@Field("authkey") String authKey, @Field("imgs") String imgs,
+    Observable<ResultResponse<String>> publishHeadLine(@Field("authkey") String authKey, @Field
+            ("imgs") String imgs,
                                                        @Field("title") String title, @Field
                                                                ("ETag") String eTag,
                                                        @Field("source") String source,
@@ -192,7 +226,8 @@ public interface ApiService {
      */
     @POST(GET_SMALL_LIST)
     @FormUrlEncoded
-    Observable<ResultResponse<List<News>>> getSmallList(@Field("authkey") String authKey,@Field("classid") String classid,@Field("page") int page);
+    Observable<ResultResponse<List<News>>> getSmallList(@Field("authkey") String authKey, @Field
+            ("classid") String classid, @Field("page") int page);
 
     /**
      * 获取用户信息
@@ -206,7 +241,8 @@ public interface ApiService {
      */
     @POST(GET_USER_DYNAMIC)
     @FormUrlEncoded
-    Observable<ResultResponse<Dynamic>> getUserDynamic(@Field("authkey") String authKey, @Field("type") int type, @Field("page") int page);
+    Observable<ResultResponse<Dynamic>> getUserDynamic(@Field("authkey") String authKey, @Field
+            ("type") int type, @Field("page") int page);
 
 }
 

@@ -137,7 +137,7 @@ public class ChooseVideoActivity extends BaseActivity<ChooseFilePresenter> imple
             UIUtils.showToast("不支持上传15分钟以上的视频");
             return 0;
         }
-        if (size > 150 * 1024 * 1024) {
+        if (size > 300 * 1024 * 1024) {
             UIUtils.showToast("视频太大了");
             return 0;
         }

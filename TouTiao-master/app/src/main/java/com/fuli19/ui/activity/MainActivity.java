@@ -43,9 +43,9 @@ public class MainActivity extends BaseActivity {
 
     private int[] mStatusColors = new int[]{
             R.color.color_D33D3C,
-           android.R.color.white,
-            android.R.color.white,
-            android.R.color.white,
+            R.color.color_BDBDBD,
+            R.color.color_BDBDBD,
+            R.color.color_BDBDBD,
             R.color.color_373737,
     };
 
@@ -92,9 +92,11 @@ public class MainActivity extends BaseActivity {
                     //如果当前页码和点击的页码一致,进行下拉刷新
                     String channelCode = "";
                     if (position == 0) {
-                        channelCode = ((HomeFragment) mFragments.get(0)).getCurrentChannelCode();//获取到首页当前显示的fragment的频道
+                        channelCode = ((HomeFragment) mFragments.get(0)).getCurrentChannelCode();
+                        //获取到首页当前显示的fragment的频道
                     } else {
-                        channelCode = ((VideoFragment) mFragments.get(1)).getCurrentChannelCode();//获取到视频当前显示的fragment的频道
+                        channelCode = ((VideoFragment) mFragments.get(1)).getCurrentChannelCode()
+                        ;//获取到视频当前显示的fragment的频道
                     }
                     postTabRefreshEvent(bottomBarItem, position, channelCode);//发送下拉刷新的事件
                 }
@@ -114,11 +116,12 @@ public class MainActivity extends BaseActivity {
 //            //如果是我的页面，状态栏设置为透明状态栏
 //            Eyes.translucentStatusBar(MainActivity.this,true);
 //        }else{
-            Eyes.setStatusBarColor(MainActivity.this, UIUtils.getColor(mStatusColors[position]));
+        Eyes.setStatusBarColor(MainActivity.this, UIUtils.getColor(mStatusColors[position]));
 //        }
     }
 
-    private void postTabRefreshEvent(BottomBarItem bottomBarItem, int position, String channelCode) {
+    private void postTabRefreshEvent(BottomBarItem bottomBarItem, int position, String
+            channelCode) {
         TabRefreshEvent event = new TabRefreshEvent();
         event.setChannelCode(channelCode);
         event.setBottomBarItem(bottomBarItem);

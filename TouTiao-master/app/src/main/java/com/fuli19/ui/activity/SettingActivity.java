@@ -32,9 +32,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements I
         Eyes.setStatusBarColor(this,android.R.color.white);
     }
 
-    @OnClick({R.id.setting_quit})
+    @OnClick({R.id.setting_quit,R.id.setting_back})
     public void onClick(View view){
         switch (view.getId()){
+            case R.id.setting_back:
+                finish();
+                break;
             case R.id.setting_quit:
                 finish();
                 PreUtils.putString(Constant.AUTH_KEY,"");

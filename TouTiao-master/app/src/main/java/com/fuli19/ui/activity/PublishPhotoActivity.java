@@ -59,7 +59,7 @@ public class PublishPhotoActivity extends BaseActivity<PublishPresenter> impleme
 
     @Override
     public void initView() {
-        Eyes.setStatusBarColor(this, android.R.color.white);
+        Eyes.setStatusBarColor(this, R.color.color_BDBDBD);
         mChooseAdapter = new ChoosePhotoAdapter(mData);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.addItemDecoration(new GridItemDecoration(getResources()

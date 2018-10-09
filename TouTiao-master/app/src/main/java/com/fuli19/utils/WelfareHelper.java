@@ -17,7 +17,7 @@ public class WelfareHelper {
         return true;
     }
 
-    public static boolean isLoginBool() {
+    public static boolean isLogin() {
         return !TextUtils.isEmpty(MyApp.getKey());
     }
 

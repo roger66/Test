@@ -90,13 +90,13 @@
                 android:background="#F4F5F5" />
 
             <FrameLayout
-                android:id="@+id/fl_content"
+                android:id="@+id/video_detail_fl_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
                 <com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView
-                    android:id="@+id/rv_comment"
+                    android:id="@+id/video_detail_comment_rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:dividerColor="@color/white" />

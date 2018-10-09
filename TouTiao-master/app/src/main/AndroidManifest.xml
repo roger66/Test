@@ -30,8 +30,8 @@
 
         <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
@@ -52,37 +52,42 @@
             android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.activity.PicPreviewActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activity.LongArticleDetailActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".ui.activity.PicPreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.LongArticleDetailActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.activity.LoginActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.activity.RegisterActivity"
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ChooseVideoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.VideoCutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.VideoPublishActivity"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activity.ChooseVideoActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activity.VideoCutActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activity.VideoPublishActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />
-        <activity android:name=".ui.activity.PublishPhotoActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activity.SettingActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.activity.PersonalActivity" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ui.activity.PublishPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PersonalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

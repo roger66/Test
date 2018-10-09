@@ -123,7 +123,14 @@ public class RegisterActivity extends BaseActivity<LoginPresenter> implements IL
 
     @Override
     public void onError() {
+        MProgressDialog.dismissProgress();
         UIUtils.showToast("注册失败");
+    }
+
+    @Override
+    public void onFailed(String msg) {
+        MProgressDialog.dismissProgress();
+        UIUtils.showToast(msg);
     }
 
     @Subscribe

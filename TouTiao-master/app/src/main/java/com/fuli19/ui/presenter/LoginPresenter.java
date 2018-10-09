@@ -1,6 +1,7 @@
 package com.fuli19.ui.presenter;
 
 import com.fuli19.api.SubscriberCallBack;
+import com.fuli19.model.response.ResultResponse;
 import com.fuli19.ui.base.BasePresenter;
 import com.fuli19.utils.RegexUtils;
 import com.fuli19.utils.UIUtils;
@@ -25,6 +26,12 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             @Override
             protected void onError() {
                 mView.onError();
+            }
+
+            @Override
+            protected void onFailure(ResultResponse response) {
+                super.onFailure(response);
+                mView.onFailed(response.msg);
             }
         });
 
@@ -51,6 +58,12 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             @Override
             protected void onError() {
                 mView.onError();
+            }
+
+            @Override
+            protected void onFailure(ResultResponse response) {
+                super.onFailure(response);
+                mView.onFailed(response.msg);
             }
         });
 

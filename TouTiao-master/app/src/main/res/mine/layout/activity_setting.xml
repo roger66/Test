@@ -11,6 +11,7 @@
         android:background="@android:color/white">
 
         <ImageView
+            android:id="@+id/setting_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

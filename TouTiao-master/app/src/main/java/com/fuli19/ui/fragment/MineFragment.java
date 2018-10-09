@@ -81,7 +81,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
     }
 
     private void showLogin() {
-        if (WelfareHelper.isLoginBool()) {
+        if (WelfareHelper.isLogin()) {
             mNoLoginBg.setVisibility(View.GONE);
             mUserTopBg.setVisibility(View.VISIBLE);
             mUserDynamicBg.setVisibility(View.VISIBLE);
