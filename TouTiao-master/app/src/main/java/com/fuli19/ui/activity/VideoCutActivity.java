@@ -339,14 +339,14 @@ public class VideoCutActivity extends BaseActivity {
         String filePath = mFile.getPath();
         String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
         outPutPath = Constant.CUT + "/"+fileName;
-        mProgressBarDialog.showProgress(0, "剪辑中 0%");
+        mProgressBarDialog.showProgress(0, "剪辑压缩中 0%");
         mVideoPlayer.pause();
         EpVideo epVideo = new EpVideo(filePath);
         epVideo.clip(leftProgress / 1000, (rightProgress - leftProgress) / 1000);
         //输出选项，参数为输出文件路径(目前仅支持mp4格式输出)
         EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outPutPath);
-//      outputOption.setWidth( 480);//输出视频宽，如果不设置则为原始视频宽高
-//      outputOption.setHeight( 360);//输出视频高度
+      outputOption.setWidth( 1280);//输出视频宽，如果不设置则为原始视频宽高
+      outputOption.setHeight( 720);//输出视频高度
 //      outputOption.frameRate = 30;//输出视频帧率,默认30
 //      outputOption.bitRate = 10;//输出视频码率,默认10
         EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
@@ -381,7 +381,7 @@ public class VideoCutActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
                 int progress = msg.arg1;
-                mProgressBarDialog.showProgress(progress, "剪辑中 " + progress + "%");
+                mProgressBarDialog.showProgress(progress, "剪辑压缩中 " + progress + "%");
             } else {
                 mProgressBarDialog.showProgress(100, "剪辑成功");
                 mProgressBarDialog.dismiss();

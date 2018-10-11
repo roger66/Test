@@ -3,6 +3,7 @@ package com.fuli19.api;
 import com.fuli19.model.entity.Channel;
 import com.fuli19.model.entity.CommentData;
 import com.fuli19.model.entity.Dynamic;
+import com.fuli19.model.entity.Friend;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.entity.NewsDetail;
 import com.fuli19.model.entity.QCloudSecret;
@@ -40,6 +41,7 @@ public interface ApiService {
 
     //搜索
     String SEARCH_MATCHING = BASE_URL+"api.server.search_matching.php";
+    String SEARCH_RESULT = BASE_URL+"api.server.search.php";
 
     //详情
     String GET_VIDEO_DETAIL = BASE_URL + "api.server.video_detail.php";
@@ -78,6 +80,12 @@ public interface ApiService {
     String GET_USER_INFO = BASE_URL + "api.user.index.php";
     //获取用户动态
     String GET_USER_DYNAMIC = BASE_URL + "api.server.dynamic.php";
+    //获取关注列表
+    String GET_ATTENTION = BASE_URL+"api.server.follow_list.php";
+    //获取粉丝列表
+    String GET_FANS = BASE_URL +"api.server.fans_list.php";
+    //获取收藏列表
+    String GET_FAV = BASE_URL +"api.server.collection_list.php";
 
     /**
      * 注册
@@ -148,6 +156,13 @@ public interface ApiService {
     @POST(SEARCH_MATCHING)
     @FormUrlEncoded
     Observable<ResultResponse<List<List<SearchMatchedData>>>> searchMatched( @Field("key") String key);
+
+    /**
+     * 搜索结果
+     */
+    @POST(SEARCH_RESULT)
+    @FormUrlEncoded
+    Observable<ResultResponse<List<News>>> searchResult( @Field("type") int type,@Field("page") int page,@Field("key") String key);
 
 
     /**
@@ -243,6 +258,27 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<ResultResponse<Dynamic>> getUserDynamic(@Field("authkey") String authKey, @Field
             ("type") int type, @Field("page") int page);
+
+    /**
+     * 获取用户关注列表
+     */
+    @POST(GET_ATTENTION)
+    @FormUrlEncoded
+    Observable<ResultResponse<List<Friend>>> getUserAttention(@Field("authkey") String authKey);
+
+    /**
+     * 获取用户粉丝列表
+     */
+    @POST(GET_FANS)
+    @FormUrlEncoded
+    Observable<ResultResponse<List<Friend>>> getUserFans(@Field("authkey") String authKey);
+
+    /**
+     * 获取用户收藏列表
+     */
+    @POST(GET_FAV)
+    @FormUrlEncoded
+    Observable<ResultResponse<List<News>>> getUserFav(@Field("authkey") String authKey,@Field("page") int page);
 
 }
 

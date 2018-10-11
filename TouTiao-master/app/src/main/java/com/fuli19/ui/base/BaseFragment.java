@@ -31,19 +31,19 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mPresenter = createPresenter();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         if (rootView == null) {
-            rootView = inflater.inflate(provideContentViewId(),container,false);
+            rootView = inflater.inflate(provideContentViewId(), container, false);
             ButterKnife.bind(this, rootView);
 
             mStateView = StateView.inject(getStateViewRoot());
-                mStateView.setLoadingResource(R.layout.page_loading);
-                mStateView.setRetryResource(R.layout.page_net_error);
+            mStateView.setLoadingResource(R.layout.page_loading);
+            mStateView.setRetryResource(R.layout.page_net_error);
 
             initView(rootView);
             initData();
@@ -57,7 +57,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
         return rootView;
     }
 
-    /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/
+    /**
+     * StateView的根布局，默认是整个界面，如果需要变换可以重写此方法
+     */
     public View getStateViewRoot() {
         return rootView;
     }
@@ -70,6 +72,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
 
     /**
      * 初始化一些view
+     *
      * @param rootView
      */
     public void initView(View rootView) {

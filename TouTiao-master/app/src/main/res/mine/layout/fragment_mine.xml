@@ -102,6 +102,7 @@
                     android:background="#464646" />
 
                 <LinearLayout
+                    android:id="@+id/mine_user_attention_bg"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
@@ -133,6 +134,7 @@
                     android:background="#464646" />
 
                 <LinearLayout
+                    android:id="@+id/mine_user_fans_bg"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
@@ -188,7 +190,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/no_login_bg"
+                    android:background="@drawable/shape_no_login_bg"
                     android:orientation="horizontal"
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp"

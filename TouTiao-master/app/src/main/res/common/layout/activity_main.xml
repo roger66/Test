@@ -25,6 +25,7 @@
             app:iconSelected="@mipmap/tab_home_selected"
             app:itemText="@string/tab_home"
             app:itemTextSize="8sp"
+            app:itemMarginTop="2dp"
             app:openTouchBg="true"
             app:textColorNormal="@color/color_515051"
             app:textColorSelected="@color/color_D33D3C"
@@ -33,6 +34,7 @@
 
         <com.chaychan.library.BottomBarItem
             android:layout_width="0dp"
+            app:itemMarginTop="2dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:iconNormal="@mipmap/tab_video_normal"
@@ -54,12 +56,15 @@
             app:itemText="@string/tab_small"
             app:itemTextSize="8sp"
             app:openTouchBg="true"
+            android:visibility="gone"
             app:textColorNormal="@color/color_515051"
             app:textColorSelected="@color/color_D33D3C"
+            app:itemMarginTop="2dp"
             app:touchDrawable="@drawable/selector_bottom_tab" />
 
         <com.chaychan.library.BottomBarItem
             android:layout_width="0dp"
+            app:itemMarginTop="2dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:iconNormal="@mipmap/tab_micro_normal"
@@ -73,6 +78,7 @@
 
         <com.chaychan.library.BottomBarItem
             android:layout_width="0dp"
+            app:itemMarginTop="2dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:iconNormal="@mipmap/tab_me_normal"

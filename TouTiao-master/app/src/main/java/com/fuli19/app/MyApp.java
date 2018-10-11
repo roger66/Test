@@ -17,9 +17,12 @@ import org.litepal.LitePalApplication;
 
 public class MyApp extends BaseApp {
 
+    private static MyApp mApp;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mApp = this;
         //**************************************相关第三方SDK
         // 的初始化等操作*************************************************
         KLog.init(BuildConfig.DEBUG);//初始化KLog
@@ -30,6 +33,10 @@ public class MyApp extends BaseApp {
     //登录成功后的authKey
     public static String getKey() {
         return PreUtils.getString(Constant.AUTH_KEY, "");
+    }
+
+    public static MyApp getInstance(){
+        return mApp;
     }
 
 }

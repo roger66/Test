@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mFragments = new ArrayList<>(4);
+        mFragments = new ArrayList<>();
         mFragments.add(new HomeFragment());
         mFragments.add(new VideoFragment());
         mFragments.add(new SmallFragment());

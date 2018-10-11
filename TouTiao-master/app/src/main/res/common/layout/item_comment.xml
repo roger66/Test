@@ -45,7 +45,7 @@
             android:drawableLeft="@mipmap/comment_like_icon"
             android:drawablePadding="2dp"
             android:text="123"
-            android:textColor="@color/color_cacaca" />
+            android:textColor="@color/color_999999" />
 
     </LinearLayout>
 

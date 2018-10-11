@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -32,12 +33,23 @@
 
             <EditText
                 android:id="@+id/search_edit"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:background="@null"
                 android:hint="搜你想看的"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
                 android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/search_edit_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/close"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -52,5 +64,77 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:id="@+id/search_history_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_tab_line"
+            android:padding="15dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索历史"
+                android:textColor="#999"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/search_history_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/delete" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_history_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/search_history_delete"
+                android:layout_marginTop="10dp" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_matched_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/search_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:paddingLeft="5dp"
+            android:visibility="gone"
+            app:tabBackground="@android:color/transparent"
+            app:tabIndicatorColor="@android:color/transparent"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="#F44746"
+            app:tabTextColor="@color/color_1D1D1D" />
+
+        <View
+            android:id="@+id/search_tab_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_below="@id/search_tab"
+            android:background="#EEE" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/search_vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/search_tab_line"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>
