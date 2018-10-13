@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 public class NewsDetail {
 
+    public int is_collection;
     public String text;
     public String commentNum;
     public String thumbnailTag;

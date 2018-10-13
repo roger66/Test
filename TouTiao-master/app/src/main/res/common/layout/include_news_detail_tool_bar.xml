@@ -85,13 +85,14 @@
         </FrameLayout>
 
         <ImageView
+            android:id="@+id/news_detail_collection"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="2"
             android:paddingLeft="5dip"
             android:scaleType="center"
-            android:src="@mipmap/new_love_tabbar"/>
+            android:src="@drawable/selector_collection_black"/>
 
         <ImageView
             android:visibility="gone"

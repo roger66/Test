@@ -42,14 +42,52 @@
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/tv_comment_num"
-        style="@style/news_text_style"
+        android:id="@+id/read_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="1020评论"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/location"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="100阅读量"
         android:textColor="@color/color_999999"
-        android:textSize="11sp"
-        />
+        android:textSize="11sp" />
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_like_num"
+            style="@style/news_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/selector_like_icon"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="1020"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_comment_num"
+            style="@style/news_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/tv_like_num"
+            android:drawableLeft="@drawable/comment_count"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="1020"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
 </LinearLayout>

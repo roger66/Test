@@ -33,7 +33,34 @@ public class MicroPresenter extends BasePresenter<IMicroView> {
                     mView.onDataEmpty(response.msg);
             }
         });
+    }
 
+    public void like(String id){
+        addSubscription(mApiService.contentLike(MyApp.getKey(), id), new SubscriberCallBack() {
+            @Override
+            protected void onSuccess(Object response) {
+
+            }
+
+            @Override
+            protected void onError() {
+
+            }
+        });
+    }
+
+    public void cancelLike(String id){
+        addSubscription(mApiService.cancelLike(MyApp.getKey(), id,0), new SubscriberCallBack() {
+            @Override
+            protected void onSuccess(Object response) {
+
+            }
+
+            @Override
+            protected void onError() {
+
+            }
+        });
     }
 
 }

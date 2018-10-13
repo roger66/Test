@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.uikit.TipView;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
@@ -33,6 +34,7 @@ import com.fuli19.ui.presenter.NewsListPresenter;
 import com.fuli19.utils.ListUtils;
 import com.fuli19.utils.NetWorkUtils;
 import com.fuli19.utils.UIUtils;
+import com.fuli19.utils.WelfareHelper;
 import com.fuli19.view.lNewsListView;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
@@ -143,45 +145,15 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         else
             mNewsAdapter = new NewsListAdapter(mChannelCode, mNewsList);
         mRvNews.setAdapter(mNewsAdapter);
-        mNewsAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    News news = mNewsList.get(position);
-                    Intent intent = null;
-                    switch (news.type) {
-                        case "1":
-                            //视频
-                            intent = new Intent(mActivity, VideoDetailActivity.class);
-                            if (JCVideoPlayerManager.getCurrentJcvd() != null) {
-                                //传递进度
-                                int progress = JCMediaManager.instance().mediaPlayer
-                                        .getCurrentPosition();
-                                if (progress != 0) {
-                                    intent.putExtra(VideoDetailActivity.PROGRESS, progress);
-                                }
-                            }
-                            break;
-                        case "2":
-                        case "3":
-                            //纯图片
-                            intent = new Intent(mActivity, news.type_article == 1 ?
-                                    LongArticleDetailActivity.class : PicPreviewActivity.class);
-//                    intent.putExtra(NewsDetailBaseActivity.POSITION, position);
-                            break;
-                        default:
-                            return;
-                    }
-                    intent.putExtra(NewsDetailBaseActivity.CHANNEL_CODE, mChannelCode);
-                    intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
-                    startActivity(intent);
-                    EventBus.getDefault().postSticky(news);
-                }
-        );
+        mNewsAdapter.setOnItemClickListener(mOnItemClickListener);
+        mNewsAdapter.setOnItemChildClickListener(mOnItemChildClickListener);
 
         mNewsAdapter.setEnableLoadMore(true);
         mNewsAdapter.setOnLoadMoreListener(this, mRvNews);
 
         //如果是视频列表，监听滚动
-        mRvNews.addOnChildAttachStateChangeListener(new RecyclerView
-                .OnChildAttachStateChangeListener() {
+        mRvNews.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+
             @Override
             public void onChildViewAttachedToWindow(View view) {
 
@@ -436,6 +408,63 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsAdapter.notifyDataSetChanged();
     }
 
+    //News点击监听
+    private BaseQuickAdapter.OnItemClickListener mOnItemClickListener = (baseQuickAdapter, view,
+                                                                         position) -> {
+        News news = mNewsList.get(position);
+        Intent intent = null;
+        switch (news.type) {
+            case "1":
+                //视频
+                intent = new Intent(mActivity, VideoDetailActivity.class);
+                if (JCVideoPlayerManager.getCurrentJcvd() != null) {
+                    //传递进度
+                    int progress = JCMediaManager.instance().mediaPlayer
+                            .getCurrentPosition();
+                    if (progress != 0)
+                        intent.putExtra(VideoDetailActivity.PROGRESS, progress);
+                }
+                break;
+            case "2":
+            case "3":
+                //纯图片
+                intent = new Intent(mActivity, news.type_article == 1 ?
+                        LongArticleDetailActivity.class : PicPreviewActivity.class);
+                //intent.putExtra(NewsDetailBaseActivity.POSITION, position);
+                break;
+            default:
+                return;
+        }
+        intent.putExtra(NewsDetailBaseActivity.CHANNEL_CODE, mChannelCode);
+        intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
+        startActivity(intent);
+        EventBus.getDefault().postSticky(news);
+    };
+
+    //News child点击事件
+    private BaseQuickAdapter.OnItemChildClickListener mOnItemChildClickListener =
+            (baseQuickAdapter, view, position) -> {
+                switch (view.getId()) {
+                    case R.id.tv_like_num:
+                        if (WelfareHelper.isLogin(getContext())) {
+                            News news = mNewsList.get(position);
+                            int likeNum = Integer.valueOf(news.thumbsUp);
+                            if (news.is_thumbsUp == 0) {
+                                mPresenter.like(news.id);
+                                news.is_thumbsUp = 1;
+                                likeNum += 1;
+                            } else {
+                                mPresenter.cancelLike(news.id);
+                                news.is_thumbsUp = 0;
+                                likeNum -= 1;
+                            }
+                            news.thumbsUp = String.valueOf(likeNum);
+                            mNewsAdapter.notifyItemChanged(position);
+                        }
+                        break;
+                }
+            };
+
     @Override
     public void onStart() {
         super.onStart();
@@ -446,12 +475,6 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     public void onStop() {
         super.onStop();
         unregisterEventBus(NewsListFragment.this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        KLog.e("onDestroy" + mChannelCode);
     }
 
 }

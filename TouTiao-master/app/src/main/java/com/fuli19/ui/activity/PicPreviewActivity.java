@@ -12,8 +12,11 @@ import com.fuli19.model.entity.NewsImg;
 import com.fuli19.ui.adapter.PicPreviewAdapter;
 import com.fuli19.ui.base.BaseActivity;
 import com.fuli19.ui.base.BasePresenter;
+import com.fuli19.ui.presenter.PicPreviewPresenter;
 import com.fuli19.utils.GlideUtils;
 import com.fuli19.utils.UIUtils;
+import com.fuli19.utils.WelfareHelper;
+import com.fuli19.view.IPicPreviewView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -21,7 +24,8 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PicPreviewActivity extends BaseActivity {
+public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implements
+        IPicPreviewView {
 
     @BindView(R.id.pic_preview_top_layout)
     RelativeLayout mTitleLayout;
@@ -38,11 +42,14 @@ public class PicPreviewActivity extends BaseActivity {
     @BindView(R.id.pic_preview_name)
     TextView mAuthorName;
 
+    @BindView(R.id.pic_preview_collection)
+    ImageView mCollectionBtn;
+
     private News mNews;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected PicPreviewPresenter createPresenter() {
+        return new PicPreviewPresenter(this);
     }
 
     @Override
@@ -50,17 +57,19 @@ public class PicPreviewActivity extends BaseActivity {
         return R.layout.activity_pic_preview;
     }
 
-    @Subscribe (sticky = true)
-    public void onEvent(News news){
+    @Subscribe(sticky = true)
+    public void onEvent(News news) {
         mNews = news;
         mPreviewVp.setAdapter(new PicPreviewAdapter(news.thumbnailImg));
         mPreviewVp.setPageMargin(10);
         int position = getIntent().getIntExtra(NewsDetailBaseActivity.POSITION, 0);
         mPreviewVp.setCurrentItem(position);
         //设置头部信息
-        mPreviewTitle.setText(((position+1)+"/"+news.imgNum)+" "+news.thumbnailImg.get(position).imgDescription);
+        mPreviewTitle.setText(((position + 1) + "/" + news.imgNum) + " " + news.thumbnailImg.get
+                (position).imgDescription);
         mAuthorName.setText(news.publisher);
-        GlideUtils.load(this,news.publisherPic,mAuthorHead);
+        GlideUtils.load(this, news.publisherPic, mAuthorHead);
+        mCollectionBtn.setSelected(news.is_collection == 1);
         mPreviewVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int
@@ -71,7 +80,8 @@ public class PicPreviewActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 NewsImg newsImg = news.thumbnailImg.get(position);
-                mPreviewTitle.setText(((position+1)+"/"+news.imgNum)+" "+newsImg.imgDescription);
+                mPreviewTitle.setText(((position + 1) + "/" + news.imgNum) + " " + newsImg
+                        .imgDescription);
             }
 
             @Override
@@ -99,11 +109,24 @@ public class PicPreviewActivity extends BaseActivity {
         mTitleLayout.setLayoutParams(params);
     }
 
-    @OnClick({R.id.pic_preview_close})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.pic_preview_close, R.id.pic_preview_collection})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.pic_preview_close:
                 finish();
+                break;
+            case R.id.pic_preview_collection:
+                if (WelfareHelper.isLogin(this)) {
+                    if (mNews.is_collection == 1) {
+                        mPresenter.cancelCollection(mNews.id);
+                        mNews.is_collection = 0;
+                        mCollectionBtn.setSelected(false);
+                    } else {
+                        mNews.is_collection = 1;
+                        mPresenter.collection(mNews.id);
+                        mCollectionBtn.setSelected(true);
+                    }
+                }
                 break;
         }
     }

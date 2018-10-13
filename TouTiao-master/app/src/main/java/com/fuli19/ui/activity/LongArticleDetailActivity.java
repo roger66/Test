@@ -1,5 +1,6 @@
 package com.fuli19.ui.activity;
 
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,8 +9,10 @@ import com.fuli19.R;
 import com.fuli19.model.entity.NewsDetail;
 import com.fuli19.utils.GlideUtils;
 import com.fuli19.utils.UIUtils;
+import com.fuli19.utils.WelfareHelper;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import flyn.Eyes;
 
 /**
@@ -32,6 +35,11 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
     @BindView(R.id.long_article_content)
     WebView mContent;
 
+    @BindView(R.id.news_detail_collection)
+    ImageView mCollectionBtn;
+
+    private NewsDetail mNewsDetail;
+
     @Override
     public void initView() {
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_BDBDBD));//设置状态栏的颜色为灰色
@@ -51,6 +59,7 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
 
     @Override
     public void onGetNewsDetailSuccess(NewsDetail newsDetail) {
+        mNewsDetail = newsDetail;
         mStateView.showContent();
         mTitle.setText(newsDetail.title);
         mTvAuthor.setText(newsDetail.publisher);
@@ -76,6 +85,25 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
                 "<style>img{max-width: 100%; width:auto; height:auto;}</style>" +
                 "</head>";
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
+    }
+
+    @OnClick(R.id.news_detail_collection)
+    public void onClick(View view){
+        if (!WelfareHelper.isLogin(this))
+            return;
+        switch (view.getId()){
+            case R.id.news_detail_collection:
+                if (mNewsDetail.is_collection==1){
+                    mNewsDetail.is_collection=0;
+                    mCollectionBtn.setSelected(false);
+                    mPresenter.cancelCollection(mNewsDetail.id);
+                }else {
+                    mNewsDetail.is_collection=1;
+                    mCollectionBtn.setSelected(true);
+                    mPresenter.collection(mNewsDetail.id);
+                }
+                break;
+        }
     }
 
 }

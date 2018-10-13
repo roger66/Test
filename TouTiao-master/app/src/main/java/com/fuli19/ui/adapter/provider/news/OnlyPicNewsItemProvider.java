@@ -39,7 +39,10 @@ public class OnlyPicNewsItemProvider extends BaseNewsItemProvider {
     @Override
     protected void setData(BaseViewHolder helper, News news) {
         //纯图片文章
-        helper.setText(R.id.tv_title, news.context);
+        helper.setText(R.id.tv_title, news.context).setText(R.id.read_num,news.readVal+"阅读量")
+        .setText(R.id.tv_comment_num,news.commentNum).setText(R.id.tv_like_num,news.thumbsUp)
+        .addOnClickListener(R.id.tv_like_num);
+        helper.getView(R.id.tv_like_num).setSelected(news.is_thumbsUp==1);
         GlideUtils.load(mContext, news.publisherPic, helper.getView(R.id.author_img));
         RecyclerView imgRv = helper.getView(R.id.item_imgs);
         imgRv.setLayoutManager(new GridLayoutManager(mContext, 3));

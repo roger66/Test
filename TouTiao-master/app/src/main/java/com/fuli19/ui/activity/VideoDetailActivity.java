@@ -62,11 +62,14 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
     RecyclerView mRecommendRv;
     @BindView(R.id.video_detail_comment_rv)
     RecyclerView mCommentRv;
+    @BindView(R.id.news_detail_collection)
+    ImageView mCollectionBtn;
 
     private VideoRecommendAdapter mRecommendAdapter;
     private CommentAdapter mCommentAdapter;
     private List<CommentData> mCommentList = new ArrayList<>();
     private List<News> mRecommendList = new ArrayList<>();
+    private News mNews;
 
     private SensorManager mSensorManager;
     private JCVideoPlayer.JCAutoFullscreenListener mSensorEventListener;
@@ -115,6 +118,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
 
     @Subscribe(sticky = true)
     public void onEvent(News news) {
+        mNews = news;
         mCommentDialog.setNewsId(mItemId);
         mStateView.showLoading();
         mPresenter.getVideoDetailRecommend(mItemId);
@@ -130,6 +134,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
         mAuthorNameTv.setText(news.publisher);
         mTitleTv.setText(news.title);
         mPlaysTv.setText(news.thumbnailTag + " | " + news.plays + "次播放");
+        mCollectionBtn.setSelected(news.is_collection==1);
     }
 
     @Override
@@ -145,7 +150,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
     @Override
     public void onGetCommentSuccess(List<CommentData> response) {
         mStateView.showContent();
-        mCommentPage+=1;
+        mCommentPage += 1;
         mCommentList.addAll(response);
         mCommentAdapter.setNewData(mCommentList);
     }
@@ -153,7 +158,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
 
     @Override
     public void onLoadMoreRequested() {
-        mPresenter.getComment(mItemId,mCommentPage);
+        mPresenter.getComment(mItemId, mCommentPage);
     }
 
     @Override
@@ -169,12 +174,24 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
             mStateView.showEmpty();
     }
 
-    @OnClick({R.id.detail_write_comment})
+    @OnClick({R.id.detail_write_comment, R.id.news_detail_collection})
     public void onClick(View view) {
+        if (!WelfareHelper.isLogin(this))
+            return;
         switch (view.getId()) {
             case R.id.detail_write_comment:
-                if (WelfareHelper.isLogin(this))
-                    mCommentDialog.show(getSupportFragmentManager());
+                mCommentDialog.show(getSupportFragmentManager());
+                break;
+            case R.id.news_detail_collection:
+                if (mNews.is_collection==1){
+                    mNews.is_collection=0;
+                    mCollectionBtn.setSelected(false);
+                    mPresenter.cancelCollection(mNews.id);
+                }else {
+                    mNews.is_collection=1;
+                    mCollectionBtn.setSelected(true);
+                    mPresenter.collection(mNews.id);
+                }
                 break;
         }
     }

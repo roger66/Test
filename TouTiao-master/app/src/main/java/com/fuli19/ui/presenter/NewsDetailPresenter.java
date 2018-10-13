@@ -93,5 +93,32 @@ public class NewsDetailPresenter extends BasePresenter<INewsDetailView> {
         });
     }
 
+    public void collection(String id){
+        addSubscription(mApiService.collection(MyApp.getKey(), id), new SubscriberCallBack() {
+            @Override
+            protected void onSuccess(Object response) {
+
+            }
+
+            @Override
+            protected void onError() {
+
+            }
+        });
+    }
+
+    public void cancelCollection(String id){
+        addSubscription(mApiService.cancelCollection(MyApp.getKey(), id), new SubscriberCallBack() {
+            @Override
+            protected void onSuccess(Object response) {
+
+            }
+
+            @Override
+            protected void onError() {
+
+            }
+        });
+    }
 
 }

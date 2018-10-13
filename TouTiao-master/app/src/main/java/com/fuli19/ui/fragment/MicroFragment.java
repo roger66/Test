@@ -111,33 +111,8 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
     public void initListener() {
         mMicroAdapter = new MicroListAdapter("", mNewsList);
         mRvNews.setAdapter(mMicroAdapter);
-        mMicroAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    News news = mNewsList.get(position);
-                    Intent intent = null;
-                    if (news.type.equals("1")) {
-                        //视频
-                        intent = new Intent(mActivity, VideoDetailActivity.class);
-                        if (JCVideoPlayerManager.getCurrentJcvd() != null) {
-                            //传递进度
-                            int progress = JCMediaManager.instance().mediaPlayer
-                                    .getCurrentPosition();
-                            if (progress != 0) {
-                                intent.putExtra(VideoDetailActivity.PROGRESS, progress);
-                            }
-                        }
-                    } else if (news.type.equals("2") || news.type.equals("3"))
-                        //纯图片
-                        intent = new Intent(mActivity, news.type_article == 1 ?
-                                LongArticleDetailActivity.class : PicPreviewActivity.class);
-                    else
-                        return;
-
-                    intent.putExtra(NewsDetailBaseActivity.POSITION, position);
-                    intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
-                    startActivity(intent);
-                    EventBus.getDefault().postSticky(news);
-                }
-        );
+        mMicroAdapter.setOnItemClickListener(mOnItemClickListener);
+        mMicroAdapter.setOnItemChildClickListener(mOnItemChildClickListener);
 
         mMicroAdapter.setEnableLoadMore(true);
         mMicroAdapter.setOnLoadMoreListener(this, mRvNews);
@@ -244,5 +219,58 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
                     startActivity(intent);
                 });
     }
+
+    //News点击监听
+    private BaseQuickAdapter.OnItemClickListener mOnItemClickListener = (baseQuickAdapter, view,
+                                                                         position) -> {
+        News news = mNewsList.get(position);
+        Intent intent = null;
+        if (news.type.equals("1")) {
+            //视频
+            intent = new Intent(mActivity, VideoDetailActivity.class);
+            if (JCVideoPlayerManager.getCurrentJcvd() != null) {
+                //传递进度
+                int progress = JCMediaManager.instance().mediaPlayer
+                        .getCurrentPosition();
+                if (progress != 0) {
+                    intent.putExtra(VideoDetailActivity.PROGRESS, progress);
+                }
+            }
+        } else if (news.type.equals("2") || news.type.equals("3"))
+            //纯图片
+            intent = new Intent(mActivity, news.type_article == 1 ?
+                    LongArticleDetailActivity.class : PicPreviewActivity.class);
+        else
+            return;
+
+        intent.putExtra(NewsDetailBaseActivity.POSITION, position);
+        intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
+        startActivity(intent);
+        EventBus.getDefault().postSticky(news);
+    };
+
+    //News child点击事件
+    private BaseQuickAdapter.OnItemChildClickListener mOnItemChildClickListener =
+            (baseQuickAdapter, view, position) -> {
+                switch (view.getId()) {
+                    case R.id.tv_like_num:
+                        if (WelfareHelper.isLogin(getContext())) {
+                            News news = mNewsList.get(position);
+                            int likeNum = Integer.valueOf(news.thumbsUp);
+                            if (news.is_thumbsUp == 0) {
+                                mPresenter.like(news.id);
+                                news.is_thumbsUp = 1;
+                                likeNum += 1;
+                            } else {
+                                mPresenter.cancelLike(news.id);
+                                news.is_thumbsUp = 0;
+                                likeNum -= 1;
+                            }
+                            news.thumbsUp = String.valueOf(likeNum);
+                            mMicroAdapter.notifyItemChanged(position);
+                        }
+                        break;
+                }
+            };
 
 }

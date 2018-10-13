@@ -40,8 +40,8 @@ public interface ApiService {
     String GET_ARTICLE_LIST = BASE_URL + "api.server.get_index_content.php";
 
     //搜索
-    String SEARCH_MATCHING = BASE_URL+"api.server.search_matching.php";
-    String SEARCH_RESULT = BASE_URL+"api.server.search.php";
+    String SEARCH_MATCHING = BASE_URL + "api.server.search_matching.php";
+    String SEARCH_RESULT = BASE_URL + "api.server.search.php";
 
     //详情
     String GET_VIDEO_DETAIL = BASE_URL + "api.server.video_detail.php";
@@ -81,11 +81,23 @@ public interface ApiService {
     //获取用户动态
     String GET_USER_DYNAMIC = BASE_URL + "api.server.dynamic.php";
     //获取关注列表
-    String GET_ATTENTION = BASE_URL+"api.server.follow_list.php";
+    String GET_ATTENTION = BASE_URL + "api.server.follow_list.php";
     //获取粉丝列表
-    String GET_FANS = BASE_URL +"api.server.fans_list.php";
+    String GET_FANS = BASE_URL + "api.server.fans_list.php";
     //获取收藏列表
-    String GET_FAV = BASE_URL +"api.server.collection_list.php";
+    String GET_FAV = BASE_URL + "api.server.collection_list.php";
+
+    //取消点赞
+    String CANCEL_LIKE = BASE_URL + "api.server.cancel_thumbsup.php";
+    //内容点赞
+    String CONTENT_LIKE = BASE_URL + "api.server.content_like.php";
+    //评论点赞
+    String COMMENT_LIKE = BASE_URL + "api.server.comment_like.php";
+
+    //取消收藏
+    String CANCEL_COLLECTION = BASE_URL + "api.server.cancel_collection.php";
+    //收藏
+    String COLLECTION = BASE_URL + "api.server.collection.php";
 
     /**
      * 注册
@@ -155,14 +167,16 @@ public interface ApiService {
      */
     @POST(SEARCH_MATCHING)
     @FormUrlEncoded
-    Observable<ResultResponse<List<List<SearchMatchedData>>>> searchMatched( @Field("key") String key);
+    Observable<ResultResponse<List<List<SearchMatchedData>>>> searchMatched(@Field("key") String
+                                                                                    key);
 
     /**
      * 搜索结果
      */
     @POST(SEARCH_RESULT)
     @FormUrlEncoded
-    Observable<ResultResponse<List<News>>> searchResult( @Field("type") int type,@Field("page") int page,@Field("key") String key);
+    Observable<ResultResponse<List<News>>> searchResult(@Field("type") int type, @Field("page")
+            int page, @Field("key") String key);
 
 
     /**
@@ -278,7 +292,49 @@ public interface ApiService {
      */
     @POST(GET_FAV)
     @FormUrlEncoded
-    Observable<ResultResponse<List<News>>> getUserFav(@Field("authkey") String authKey,@Field("page") int page);
+    Observable<ResultResponse<List<News>>> getUserFav(@Field("authkey") String authKey, @Field
+            ("page") int page);
+
+    /**
+     * 评论点赞
+     */
+    @POST(COMMENT_LIKE)
+    @FormUrlEncoded
+    Observable<ResultResponse> commentLike(@Field("authkey") String authKey, @Field("comment_id")
+            String commentId);
+
+    /**
+     * 内容点赞
+     */
+    @POST(CONTENT_LIKE)
+    @FormUrlEncoded
+    Observable<ResultResponse> contentLike(@Field("authkey") String authKey, @Field("id") String
+            id);
+
+    /**
+     * 取消点赞
+     *
+     * @param id   内容id 评论id
+     * @param type 0 取消内容点赞 1 取消评论点赞 默认为0
+     */
+    @POST(CANCEL_LIKE)
+    @FormUrlEncoded
+    Observable<ResultResponse> cancelLike(@Field("authkey") String authKey, @Field("id") String
+            id, @Field("type") int type);
+
+    /**
+     * 收藏
+     */
+    @POST(COLLECTION)
+    @FormUrlEncoded
+    Observable<ResultResponse> collection(@Field("authkey") String authKey, @Field("id") String id);
+
+    /**
+     * 取消收藏
+     */
+    @POST(CANCEL_COLLECTION)
+    @FormUrlEncoded
+    Observable<ResultResponse> cancelCollection(@Field("authkey") String authKey, @Field("id") String id);
 
 }
 
