@@ -42,6 +42,7 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
 
     @Override
     public void initView() {
+        super.initView();
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_BDBDBD));//设置状态栏的颜色为灰色
     }
 

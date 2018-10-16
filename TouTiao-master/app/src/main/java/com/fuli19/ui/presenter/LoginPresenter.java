@@ -15,11 +15,13 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
     }
 
     public void login(String username, String psw){
-        addSubscription(mApiService.login(username,psw), new SubscriberCallBack<String>() {
+        addSubscription(mApiService.login(username,psw), new SubscriberCallBack() {
+
 
             @Override
-            protected void onSuccess(String response) {
-                mView.onLoginSuccess(response);
+            protected void onSuccess(Object response) {
+                ResultResponse result = (ResultResponse) response;
+                mView.onLoginSuccess(result.authkey,result.mid);
 
             }
 
@@ -48,11 +50,12 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             return;
         }
         mView.onCanRegister();
-        addSubscription(mApiService.register(mobile, psw), new SubscriberCallBack<String>() {
+        addSubscription(mApiService.register(mobile, psw), new SubscriberCallBack() {
 
             @Override
-            protected void onSuccess(String response) {
-                mView.onRegisterSuccess(response);
+            protected void onSuccess(Object response) {
+                ResultResponse result = (ResultResponse) response;
+                mView.onRegisterSuccess(result.authkey,result.mid);
             }
 
             @Override

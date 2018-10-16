@@ -7,11 +7,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fuli19.R;
+import com.fuli19.app.MyApp;
 import com.fuli19.model.entity.News;
 import com.fuli19.model.entity.NewsImg;
 import com.fuli19.ui.adapter.PicPreviewAdapter;
 import com.fuli19.ui.base.BaseActivity;
 import com.fuli19.ui.base.BasePresenter;
+import com.fuli19.ui.dialog.SendCommentDialog;
 import com.fuli19.ui.presenter.PicPreviewPresenter;
 import com.fuli19.utils.GlideUtils;
 import com.fuli19.utils.UIUtils;
@@ -23,6 +25,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bingoogolapple.badgeview.BGABadgeImageView;
 
 public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implements
         IPicPreviewView {
@@ -39,13 +42,19 @@ public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implem
     @BindView(R.id.pic_preview_head)
     ImageView mAuthorHead;
 
+    @BindView(R.id.pic_preview_attention)
+    TextView mAttentionBtn;
+
     @BindView(R.id.pic_preview_name)
     TextView mAuthorName;
+
+    private BGABadgeImageView mCommentCount;
 
     @BindView(R.id.pic_preview_collection)
     ImageView mCollectionBtn;
 
     private News mNews;
+    private SendCommentDialog mCommentDialog;
 
     @Override
     protected PicPreviewPresenter createPresenter() {
@@ -60,13 +69,18 @@ public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implem
     @Subscribe(sticky = true)
     public void onEvent(News news) {
         mNews = news;
+        mAttentionBtn.setVisibility(news.publisherId.equals("0") ||MyApp.getId().equals(news.publisherId) ?View.GONE:View.VISIBLE);
+        mAttentionBtn.setSelected(news.is_follow==1);
+        mAttentionBtn.setText(news.is_follow==1?"已关注":"关注");
+        if (!news.commentNum.equals("0"))
+        mCommentCount.showTextBadge(news.commentNum);
+        mCommentDialog.setNewsId(news.id);
         mPreviewVp.setAdapter(new PicPreviewAdapter(news.thumbnailImg));
         mPreviewVp.setPageMargin(10);
         int position = getIntent().getIntExtra(NewsDetailBaseActivity.POSITION, 0);
         mPreviewVp.setCurrentItem(position);
         //设置头部信息
-        mPreviewTitle.setText(((position + 1) + "/" + news.imgNum) + " " + news.thumbnailImg.get
-                (position).imgDescription);
+        mPreviewTitle.setText(((position + 1) + "/" + news.imgNum) + " " + news.thumbnailImg.get(position).imgDescription);
         mAuthorName.setText(news.publisher);
         GlideUtils.load(this, news.publisherPic, mAuthorHead);
         mCollectionBtn.setSelected(news.is_collection == 1);
@@ -80,8 +94,7 @@ public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implem
             @Override
             public void onPageSelected(int position) {
                 NewsImg newsImg = news.thumbnailImg.get(position);
-                mPreviewTitle.setText(((position + 1) + "/" + news.imgNum) + " " + newsImg
-                        .imgDescription);
+                mPreviewTitle.setText(((position + 1) + "/" + news.imgNum) + " " + newsImg.imgDescription);
             }
 
             @Override
@@ -103,17 +116,43 @@ public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implem
 
     @Override
     public void initView() {
+        mCommentCount = (BGABadgeImageView) findViewById(R.id.pic_preview_comment_count);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mTitleLayout
                 .getLayoutParams();
         params.topMargin = UIUtils.getStatusHeight();
         mTitleLayout.setLayoutParams(params);
+        mCommentDialog = new SendCommentDialog();
     }
 
-    @OnClick({R.id.pic_preview_close, R.id.pic_preview_collection})
+    @OnClick({R.id.pic_preview_close, R.id.pic_preview_collection
+            ,R.id.pic_preview_attention
+            ,R.id.pic_preview_send_comment,R.id.pic_preview_comment_count})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.pic_preview_close:
                 finish();
+                break;
+            case R.id.pic_preview_send_comment:
+                if (WelfareHelper.isLogin(this))
+                    mCommentDialog.show(getSupportFragmentManager());
+                break;
+            case R.id.pic_preview_comment_count:
+
+                break;
+            case R.id.pic_preview_attention:
+                if (WelfareHelper.isLogin(this)) {
+                    if (mNews.is_follow == 1) {
+                        mPresenter.cancelAttention(mNews.publisherId);
+                        mNews.is_follow = 0;
+                        mAttentionBtn.setText("关注");
+                        mAttentionBtn.setSelected(false);
+                    } else {
+                        mNews.is_follow = 1;
+                        mAttentionBtn.setText("已关注");
+                        mPresenter.attention(mNews.publisherId);
+                        mAttentionBtn.setSelected(true);
+                    }
+                }
                 break;
             case R.id.pic_preview_collection:
                 if (WelfareHelper.isLogin(this)) {

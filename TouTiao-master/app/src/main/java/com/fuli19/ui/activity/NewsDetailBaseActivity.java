@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bingoogolapple.badgeview.BGABadgeImageView;
 import fm.jiecao.jcvideoplayer_lib.JCMediaManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 
@@ -37,8 +38,7 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
     public static final String GROUP_ID = "groupId";
     public static final String ITEM_ID = "itemId";
 
-    @BindView(R.id.tv_comment_count)
-    TextView mTvCommentCount;
+    protected BGABadgeImageView mCommentCount;
 
     protected NewsDetailHeaderView mHeaderView;
     protected String mItemId;
@@ -59,13 +59,16 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
     protected abstract int getViewContentViewId();
 
     @Override
+    public void initView() {
+        mCommentCount = (BGABadgeImageView) findViewById(R.id.news_detail_comment_count);
+    }
+
+    @Override
     public void initData() {
         Intent intent = getIntent();
-
         mChannelCode = intent.getStringExtra(CHANNEL_CODE);
         mPosition = intent.getIntExtra(POSITION, 0);
         mItemId = intent.getStringExtra(ITEM_ID);
-
 //        mPresenter.getNewsDetail(mDetalUrl);
     }
 
@@ -89,25 +92,9 @@ public abstract class NewsDetailBaseActivity extends BaseActivity<NewsDetailPres
 
     }
 
-    @OnClick({R.id.fl_comment_icon,R.id.iv_back})
+    @OnClick({R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.fl_comment_icon:
-                //底部评论的图标
-//                RecyclerView.LayoutManager layoutManager = mRvComment.getLayoutManager();
-//                if (layoutManager instanceof LinearLayoutManager) {
-//                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-//                    int firstPosition = linearManager.findFirstVisibleItemPosition();
-//                    int last = linearManager.findLastVisibleItemPosition();
-//                    if (firstPosition == 0 && last == 0) {
-//                        //处于头部，滚动到第一个条目
-//                        mRvComment.scrollToPosition(1);
-//                    } else {
-//                        //不是头部，滚动到头部
-//                        mRvComment.scrollToPosition(0);
-//                    }
-//                }
-                break;
             case R.id.iv_back:
                 finish();
                 break;

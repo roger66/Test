@@ -35,6 +35,11 @@ public class MyApp extends BaseApp {
         return PreUtils.getString(Constant.AUTH_KEY, "");
     }
 
+    //登录成功后的mid
+    public static String getId() {
+        return PreUtils.getString(Constant.MID, "");
+    }
+
     public static MyApp getInstance(){
         return mApp;
     }

@@ -6,6 +6,7 @@ import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
 import com.chaychan.uikit.NoScrollViewPager;
 import com.fuli19.R;
+import com.fuli19.constants.Constant;
 import com.fuli19.model.event.TabRefreshCompletedEvent;
 import com.fuli19.model.event.TabRefreshEvent;
 import com.fuli19.ui.adapter.MainTabAdapter;
@@ -18,6 +19,7 @@ import com.fuli19.ui.fragment.MineFragment;
 import com.fuli19.ui.fragment.SmallFragment;
 import com.fuli19.ui.fragment.VideoFragment;
 import com.fuli19.utils.UIUtils;
+import com.fuli19.utils.WelfareHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -95,14 +97,18 @@ public class MainActivity extends BaseActivity {
                         channelCode = ((HomeFragment) mFragments.get(0)).getCurrentChannelCode();
                         //获取到首页当前显示的fragment的频道
                     } else {
-                        channelCode = ((VideoFragment) mFragments.get(1)).getCurrentChannelCode()
-                        ;//获取到视频当前显示的fragment的频道
+                        channelCode = ((VideoFragment) mFragments.get(1)).getCurrentChannelCode();
+                        //获取到视频当前显示的fragment的频道
                     }
                     postTabRefreshEvent(bottomBarItem, position, channelCode);//发送下拉刷新的事件
                 }
                 return;
             }
 
+            if (position==4){
+                if (WelfareHelper.isLogin())
+                    EventBus.getDefault().post(Constant.LOGIN_SUCCESS);
+            }
             //如果点击了其他条目
             BottomBarItem bottomItem = mBottomBarLayout.getBottomItem(0);
             bottomItem.setIconSelectedResourceId(R.mipmap.tab_home_selected);//更换为原来的图标

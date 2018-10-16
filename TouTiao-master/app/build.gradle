@@ -86,6 +86,8 @@ dependencies {
     compile 'com.tencent.qcloud:cosxml:5.4.+'
     compile 'com.github.maning0303:MNProgressHUD:V1.1.0'
     compile 'me.shaohui:bottomdialog:1.1.9'
+    compile 'cn.bingoogolapple:bga-badgeview-api:1.1.8'
+    annotationProcessor "cn.bingoogolapple:bga-badgeview-compiler:1.1.8"
     compile project(':uikit')
     compile project(':jcvideoplayer-lib')
     compile project(':statusbar-lib')

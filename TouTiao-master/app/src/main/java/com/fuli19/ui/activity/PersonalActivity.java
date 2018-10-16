@@ -1,16 +1,20 @@
 package com.fuli19.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fuli19.R;
+import com.fuli19.constants.Constant;
 import com.fuli19.model.entity.Dynamic;
 import com.fuli19.model.entity.User;
 import com.fuli19.ui.adapter.PersonalPagerAdapter;
 import com.fuli19.ui.base.BaseActivity;
+import com.fuli19.ui.fragment.AttentionFragment;
 import com.fuli19.ui.presenter.PersonalPresenter;
 import com.fuli19.utils.GlideUtils;
 import com.fuli19.utils.UIUtils;
@@ -23,7 +27,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import flyn.Eyes;
 
-public class PersonalActivity extends BaseActivity{
+public class PersonalActivity extends BaseActivity {
 
     @BindView(R.id.personal_tab)
     TabLayout mTab;
@@ -55,7 +59,7 @@ public class PersonalActivity extends BaseActivity{
 
     @Override
     public void initView() {
-        Eyes.setStatusBarColor(this,Color.parseColor("#373737"));
+        Eyes.setStatusBarColor(this, Color.parseColor("#373737"));
         mVp.setOffscreenPageLimit(4);
         mVp.setAdapter(new PersonalPagerAdapter(getSupportFragmentManager()));
         mTab.setupWithViewPager(mVp);
@@ -67,17 +71,33 @@ public class PersonalActivity extends BaseActivity{
         registerEventBus(this);
     }
 
-    @Subscribe (sticky = true)
-    public void onEvent(User user){
-        GlideUtils.load(this,user.portrait,mHeadImg);
+    @Subscribe(sticky = true)
+    public void onEvent(User user) {
+        GlideUtils.load(this, user.portrait, mHeadImg);
         mUserName.setText(user.nickname);
         mAttentionCount.setText(user.follow_num);
         mFansCount.setText(user.fans_num);
     }
 
-    @OnClick(R.id.personal_back)
-    public void onClick(){
-        finish();
+    @OnClick({R.id.personal_back, R.id.personal_user_fans_count, R.id.personal_user_fans_text
+            , R.id.personal_user_attention_count, R.id.personal_user_attention_text})
+    public void onClick(View view) {
+        Intent intent = new Intent(this, AttentionActivity.class);
+        switch (view.getId()) {
+            case R.id.personal_back:
+                finish();
+                break;
+            case R.id.personal_user_attention_count:
+            case R.id.personal_user_attention_text:
+                intent.putExtra(AttentionFragment.POSITION,0);
+                startActivity(intent);
+                break;
+            case R.id.personal_user_fans_count:
+            case R.id.personal_user_fans_text:
+                intent.putExtra(AttentionFragment.POSITION,1);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override

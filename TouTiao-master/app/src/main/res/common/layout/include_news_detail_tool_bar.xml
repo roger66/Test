@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:orientation="vertical"
     android:background="@color/white"
-    >
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_d8d8d8"
-        />
+        android:background="@color/color_d8d8d8" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,8 +17,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        >
+        android:paddingRight="15dp">
 
         <TextView
             android:id="@+id/detail_write_comment"
@@ -35,74 +32,31 @@
             android:gravity="center_vertical"
             android:paddingLeft="12dp"
             android:text="@string/detail_write_comment"
-            android:textColor="@color/color_222222"
-            />
+            android:textColor="@color/color_222222" />
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:scaleType="center"
-                android:src="@mipmap/new_top_tabbar"
-                android:visibility="gone"/>
-
-            <FrameLayout
-                android:id="@+id/fl_comment_icon"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:scaleType="center"
-                    android:src="@mipmap/comment_count"/>
-
-                <TextView
-                    android:id="@+id/tv_comment_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="8.5dip"
-                    android:background="@drawable/main_tab_badge_bg"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
-                    android:singleLine="true"
-                    android:textColor="#fffafafa"
-                    android:textSize="8sp"
-                    android:visibility="gone"/>
-            </FrameLayout>
-        </FrameLayout>
+        <cn.bingoogolapple.badgeview.BGABadgeImageView
+            android:id="@+id/news_detail_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/comment_count"
+            app:badge_bgColor="#F8575b"
+            app:badge_textSize="8sp"
+            app:badge_verticalMargin="8dp" />
 
         <ImageView
             android:id="@+id/news_detail_collection"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="2"
-            android:paddingLeft="5dip"
-            android:scaleType="center"
-            android:src="@drawable/selector_collection_black"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@drawable/selector_collection_black" />
 
         <ImageView
-            android:visibility="gone"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="2"
-            android:paddingLeft="5dip"
-            android:scaleType="center"
-            android:src="@mipmap/share"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/share"
+            android:visibility="gone" />
 
     </LinearLayout>
 </LinearLayout>

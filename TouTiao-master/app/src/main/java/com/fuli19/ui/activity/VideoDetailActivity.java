@@ -80,6 +80,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
 
     @Override
     public void initView() {
+        super.initView();
         Eyes.setStatusBarColor(this, UIUtils.getColor(android.R.color.black));
         mCommentDialog = new SendCommentDialog();
         mStateView = StateView.inject(mCommentRootLayout);
@@ -120,6 +121,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
     public void onEvent(News news) {
         mNews = news;
         mCommentDialog.setNewsId(mItemId);
+        mCommentCount.showTextBadge(news.commentNum);
         mStateView.showLoading();
         mPresenter.getVideoDetailRecommend(mItemId);
         mPresenter.getComment(mItemId, mCommentPage);
@@ -174,10 +176,10 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
             mStateView.showEmpty();
     }
 
-    @OnClick({R.id.detail_write_comment, R.id.news_detail_collection})
+    @OnClick({R.id.detail_write_comment, R.id.news_detail_collection,R.id.news_detail_comment_count})
     public void onClick(View view) {
         if (!WelfareHelper.isLogin(this))
-            return;
+           return;
         switch (view.getId()) {
             case R.id.detail_write_comment:
                 mCommentDialog.show(getSupportFragmentManager());
@@ -192,6 +194,9 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
                     mCollectionBtn.setSelected(true);
                     mPresenter.collection(mNews.id);
                 }
+                break;
+            case R.id.news_detail_comment_count:
+                mCommentRv.scrollToPosition(0);
                 break;
         }
     }

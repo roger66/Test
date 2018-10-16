@@ -27,6 +27,7 @@ public class News {
     public String videoSrc;
     public String publisher;
     public String publisherPic;
+    public String publisherId;
     public String commentNum;
     public String thumbsUp;
     public List<NewsImg> thumbnailImg;

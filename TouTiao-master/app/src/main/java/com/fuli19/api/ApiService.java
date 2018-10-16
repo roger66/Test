@@ -99,6 +99,11 @@ public interface ApiService {
     //收藏
     String COLLECTION = BASE_URL + "api.server.collection.php";
 
+    //关注
+    String ATTENTION = BASE_URL +"api.server.follow.php";
+    //取消关注
+    String CANCEL_ATTENTION = BASE_URL +"api.server.cancel_follow.php";
+
     /**
      * 注册
      */
@@ -335,6 +340,20 @@ public interface ApiService {
     @POST(CANCEL_COLLECTION)
     @FormUrlEncoded
     Observable<ResultResponse> cancelCollection(@Field("authkey") String authKey, @Field("id") String id);
+
+    /**
+     * 关注
+     */
+    @POST(ATTENTION)
+    @FormUrlEncoded
+    Observable<ResultResponse> attention(@Field("authkey") String authKey, @Field("publisherId") String publisherId);
+
+    /**
+     * 取消关注
+     */
+    @POST(CANCEL_ATTENTION)
+    @FormUrlEncoded
+    Observable<ResultResponse> cancelAttention(@Field("authkey") String authKey, @Field("fid") String publisherId);
 
 }
 

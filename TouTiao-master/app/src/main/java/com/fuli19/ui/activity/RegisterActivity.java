@@ -105,14 +105,15 @@ public class RegisterActivity extends BaseActivity<LoginPresenter> implements IL
     }
 
     @Override
-    public void onLoginSuccess(String authKey) {
+    public void onLoginSuccess(String authKey,String mid) {
 
     }
 
     @Override
-    public void onRegisterSuccess(String authKey) {
+    public void onRegisterSuccess(String authKey,String mid) {
         MProgressDialog.dismissProgress();
         PreUtils.putString(Constant.AUTH_KEY,authKey);
+        PreUtils.putString(Constant.MID,mid);
         EventBus.getDefault().post(Constant.LOGIN_SUCCESS);
     }
 

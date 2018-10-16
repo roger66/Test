@@ -13,6 +13,7 @@ public class ResultResponse<T> {
     public String msg;
     public T data;
     public String authkey;
+    public String mid;
 
     @Override
     public String toString() {

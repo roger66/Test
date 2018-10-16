@@ -100,14 +100,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
         }
     }
     @Override
-    public void onLoginSuccess(String authKey) {
+    public void onLoginSuccess(String authKey,String mid) {
         MProgressDialog.dismissProgress();
         PreUtils.putString(Constant.AUTH_KEY,authKey);
+        PreUtils.putString(Constant.MID,authKey);
         EventBus.getDefault().post(Constant.LOGIN_SUCCESS);
     }
 
     @Override
-    public void onRegisterSuccess(String authKey) {
+    public void onRegisterSuccess(String authKey,String mid) {
 
     }
 

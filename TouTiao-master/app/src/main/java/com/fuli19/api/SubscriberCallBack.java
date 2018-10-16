@@ -22,7 +22,7 @@ public abstract class SubscriberCallBack<T> extends Subscriber<ResultResponse<T>
         if (isSuccess) {
             String msg = response.msg;
             if (msg.equals("登录成功") || msg.equals("注册成功")){
-                onSuccess((T) response.authkey);
+                onSuccess((T) response);
                 return;
             }
             onSuccess((T) response.data);

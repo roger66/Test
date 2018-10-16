@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
 import com.fuli19.R;
 import com.fuli19.model.entity.Friend;
@@ -23,6 +24,7 @@ public class AttentionFragment extends BaseFragment<AttentionPresenter> implemen
     @BindView(R.id.attention_rv)
     PowerfulRecyclerView mAttentionRv;
 
+    private int position;
     private AttentionAdapter mAdapter;
 
     public static AttentionFragment newInstance(int position) {
@@ -45,14 +47,15 @@ public class AttentionFragment extends BaseFragment<AttentionPresenter> implemen
 
     @Override
     public void initView(View rootView) {
-        mAdapter = new AttentionAdapter();
+        position = getArguments().getInt(POSITION, 0);
+        mAdapter = new AttentionAdapter(position);
+        mAdapter.setOnItemChildClickListener(mOnItemChildClickListener);
         mAttentionRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAttentionRv.setAdapter(mAdapter);
     }
 
     @Override
     protected void loadData() {
-        int position = getArguments().getInt(POSITION, 0);
         if (position==0)
             mPresenter.getUserAttention();
         else mPresenter.getUserFans();
@@ -77,4 +80,21 @@ public class AttentionFragment extends BaseFragment<AttentionPresenter> implemen
     public void onFansEmpty() {
 
     }
+
+    private BaseQuickAdapter.OnItemChildClickListener mOnItemChildClickListener = (adapter, view, i) -> {
+        Friend friend = mAdapter.getData().get(i);
+        if (friend.is_follow==1){
+            friend.is_follow = 0;
+            mPresenter.cancelAttention(friend.id);
+            if (position==0) {
+                mAdapter.notifyItemRemoved(i);
+                return;
+            }
+        }else {
+            friend.is_follow = 1;
+            mPresenter.attention(friend.id);
+        }
+        mAdapter.notifyItemChanged(i);
+    };
+
 }
