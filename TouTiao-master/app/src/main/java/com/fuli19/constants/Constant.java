@@ -42,6 +42,7 @@ public class Constant {
 
     /**EventBus*/
     public static final int LOGIN_SUCCESS = 200;
+    public static final int EDIT_SUCCESS = 300;
     public static final int QUIT = 100;
 
 }

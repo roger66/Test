@@ -104,6 +104,9 @@ public interface ApiService {
     //取消关注
     String CANCEL_ATTENTION = BASE_URL +"api.server.cancel_follow.php";
 
+    //编辑个人信息
+    String EDIT_PROFILE = BASE_URL+"api.user.update.php";
+
     /**
      * 注册
      */
@@ -354,6 +357,13 @@ public interface ApiService {
     @POST(CANCEL_ATTENTION)
     @FormUrlEncoded
     Observable<ResultResponse> cancelAttention(@Field("authkey") String authKey, @Field("fid") String publisherId);
+
+    /**
+     * 编辑个人信息
+     */
+    @POST(EDIT_PROFILE)
+    @FormUrlEncoded
+    Observable<ResultResponse> editProfile(@Field("authkey") String authKey, @Field("name") String name,@Field("param") String param);
 
 }
 

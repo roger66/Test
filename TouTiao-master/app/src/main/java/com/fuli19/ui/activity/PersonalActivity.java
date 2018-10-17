@@ -20,6 +20,7 @@ import com.fuli19.utils.GlideUtils;
 import com.fuli19.utils.UIUtils;
 import com.fuli19.view.IPersonalView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
@@ -47,6 +48,8 @@ public class PersonalActivity extends BaseActivity {
     @BindView(R.id.personal_user_fans_count)
     TextView mFansCount;
 
+    private User mUser;
+
     @Override
     protected PersonalPresenter createPresenter() {
         return null;
@@ -73,19 +76,24 @@ public class PersonalActivity extends BaseActivity {
 
     @Subscribe(sticky = true)
     public void onEvent(User user) {
+        mUser = user;
         GlideUtils.load(this, user.portrait, mHeadImg);
         mUserName.setText(user.nickname);
         mAttentionCount.setText(user.follow_num);
         mFansCount.setText(user.fans_num);
     }
 
-    @OnClick({R.id.personal_back, R.id.personal_user_fans_count, R.id.personal_user_fans_text
+    @OnClick({R.id.personal_back,R.id.personal_edit, R.id.personal_user_fans_count, R.id.personal_user_fans_text
             , R.id.personal_user_attention_count, R.id.personal_user_attention_text})
     public void onClick(View view) {
         Intent intent = new Intent(this, AttentionActivity.class);
         switch (view.getId()) {
             case R.id.personal_back:
                 finish();
+                break;
+            case R.id.personal_edit:
+                startActivity(new Intent(this,EditProfileActivity.class));
+                EventBus.getDefault().postSticky(mUser);
                 break;
             case R.id.personal_user_attention_count:
             case R.id.personal_user_attention_text:

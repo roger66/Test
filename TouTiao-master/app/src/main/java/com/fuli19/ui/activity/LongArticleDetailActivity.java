@@ -1,5 +1,6 @@
 package com.fuli19.ui.activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -62,6 +63,8 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
     public void onGetNewsDetailSuccess(NewsDetail newsDetail) {
         mNewsDetail = newsDetail;
         mStateView.showContent();
+        if (!newsDetail.commentNum.equals("0"))
+        mCommentCount.showTextBadge(newsDetail.commentNum);
         mTitle.setText(newsDetail.title);
         mTvAuthor.setText(newsDetail.publisher);
         GlideUtils.load(this,newsDetail.publisherPic,mIvAvatar);
@@ -88,21 +91,27 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 
-    @OnClick(R.id.news_detail_collection)
+    @OnClick({R.id.news_detail_collection,R.id.news_detail_comment_count})
     public void onClick(View view){
-        if (!WelfareHelper.isLogin(this))
-            return;
+
         switch (view.getId()){
             case R.id.news_detail_collection:
-                if (mNewsDetail.is_collection==1){
-                    mNewsDetail.is_collection=0;
-                    mCollectionBtn.setSelected(false);
-                    mPresenter.cancelCollection(mNewsDetail.id);
-                }else {
-                    mNewsDetail.is_collection=1;
-                    mCollectionBtn.setSelected(true);
-                    mPresenter.collection(mNewsDetail.id);
+                if (WelfareHelper.isLogin(this)) {
+                    if (mNewsDetail.is_collection == 1) {
+                        mNewsDetail.is_collection = 0;
+                        mCollectionBtn.setSelected(false);
+                        mPresenter.cancelCollection(mNewsDetail.id);
+                    } else {
+                        mNewsDetail.is_collection = 1;
+                        mCollectionBtn.setSelected(true);
+                        mPresenter.collection(mNewsDetail.id);
+                    }
                 }
+                break;
+            case R.id.news_detail_comment_count:
+                Intent intent = new Intent(this, CommentActivity.class);
+                intent.putExtra("id",mNewsDetail.id);
+                startActivity(intent);
                 break;
         }
     }

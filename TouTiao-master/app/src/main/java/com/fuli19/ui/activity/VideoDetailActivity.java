@@ -105,7 +105,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
     @Override
     public void initData() {
         super.initData();
-        EventBus.getDefault().register(this);
+        registerEventBus(this);
     }
 
     @Override
@@ -121,6 +121,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
     public void onEvent(News news) {
         mNews = news;
         mCommentDialog.setNewsId(mItemId);
+        if (!news.commentNum.equals("0"))
         mCommentCount.showTextBadge(news.commentNum);
         mStateView.showLoading();
         mPresenter.getVideoDetailRecommend(mItemId);
@@ -226,7 +227,7 @@ public class VideoDetailActivity extends NewsDetailBaseActivity implements BaseQ
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        unregisterEventBus(this);
     }
 
 }

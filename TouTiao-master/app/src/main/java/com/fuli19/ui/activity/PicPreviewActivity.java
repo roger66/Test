@@ -1,5 +1,6 @@
 package com.fuli19.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -111,7 +112,7 @@ public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implem
 
     @Override
     public void initData() {
-        EventBus.getDefault().register(this);
+        registerEventBus(this);
     }
 
     @Override
@@ -137,7 +138,9 @@ public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implem
                     mCommentDialog.show(getSupportFragmentManager());
                 break;
             case R.id.pic_preview_comment_count:
-
+                Intent intent = new Intent(this, CommentActivity.class);
+                intent.putExtra("id",mNews.id);
+                startActivity(intent);
                 break;
             case R.id.pic_preview_attention:
                 if (WelfareHelper.isLogin(this)) {
@@ -173,6 +176,6 @@ public class PicPreviewActivity extends BaseActivity<PicPreviewPresenter> implem
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        unregisterEventBus(this);
     }
 }

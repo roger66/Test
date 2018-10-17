@@ -14,6 +14,7 @@ import com.chaychan.uikit.powerfulrecyclerview.PowerfulRecyclerView;
 import com.chaychan.uikit.refreshlayout.BGANormalRefreshViewHolder;
 import com.chaychan.uikit.refreshlayout.BGARefreshLayout;
 import com.fuli19.R;
+import com.fuli19.constants.Constant;
 import com.fuli19.model.entity.News;
 import com.fuli19.ui.activity.ChooseVideoActivity;
 import com.fuli19.ui.activity.LongArticleDetailActivity;
@@ -31,6 +32,7 @@ import com.fuli19.utils.WelfareHelper;
 import com.fuli19.view.IMicroView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +111,7 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
 
     @Override
     public void initListener() {
+        EventBus.getDefault().register(this);
         mMicroAdapter = new MicroListAdapter("", mNewsList);
         mRvNews.setAdapter(mMicroAdapter);
         mMicroAdapter.setOnItemClickListener(mOnItemClickListener);
@@ -272,5 +275,14 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
                         break;
                 }
             };
+
+    @Subscribe
+    public void onLoginEvent(Integer code){
+        if (code == Constant.LOGIN_SUCCESS) {
+            page=1;
+            mNewsList.clear();
+            loadData();
+        }
+    }
 
 }

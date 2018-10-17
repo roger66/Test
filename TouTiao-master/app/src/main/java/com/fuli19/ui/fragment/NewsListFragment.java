@@ -408,6 +408,15 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
         mNewsAdapter.notifyDataSetChanged();
     }
 
+    @Subscribe
+    public void onLoginEvent(Integer code){
+        if (code == Constant.LOGIN_SUCCESS){
+            page=1;
+            mNewsList.clear();
+            loadData();
+        }
+    }
+
     //News点击监听
     private BaseQuickAdapter.OnItemClickListener mOnItemClickListener = (baseQuickAdapter, view,
                                                                          position) -> {
@@ -444,10 +453,10 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     //News child点击事件
     private BaseQuickAdapter.OnItemChildClickListener mOnItemChildClickListener =
             (baseQuickAdapter, view, position) -> {
+                            News news = mNewsList.get(position);
                 switch (view.getId()) {
                     case R.id.tv_like_num:
                         if (WelfareHelper.isLogin(getContext())) {
-                            News news = mNewsList.get(position);
                             int likeNum = Integer.valueOf(news.thumbsUp);
                             if (news.is_thumbsUp == 0) {
                                 mPresenter.like(news.id);
@@ -459,6 +468,18 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
                                 likeNum -= 1;
                             }
                             news.thumbsUp = String.valueOf(likeNum);
+                            mNewsAdapter.notifyItemChanged(position);
+                        }
+                        break;
+                    case R.id.item_video_attention:
+                        if (WelfareHelper.isLogin(getContext())) {
+                            if (news.is_follow == 0) {
+                                mPresenter.attention(news.publisherId);
+                                news.is_follow = 1;
+                            } else {
+                                mPresenter.cancelAttention(news.publisherId);
+                                news.is_follow = 0;
+                            }
                             mNewsAdapter.notifyItemChanged(position);
                         }
                         break;

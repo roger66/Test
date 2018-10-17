@@ -284,7 +284,7 @@
                 <RelativeLayout
                     style="@style/MineFunctionRl"
                     android:layout_marginTop="10dp"
-                    android:background="@android:color/white">
+                    >
 
                     <TextView
                         style="@style/MineFunctionTvLeft"
@@ -293,7 +293,7 @@
 
                     <ImageView
                         style="@style/MineFunctionArrow"
-                        android:background="@mipmap/setting_arrow" />
+                        android:src="@mipmap/setting_arrow" />
 
                 </RelativeLayout>
 

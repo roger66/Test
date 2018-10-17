@@ -12,6 +12,7 @@ import com.fuli19.constants.Constant;
 import com.fuli19.model.entity.User;
 import com.fuli19.ui.activity.AttentionActivity;
 import com.fuli19.ui.activity.CollectionActivity;
+import com.fuli19.ui.activity.EditProfileActivity;
 import com.fuli19.ui.activity.LoginActivity;
 import com.fuli19.ui.activity.PersonalActivity;
 import com.fuli19.ui.activity.RegisterActivity;
@@ -122,11 +123,14 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
 
     @Subscribe
     public void onEvent(Integer code) {
-        if (code == Constant.QUIT || code == Constant.LOGIN_SUCCESS)
+        if (code == Constant.QUIT || code == Constant.LOGIN_SUCCESS || code == Constant
+                .EDIT_SUCCESS)
             showLogin();
     }
 
-    @OnClick({R.id.mine_login, R.id.mine_register, R.id.mine_setting_bg, R.id.mine_user_dynamic_bg,
+    @OnClick({R.id.mine_login, R.id.mine_register, R.id.mine_setting_bg,
+            R.id.mine_user_head,
+            R.id.mine_user_dynamic_bg,
             R.id.mine_user_attention_bg, R.id.mine_user_fans_bg, R.id.mine_collect_bg
     })
     public void onClick(View view) {
@@ -136,6 +140,12 @@ public class MineFragment extends BaseFragment<MinePresenter> implements IMineVi
                 break;
             case R.id.mine_register:
                 startActivity(new Intent(getContext(), RegisterActivity.class));
+                break;
+            case R.id.mine_user_head:
+                if (WelfareHelper.isLogin(getContext())) {
+                    startActivity(new Intent(getContext(), EditProfileActivity.class));
+                    EventBus.getDefault().postSticky(mUser);
+                }
                 break;
             case R.id.mine_setting_bg:
                 if (WelfareHelper.isLogin(getContext()))

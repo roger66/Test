@@ -103,4 +103,32 @@ public class NewsListPresenter extends BasePresenter<lNewsListView> {
         });
     }
 
+    public void attention(String id){
+        addSubscription(mApiService.attention(MyApp.getKey(), id), new SubscriberCallBack() {
+            @Override
+            protected void onSuccess(Object response) {
+
+            }
+
+            @Override
+            protected void onError() {
+
+            }
+        });
+    }
+
+    public void cancelAttention(String id){
+        addSubscription(mApiService.cancelAttention(MyApp.getKey(), id), new SubscriberCallBack() {
+            @Override
+            protected void onSuccess(Object response) {
+
+            }
+
+            @Override
+            protected void onError() {
+
+            }
+        });
+    }
+
 }
