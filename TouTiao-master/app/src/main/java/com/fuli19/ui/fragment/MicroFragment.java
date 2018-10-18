@@ -228,23 +228,28 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
                                                                          position) -> {
         News news = mNewsList.get(position);
         Intent intent = null;
-        if (news.type.equals("1")) {
-            //视频
-            intent = new Intent(mActivity, VideoDetailActivity.class);
-            if (JCVideoPlayerManager.getCurrentJcvd() != null) {
-                //传递进度
-                int progress = JCMediaManager.instance().mediaPlayer
-                        .getCurrentPosition();
-                if (progress != 0) {
-                    intent.putExtra(VideoDetailActivity.PROGRESS, progress);
+        switch (news.type) {
+            case "1":
+                //视频
+                intent = new Intent(mActivity, VideoDetailActivity.class);
+                if (JCVideoPlayerManager.getCurrentJcvd() != null) {
+                    //传递进度
+                    int progress = JCMediaManager.instance().mediaPlayer
+                            .getCurrentPosition();
+                    if (progress != 0) {
+                        intent.putExtra(VideoDetailActivity.PROGRESS, progress);
+                    }
                 }
-            }
-        } else if (news.type.equals("2") || news.type.equals("3"))
-            //纯图片
-            intent = new Intent(mActivity, news.type_article == 1 ?
-                    LongArticleDetailActivity.class : PicPreviewActivity.class);
-        else
-            return;
+                break;
+            case "2":
+            case "3":
+                //纯图片
+                intent = new Intent(mActivity, news.type_article == 1 ?
+                        LongArticleDetailActivity.class : PicPreviewActivity.class);
+                break;
+            default:
+                return;
+        }
 
         intent.putExtra(NewsDetailBaseActivity.POSITION, position);
         intent.putExtra(NewsDetailBaseActivity.ITEM_ID, news.id);
@@ -278,7 +283,9 @@ public class MicroFragment extends BaseFragment<MicroPresenter> implements IMicr
 
     @Subscribe
     public void onLoginEvent(Integer code){
-        if (code == Constant.LOGIN_SUCCESS) {
+        if (!isVisibile)
+            return;
+        if (code == Constant.LOGIN_SUCCESS || code==Constant.QUIT) {
             page=1;
             mNewsList.clear();
             loadData();

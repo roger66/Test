@@ -180,7 +180,6 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
     @Override
     protected void loadData() {
         mStateView.showLoading();
-
         //查找该频道的最后一组记录
 //        mNewsRecord = NewsRecordHelper.getLastNewsRecord(mChannelCode);
 //        if (mNewsRecord == null) {
@@ -218,12 +217,13 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
                 mStateView.showEmpty();
                 return;
             }
+            System.out.println("-------------- get news showContent ");
             mStateView.showContent();//显示内容
         }
 
         if (ListUtils.isEmpty(newList)) {
             //已经获取不到新闻了，处理出现获取不到新闻的情况
-            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
+//            UIUtils.showToast(UIUtils.getString(R.string.no_news_now));
             return;
         }
 
@@ -410,7 +410,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter> implements
 
     @Subscribe
     public void onLoginEvent(Integer code){
-        if (code == Constant.LOGIN_SUCCESS){
+        if (!isVisibile)
+            return;
+        if (code == Constant.LOGIN_SUCCESS || code==Constant.QUIT){
             page=1;
             mNewsList.clear();
             loadData();

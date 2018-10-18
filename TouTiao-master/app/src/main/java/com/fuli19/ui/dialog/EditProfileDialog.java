@@ -39,7 +39,20 @@ public class EditProfileDialog extends BaseBottomDialog {
     @Override
     public void bindView(View v) {
         ButterKnife.bind(this, v);
-
+        if (type==TYPE_NICKNAME){
+            mProfileEdit.setHint("请输入用户名");
+            if (!TextUtils.isEmpty(mUser.nickname)) {
+                mProfileEdit.setText(mUser.nickname);
+                mProfileEdit.setSelection(mUser.nickname.length());
+            }
+        }else {
+            mProfileEdit.setHint("请输入20字以内的个性签名");
+            mProfileEdit.setMaxEms(20);
+            if (!TextUtils.isEmpty(mUser.introduce)) {
+                mProfileEdit.setText(mUser.introduce);
+                mProfileEdit.setSelection(mUser.introduce.length());
+            }
+        }
         mProfileEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -56,8 +69,7 @@ public class EditProfileDialog extends BaseBottomDialog {
             }
         });
         mProfileEdit.post(() -> {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context
-                    .INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             if (imm != null)
                 imm.showSoftInput(mProfileEdit, 0);
         });

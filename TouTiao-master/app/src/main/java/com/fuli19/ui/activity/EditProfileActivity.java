@@ -1,10 +1,12 @@
 package com.fuli19.ui.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +27,9 @@ import com.yanzhenjie.permission.Permission;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -85,6 +90,7 @@ public class EditProfileActivity extends BaseActivity<EditProfilePresenter> impl
                     break;
             }
         }).create();
+
     }
 
     @Override
@@ -93,13 +99,40 @@ public class EditProfileActivity extends BaseActivity<EditProfilePresenter> impl
         mPhotoCropper = new SysPhotoCropper(this,mPhotoCropCallBack);
     }
 
+    private void showDateDialog() {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String format = "";
+            if (TextUtils.isEmpty(mUser.birthday))
+                format = dateFormat.format(new Date());
+            else format = mUser.birthday;
+            String[] split = format.split("-");
+            int year = Integer.parseInt(split[0]);
+            int month = Integer.parseInt(split[1]);
+            int day = Integer.parseInt(split[2]);
+
+            new DatePickerDialog(this, (datePicker, y, m, d) -> {
+                String date = y+"-"+(m+1)+"-"+d;
+                MProgressDialog.showProgress(this,"修改中...");
+                mPresenter.editProfile("birthday",date);
+                mUser.birthday = date;
+            }, year, month - 1, day).show();
+        }catch (Exception e){e.printStackTrace();}
+
+    }
+
+
     @Subscribe(sticky = true)
     public void onEvent(User mUser) {
         this.mUser = mUser;
+        mEditDialog.setUser(mUser);
         setUserInfo(mUser);
         mSexDialog = new AlertDialog.Builder(this).setSingleChoiceItems(sexItems, mUser.sex, (dialogInterface,
                                                                                               i) -> {
-            System.out.println("------------------ " + sexItems[i]);
+            MProgressDialog.showProgress(EditProfileActivity.this,"修改中...");
+            mPresenter.editProfile("sex",i+"");
+            mUser.sex = i;
+            mSexDialog.dismiss();
         }).setNegativeButton("取消",null).create();
     }
 
@@ -134,11 +167,12 @@ public class EditProfileActivity extends BaseActivity<EditProfilePresenter> impl
 
     @Override
     public void onError() {
+        UIUtils.showToast("修改失败");
         MProgressDialog.dismissProgress();
     }
 
     @OnClick({R.id.edit_profile_back, R.id.edit_profile_head_bg,R.id.edit_profile_sex_bg
-            ,R.id.edit_profile_nickName_bg,R.id.edit_profile_introduce_bg
+            ,R.id.edit_profile_nickName_bg,R.id.edit_profile_introduce_bg,R.id.edit_profile_birthday_bg
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -161,6 +195,9 @@ public class EditProfileActivity extends BaseActivity<EditProfilePresenter> impl
             case R.id.edit_profile_introduce_bg:
                 mEditDialog.setType(EditProfileDialog.TYPE_INTRODUCE);
                 mEditDialog.show(getSupportFragmentManager());
+                break;
+            case R.id.edit_profile_birthday_bg:
+                showDateDialog();
                 break;
         }
     }

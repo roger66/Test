@@ -26,7 +26,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
     private View rootView;
     protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     protected Activity mActivity;
-
+    protected boolean isVisibile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends LazyLoadFrag
     @Override
     protected void onFragmentFirstVisible() {
         //当第一次可见的时候，加载数据
+        isVisibile = true;
         loadData();
     }
 

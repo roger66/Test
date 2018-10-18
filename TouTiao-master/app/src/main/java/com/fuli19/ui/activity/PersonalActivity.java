@@ -77,6 +77,12 @@ public class PersonalActivity extends BaseActivity {
     @Subscribe(sticky = true)
     public void onEvent(User user) {
         mUser = user;
+        setUserInfo(user);
+    }
+
+    private void setUserInfo(User user) {
+        if (mUser==null)
+            return;
         GlideUtils.load(this, user.portrait, mHeadImg);
         mUserName.setText(user.nickname);
         mAttentionCount.setText(user.follow_num);
@@ -106,6 +112,12 @@ public class PersonalActivity extends BaseActivity {
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserInfo(mUser);
     }
 
     @Override

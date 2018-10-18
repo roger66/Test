@@ -17,6 +17,7 @@
         android:padding="15dp"
         android:textColor="#999"
         android:textColorHint="#999"
+        android:textCursorDrawable="@drawable/shape_edit_cursor"
         android:textSize="14sp" />
 
     <RelativeLayout

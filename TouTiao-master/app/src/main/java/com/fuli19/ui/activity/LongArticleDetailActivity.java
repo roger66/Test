@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fuli19.R;
 import com.fuli19.model.entity.NewsDetail;
+import com.fuli19.ui.dialog.SendCommentDialog;
 import com.fuli19.utils.GlideUtils;
 import com.fuli19.utils.UIUtils;
 import com.fuli19.utils.WelfareHelper;
@@ -40,11 +41,13 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
     ImageView mCollectionBtn;
 
     private NewsDetail mNewsDetail;
+    private SendCommentDialog mSendCommentDialog;
 
     @Override
     public void initView() {
         super.initView();
         Eyes.setStatusBarColor(this, UIUtils.getColor(R.color.color_BDBDBD));//设置状态栏的颜色为灰色
+        mSendCommentDialog = new SendCommentDialog();
     }
 
     @Override
@@ -52,6 +55,7 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
         super.initData();
         mStateView.showLoading();
         mPresenter.getLongArticleDetail(mItemId);
+        mSendCommentDialog.setNewsId(mItemId);
     }
 
     @Override
@@ -91,7 +95,8 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
     }
 
-    @OnClick({R.id.news_detail_collection,R.id.news_detail_comment_count})
+    @OnClick({R.id.news_detail_collection,R.id.news_detail_comment_count
+    ,R.id.detail_write_comment})
     public void onClick(View view){
 
         switch (view.getId()){
@@ -112,6 +117,10 @@ public class LongArticleDetailActivity extends NewsDetailBaseActivity{
                 Intent intent = new Intent(this, CommentActivity.class);
                 intent.putExtra("id",mNewsDetail.id);
                 startActivity(intent);
+                break;
+            case R.id.detail_write_comment:
+                if (WelfareHelper.isLogin(this))
+                mSendCommentDialog.show(getSupportFragmentManager());
                 break;
         }
     }

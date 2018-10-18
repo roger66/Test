@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import flyn.Eyes;
 
 public class CommentActivity extends BaseActivity<CommentPresenter> implements ICommentView {
 
@@ -49,6 +50,7 @@ public class CommentActivity extends BaseActivity<CommentPresenter> implements I
 
     @Override
     public void initView() {
+        Eyes.setStatusBarColor(this,R.color.color_BDBDBD);
         mSendCommentDialog = new SendCommentDialog();
         findViewById(R.id.news_detail_comment_count).setVisibility(View.GONE);
         mCollectionBtn.setVisibility(View.GONE);
