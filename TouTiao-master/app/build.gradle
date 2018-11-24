@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.fuli19"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -61,6 +61,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided fileTree(dir: 'libs-v4', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -83,7 +84,7 @@ dependencies {
     compile 'com.github.chaychan:MultipleItemRvAdapter:1.0.4'
     compile 'com.github.yangjie10930:EpMedia:v0.9.5'
     compile 'com.github.AriesHoo:UIPopupMenu:1.0.0'
-    compile 'com.tencent.qcloud:cosxml:5.4.+'
+    compile 'com.tencent.qcloud:cosxml:5.4.15'
     compile 'com.github.maning0303:MNProgressHUD:V1.1.0'
     compile 'me.shaohui:bottomdialog:1.1.9'
     compile 'cn.bingoogolapple:bga-badgeview-api:1.1.8'

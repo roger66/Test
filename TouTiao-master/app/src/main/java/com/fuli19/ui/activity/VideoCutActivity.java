@@ -68,6 +68,8 @@ public class VideoCutActivity extends BaseActivity {
     private AlbumFile mFile;
     private String outPutThumbPath;
     private String outPutPath;
+    private int videoWidth;
+    private int videoHeight;
     private int mMaxWidth;
     private int mScaledTouchSlop;
     private float averageMsPx;//每毫秒所占的px
@@ -136,11 +138,14 @@ public class VideoCutActivity extends BaseActivity {
         mFile = file;
         mVideoPlayer.setVideoPath(mFile.getPath());
         mVideoPlayer.start();
-        mVideoPlayer.setOnPreparedListener(mp ->
-                mp.setOnSeekCompleteListener(mediaPlayer -> {
-                    if (!isSeeking)
-                        mediaPlayer.start();
-                })
+        mVideoPlayer.setOnPreparedListener(mp -> {
+                    videoHeight = mp.getVideoHeight();
+                    videoWidth = mp.getVideoWidth();
+                    mp.setOnSeekCompleteListener(mediaPlayer -> {
+                        if (!isSeeking)
+                            mediaPlayer.start();
+                    });
+                }
         );
         initEditVideo();
     }
@@ -345,8 +350,21 @@ public class VideoCutActivity extends BaseActivity {
         epVideo.clip(leftProgress / 1000, (rightProgress - leftProgress) / 1000);
         //输出选项，参数为输出文件路径(目前仅支持mp4格式输出)
         EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outPutPath);
-      outputOption.setWidth( 1280);//输出视频宽，如果不设置则为原始视频宽高
-      outputOption.setHeight( 720);//输出视频高度
+        if (videoWidth>videoHeight){
+            //横屏
+            if (videoWidth>1920) {
+                int scale = videoWidth/1920;
+                outputOption.setWidth(1920);//输出视频宽，如果不设置则为原始视频宽高
+                outputOption.setHeight(scale*videoWidth);//输出视频高度
+            }
+        }else {
+            //竖屏
+            if (videoHeight>1920) {
+                int scale = videoHeight/1920;
+                outputOption.setWidth(videoWidth*scale);
+                outputOption.setHeight(1920);
+            }
+        }
 //      outputOption.frameRate = 30;//输出视频帧率,默认30
 //      outputOption.bitRate = 10;//输出视频码率,默认10
         EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
